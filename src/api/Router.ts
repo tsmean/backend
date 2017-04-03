@@ -15,9 +15,6 @@ class Router {
 
   //Run configuration methods on the Express instance.
   constructor() {
-
-    console.log('why u no construct');
-
     this.express = express();
     this.middleware();
     this.routes();

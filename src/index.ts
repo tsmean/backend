@@ -8,7 +8,7 @@ import {AppConfig} from "./AppConfig";
 debug('ts-express:server');
 
 export const appConfig = new AppConfig();
-appConfig.setAppConfig('local');
+//appConfig.setAppConfig('local');
 
 //connect to mongodb
 export const database = new Connect();
