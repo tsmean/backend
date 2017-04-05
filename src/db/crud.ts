@@ -1,5 +1,9 @@
 import * as mongo from 'mongodb'
-import {database} from "../index";
+//import {database} from "../index";
+import { Connect } from './Connect';
+//connect to mongodb
+export const database = new Connect();
+database.connectToDatabase();
 
 export function crudRead(id:string, collectionName: string, cb:(err, item?) => void) {
   database.database.collection(collectionName, (err, collection) => {

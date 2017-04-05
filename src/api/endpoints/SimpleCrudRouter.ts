@@ -58,13 +58,13 @@ export class SimpleCrudRouter {
    */
   init() {
     this.router.get('/', this.getAll);
-    this.router.get('/:id', this.getOne);
+   this.router.get('/:id', this.getOne);
   }
 
 }
 
-// Create the HeroRouter, and export its configured Express.Router
+// // Create the HeroRouter, and export its configured Express.Router
 const intialRouter = new SimpleCrudRouter();
-intialRouter.init();
+//intialRouter.init();
 
 export const simpleCrudRouter = intialRouter.router;

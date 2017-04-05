@@ -2,7 +2,7 @@ import * as mocha from 'mocha';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import {router} from "../Router";
-import {database} from "../../index";
+// import {database} from "../../index";
 import {Connect} from "../../db/Connect";
 import {crudRead, crudCreate} from "../../db/crud";
 
