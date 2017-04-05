@@ -1,26 +1,27 @@
 import * as http from 'http';
-import * as debug from 'debug';
+import * as debug from 'debug'; 
 
 import {router} from './api/Router';
-// import {Connect} from "./db/connect";
-import {AppConfig} from "./AppConfig";
-import { database } from './db/crud';
+import {Connect} from './db/Connect';
+import {AppConfig} from './AppConfig';
+
 debug('ts-express:server');
 
 export const appConfig = new AppConfig();
 //appConfig.setAppConfig('local');
 
 //connect to mongodb
-// export const database = new Connect();
-// database.connectToDatabase();
+export const database = new Connect();
+database.connectToDatabase();
 
 const port = normalizePort(process.env.PORT || 3000);
 
-
-router.set('port', port);
-
 const server = http.createServer(router);
-server.listen(port);
+
+//improved here
+server.listen(port,function(){
+  console.log('Updated : Server listening at port %d', port);
+});
 server.on('error', onError);
 server.on('listening', onListening);
 

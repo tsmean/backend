@@ -1,13 +1,12 @@
 import * as mongo from 'mongodb'
 import {AppProperties} from "ts-mean-models/app-properties.model";
-import {AppConfig} from "../AppConfig";
+import {appConfig, database} from "../index";
 import {MongoClient} from "mongodb";
 import {MongoCallback} from "mongodb";
 import {Mongos} from "mongodb";
 import {Db} from "mongodb";
 
 export class Connect {
-  private appConfig = new AppConfig();
 
   constructor() {
     this._mongoClient = mongo.MongoClient;
@@ -29,7 +28,7 @@ export class Connect {
   public connectToDatabase (callback?: (database: Db) => any) {
 
     // Connect to the db
-    this._mongoClient.connect(this.mongoUri(this.appConfig.appConfig), (err, db) => {
+    this._mongoClient.connect(this.mongoUri(appConfig.appConfig), (err, db) => {
       if(!err) {
         this._database = db;
         if (callback) {

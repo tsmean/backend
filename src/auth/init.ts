@@ -1,4 +1,4 @@
-import {database} from "../db/crud";
+import {database} from "../index";
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
 
