@@ -14,7 +14,6 @@ describe('bcrypt', () => {
     const mypw = 'Hello World';
 
     Bcrypt.doHash(mypw).then(encrypted => {
-      console.log(encrypted);
       Bcrypt.doCompare(mypw, encrypted).then((decrypted) => {
         expect(decrypted).to.equal(true);
         done();

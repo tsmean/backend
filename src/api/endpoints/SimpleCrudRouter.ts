@@ -1,5 +1,5 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import {crudRead} from "../../db/crud";
+import {crud} from "../../db/crud";
 
 export class SimpleCrudRouter {
   router: Router;
@@ -24,9 +24,9 @@ export class SimpleCrudRouter {
    */
   public getOne(req: Request, res: Response, next: NextFunction) {
     const resourceId = req.params.id;
-    const resourceName = req.params.col;
+    const resourceName = req.params.resource;
 
-    crudRead(resourceId, resourceName, (err, data) => {
+    crud.read(resourceId, resourceName, (err, data) => {
       if (err) {
         res.status(500).send({
           message: "Server error",
@@ -57,8 +57,8 @@ export class SimpleCrudRouter {
    * endpoints.
    */
   init() {
-    this.router.get('/', this.getAll);
-    this.router.get('/:id', this.getOne);
+    this.router.get('/:resource', this.getAll);
+    this.router.get('/:resource/:id', this.getOne);
   }
 
 }

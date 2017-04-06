@@ -2,9 +2,9 @@ import * as mocha from 'mocha';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import {router} from "../Router";
-import {database} from "../../index";
-import {Connect} from "../../db/Connect";
-import {crudRead, crudCreate} from "../../db/crud";
+import {database} from "../../db/Database";
+import {crud} from "../../db/crud";
+import {beforeEachDo} from "../../BeforeEachs";
 
 
 chai.use(chaiHttp);
@@ -12,45 +12,32 @@ const expect = chai.expect;
 
 describe('Simple CRUD Route Test', () => {
 
-  /*
-   it('responds with JSON array', () => {
-   return chai.request(router).get('/api/v1/heroes')
-   .then(res => {
-   expect(res.status).to.equal(200);
-   expect(res).to.be.json;
-   expect(res.body).to.be.an('array');
-   expect(res.body).to.have.length(5);
-   });
-   });
-
-   it('should include Wolverine', () => {
-   return chai.request(router).get('/api/v1/heroes')
-   .then(res => {
-   let Wolverine = res.body.find(hero => hero.name === 'Wolverine');
-   expect(Wolverine).to.exist;
-   expect(Wolverine).to.have.all.keys([
-   'id',
-   'name',
-   'aliases',
-   'occupation',
-   'gender',
-   'height',
-   'hair',
-   'eyes',
-   'powers'
-   ]);
-   });
-   });*/
+  beforeEachDo.connectTestToDatabase();
 
   it('should return the item', (done) => {
 
-    new Connect().connectToDatabase((database) => {
-      crudCreate({"hello": "world"}, 'items', (err, item) => {
-        return chai.request(router).get(`/api/v1/items/${item.id}`)
-            .then(res => {
-              expect(res.body.hello).to.equal('world');
-            });
-      })
+    crud.create({"hello": "world"}, 'items', (err, item) => {
+      chai.request(router).get(`/api/v1/items/${item.insertedId}`)
+          .end((err, res) => {
+            expect(res.body.data.hello).to.equal('world');
+            done();
+          });
+    });
+
+    //TODO: Find out why then is not working?!
+    //See docs: https://github.com/chaijs/chai-http
+    crud.create({"hello": "world"}, 'items', (err, item) => {
+      chai.request(router).get(`/api/v1/items/${item.insertedId}`)
+          .then(res => {
+            expect(res.body.hello).to.equal('world');
+            done();
+          }, err => {
+            console.log("ERROR:", err);
+            done();
+          })
+          .catch(function (err) {
+            throw err;
+          });
     });
 
 

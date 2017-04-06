@@ -1,6 +1,6 @@
 import {AppProperties} from "ts-mean-models/app-properties.model";
 
-export class AppConfig {
+class AppConfig {
 
   constructor() {
 
@@ -32,3 +32,5 @@ export class AppConfig {
   private _appConfig;
 
 }
+
+export const appConfig = new AppConfig();

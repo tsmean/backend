@@ -1,4 +1,3 @@
-import * as path from 'path';
 import * as express from 'express';
 import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
@@ -53,7 +52,7 @@ class Router {
       });
     });
     this.express.use('/', router);
-    this.express.use('/api/v1/heroes', simpleCrudRouter);
+    this.express.use('/api/v1/', simpleCrudRouter);
   }
 
 }

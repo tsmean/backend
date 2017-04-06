@@ -1,11 +1,13 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
-import {crudRead, crudCreate, crudUpdate, crudDelete} from "./crud";
-import {Connect} from "./Connect";
+import {crud} from "./crud";
+import {beforeEachDo} from "../BeforeEachs";
 
 const expect = chai.expect;
 
 describe('CRUD', () => {
+
+  beforeEachDo.connectTestToDatabase();
 
   it("should be able to insert, read, update, delete", function(done) {
 
@@ -16,7 +18,7 @@ describe('CRUD', () => {
     };
 
     const doReadOne = (id: string) => {
-      crudRead(id, 'items', (err, item) => {
+      crud.read(id, 'items', (err, item) => {
 
         expect(err).to.equal(null);
         expect(item.text).to.equal("hello");
@@ -28,7 +30,7 @@ describe('CRUD', () => {
     };
 
     const doReadTwo = (id: string) => {
-      crudRead(id, 'items', (err, item) => {
+      crud.read(id, 'items', (err, item) => {
 
         expect(err).to.equal(null);
         expect(item.text).to.equal("hello world!");
@@ -39,7 +41,7 @@ describe('CRUD', () => {
     };
 
     const doDelete = (id: string) => {
-      crudDelete(id, 'items', (err, result) => {
+      crud.delete(id, 'items', (err, result) => {
         expect(err).to.equal(null);
         expect(result.deletedCount).to.equal(1);
         done();
@@ -49,7 +51,7 @@ describe('CRUD', () => {
 
 
     const doCreate = () => {
-      crudCreate(item, 'items', (err, result) => {
+      crud.create(item, 'items', (err, result) => {
         expect(err).to.equal(null);
         expect(result.insertedCount).to.equal(1);
 
@@ -62,7 +64,7 @@ describe('CRUD', () => {
 
     const doUpdate = (item) => {
       item.text = item.text + " world!";
-      crudUpdate(item, 'items', (err, result) => {
+      crud.update(item, 'items', (err, result) => {
         expect(err).to.equal(null);
         expect(result.modifiedCount).to.equal(1);
 
@@ -71,7 +73,7 @@ describe('CRUD', () => {
       })
     };
 
-    new Connect().connectToDatabase(start);
+    start();
 
   });
 
