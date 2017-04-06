@@ -24,12 +24,15 @@ describe('Simple CRUD Route Test', () => {
           });
     });
 
+  });
+
+  it('should work with promise', (done) => {
     //TODO: Find out why then is not working?!
     //See docs: https://github.com/chaijs/chai-http
     crud.create({"hello": "world"}, 'items', (err, item) => {
       chai.request(router).get(`/api/v1/items/${item.insertedId}`)
           .then(res => {
-            expect(res.body.hello).to.equal('world');
+            expect(res.body.data.hello).to.equal('world');
             done();
           }, err => {
             console.log("ERROR:", err);
@@ -39,8 +42,6 @@ describe('Simple CRUD Route Test', () => {
             throw err;
           });
     });
-
-
-  });
+  })
 
 });
