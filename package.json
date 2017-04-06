@@ -6,12 +6,14 @@
   "scripts": {
     "test": "mocha --reporter spec --compilers ts:ts-node/register '**/*.test.ts'",
     "start": "tsc && node dist/index.js",
-    "spec": "mocha --reporter spec --compilers ts:ts-node/register --grep ${TEST} '**/*.test.ts'"
+    "spec": "mocha --reporter spec --compilers ts:ts-node/register --grep ${TEST} '**/*.test.ts'",
+    "debug": "DEBUG=app npm start"
   },
   "author": "Daniel Niederberger <bersling@gmail.com>",
   "license": "MIT",
   "dependencies": {
     "@types/bcrypt": "^1.0.0",
+    "@types/winston": "^2.3.0",
     "bcrypt": "^1.0.2",
     "body-parser": "^1.15.2",
     "connect-redis": "^3.2.0",
@@ -20,7 +22,8 @@
     "mongodb": "^2.2.25",
     "morgan": "^1.7.0",
     "passport": "^0.3.2",
-    "ts-mean-models": "0.0.x"
+    "ts-mean-models": "0.0.x",
+    "winston": "^2.3.1"
   },
   "devDependencies": {
     "@types/connect-redis": "0.0.5",

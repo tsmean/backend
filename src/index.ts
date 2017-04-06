@@ -3,8 +3,12 @@ import * as debug from 'debug';
 import {router} from './api/Router';
 import {database} from './db/Database';
 import {appConfig} from './AppConfig';
+import {logger} from "./logger";
 
-debug('ts-express:server');
+const appDebug = debug('app');
+
+logger.info('Starting the Server.');
+
 
 // Step 1) Set & Get App Configuration
 appConfig.setAppConfig(process.argv[2] || 'local');
