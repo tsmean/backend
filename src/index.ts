@@ -7,7 +7,7 @@ import {appConfig} from './AppConfig';
 debug('ts-express:server');
 
 // Step 1) Set & Get App Configuration
-appConfig.setAppConfig('test');
+appConfig.setAppConfig(process.argv[2] || 'local');
 
 // Step 2) Connect to the database
 database.connectToDatabase(appConfig.appConfig, (db) => {
