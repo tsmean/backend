@@ -19,6 +19,7 @@ describe('Simple CRUD Route Test', () => {
     crud.create({"hello": "world"}, 'items', (err, item) => {
       chai.request(router).get(`/api/v1/items/${item.insertedId}`)
           .end((err, res) => {
+            expect(res).to.have.status(200);
             expect(res.body.data.hello).to.equal('world');
             done();
           });
@@ -27,11 +28,10 @@ describe('Simple CRUD Route Test', () => {
   });
 
   it('should work with promise', (done) => {
-    //TODO: Find out why then is not working?!
-    //See docs: https://github.com/chaijs/chai-http
     crud.create({"hello": "world"}, 'items', (err, item) => {
       chai.request(router).get(`/api/v1/items/${item.insertedId}`)
           .then(res => {
+            expect(res).to.have.status(200);
             expect(res.body.data.hello).to.equal('world');
             done();
           }, err => {
