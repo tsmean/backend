@@ -1,7 +1,7 @@
 # Installation
 
 ```
-git clone https://github.com/bersling/typescript-mongo-express-angular2-node-backend.git ts-mean-be
+git clone https://github.com/bersling/typescript-mongo-express-node-seed.git ts-mean-be
 cd ts-mean-be
 npm install
 ```
