@@ -13,7 +13,7 @@
   "dependencies": {
     "@types/bcrypt": "^1.0.0",
     "@types/winston": "^2.3.0",
-    "bcrypt": "0.x.x",
+    "bcrypt": "^1.0.2",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "mongodb": "^2.2.25",
