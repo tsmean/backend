@@ -3,3 +3,5 @@ dist
 npm-debug.log
 
 #properties
+
+.idea
