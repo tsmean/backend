@@ -1,4 +1,4 @@
-import {appConfig} from "./../AppConfig";
+import {appConfig} from "../config/AppConfig";
 import {database} from "./../db/Database";
 class BeforeEach {
 

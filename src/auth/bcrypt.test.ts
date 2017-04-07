@@ -1,11 +1,9 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
-import chaiHttp = require('chai-http');
 
 import Bcrypt from './Bcrypt';
-import {log} from "../logger";
+import {log} from "../logger/logger";
 
-chai.use(chaiHttp);
 const expect = chai.expect;
 
 describe('bcrypt', () => {

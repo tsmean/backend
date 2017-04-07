@@ -1,10 +1,6 @@
 import * as express from 'express';
-import * as logger from 'morgan';
 import * as bodyParser from 'body-parser';
 import {simpleCrudRouter} from './endpoints/SimpleCrudRouter';
-import session = require("express-session");
-//const RedisStore = require('connect-redis')(session);
-//import * as passport from 'passport';
 
 // Creates and configures an ExpressJS web server.
 class Router {
@@ -21,22 +17,8 @@ class Router {
 
   // Configure Express middleware.
   private middleware(): void {
-    this.express.use(logger('dev'));
     this.express.use(bodyParser.json());
     this.express.use(bodyParser.urlencoded({ extended: false }));
-
-    /* TODO: find problematic part, test
-    this.express.use(session({
-      store: new RedisStore({
-        url: appConfig.appConfig.redis.url
-      }),
-      secret: appConfig.appConfig.redis.secret,
-      resave: false,
-      saveUninitialized: false
-    }));
-    this.express.use(passport.initialize());
-    this.express.use(passport.session());
-    */
   }
 
   // Configure API endpoints.

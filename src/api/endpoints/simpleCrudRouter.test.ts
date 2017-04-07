@@ -2,11 +2,9 @@ import * as mocha from 'mocha';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import {router} from "../Router";
-import {database} from "../../db/Database";
 import {crud} from "../../db/crud";
 import {beforeEachDo} from "../../test/BeforeEachs";
-import {log} from "../../logger";
-
+import {log} from "../../logger/logger";
 
 chai.use(chaiHttp);
 const expect = chai.expect;

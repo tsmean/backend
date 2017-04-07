@@ -5,7 +5,7 @@ export class SimpleCrudRouter {
   router: Router;
 
   /**
-   * Initialize the HeroRouter
+   * Initialize the CrudRouter
    */
   constructor() {
     this.router = Router();
@@ -13,14 +13,7 @@ export class SimpleCrudRouter {
   }
 
   /**
-   * GET all Heroes.
-   */
-  public getAll(req: Request, res: Response, next: NextFunction) {
-    // not implemented
-  }
-
-  /**
-   * GET one hero by id
+   * GET one resource by id
    */
   public getOne(req: Request, res: Response, next: NextFunction) {
     const resourceId = req.params.id;
@@ -44,12 +37,13 @@ export class SimpleCrudRouter {
 
   }
 
-  //TODO: finish & test
-  public insert(req: Request, res: Response, next: NextFunction) {
-    const query = req.params;
-    //TODO: do stuff...
-  }
 
+  /**
+   * GET all Resources.
+   */
+  public getAll(req: Request, res: Response, next: NextFunction) {
+    // not implemented
+  }
 
 
   /**
@@ -61,9 +55,10 @@ export class SimpleCrudRouter {
     this.router.get('/:resource/:id', this.getOne);
   }
 
+
 }
 
-// Create the HeroRouter, and export its configured Express.Router
+// Create the CrudRouter, and export its configured Express.Router
 const intialRouter = new SimpleCrudRouter();
 intialRouter.init();
 

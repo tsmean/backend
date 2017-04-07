@@ -12,11 +12,11 @@ describe('Connect Test', () => {
 
   beforeEachDo.connectTestToDatabase();
 
-  const item = {
-    text: 'Hello World'
-  };
-
   it("should be able to write to db", function(done) {
+
+    const item = {
+      text: 'Hello World'
+    };
 
     expect(database.database !== undefined).to.be.true;
     database.database.collection('notes').insertOne(item, function(err, result) {

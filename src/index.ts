@@ -2,8 +2,8 @@ import * as http from 'http';
 import * as debug from 'debug'; 
 import {router} from './api/Router';
 import {database} from './db/Database';
-import {appConfig} from './AppConfig';
-import {log} from "./logger";
+import {appConfig} from './config/AppConfig';
+import {log} from "./logger/logger";
 
 const appDebug = debug('app');
 
