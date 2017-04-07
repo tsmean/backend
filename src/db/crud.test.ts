@@ -1,7 +1,7 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
 import {crud} from "./crud";
-import {beforeEachDo} from "../BeforeEachs";
+import {beforeEachDo} from "../test/BeforeEachs";
 
 const expect = chai.expect;
 

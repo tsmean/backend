@@ -1,6 +1,2 @@
-import winston = require("winston");
-export const logger = new (winston.Logger)({
-  transports: [
-    new (winston.transports.Console)({ level: 'debug' }),
-  ]
-});
+import * as winston from "winston";
+export const log: winston.Winston = require("winston-color");

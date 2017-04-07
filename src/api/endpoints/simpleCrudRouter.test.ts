@@ -4,7 +4,8 @@ import chaiHttp = require('chai-http');
 import {router} from "../Router";
 import {database} from "../../db/Database";
 import {crud} from "../../db/crud";
-import {beforeEachDo} from "../../BeforeEachs";
+import {beforeEachDo} from "../../test/BeforeEachs";
+import {log} from "../../logger";
 
 
 chai.use(chaiHttp);
@@ -35,7 +36,8 @@ describe('Simple CRUD Route Test', () => {
             expect(res.body.data.hello).to.equal('world');
             done();
           }, err => {
-            console.log("ERROR:", err);
+            log.error('Error on GET request:');
+            log.error(err);
             done();
           })
           .catch(function (err) {

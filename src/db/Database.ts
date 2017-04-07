@@ -1,6 +1,7 @@
 import * as mongo from 'mongodb'
 import {AppProperties} from "ts-mean-models/app-properties.model";
 import {Db} from "mongodb";
+import {log} from "../logger";
 
 class Database {
 
@@ -25,6 +26,8 @@ class Database {
 
   public connectToDatabase (appConfig: AppProperties, callback?: (database: Db) => any) {
 
+    log.info('Connecting to Database');
+
     // Connect to the db
     this._mongoClient.connect(this.mongoUri(appConfig), (err, db) => {
       if(!err) {
@@ -33,7 +36,8 @@ class Database {
           callback(db);
         }
       } else {
-        console.log('Error on connecting to MongoDB', err)
+        log.error('Error while connecting to Database:');
+        log.error(err);
       }
     });
 

@@ -3,12 +3,9 @@ import * as debug from 'debug';
 import {router} from './api/Router';
 import {database} from './db/Database';
 import {appConfig} from './AppConfig';
-import {logger} from "./logger";
+import {log} from "./logger";
 
 const appDebug = debug('app');
-
-logger.info('Starting the Server.');
-
 
 // Step 1) Set & Get App Configuration
 appConfig.setAppConfig(process.argv[2] || 'local');
@@ -24,7 +21,8 @@ database.connectToDatabase(appConfig.appConfig, (db) => {
     if (isNaN(port)) return val;
     else if (port >= 0) return port;
     else return false;
-  }
+  };
+
   const port = normalizePort(process.env.PORT || 3000);
   router.set('port', port);
   const server = http.createServer(router);
@@ -55,9 +53,8 @@ database.connectToDatabase(appConfig.appConfig, (db) => {
   server.on('listening', onListening);
 
   server.listen(port,function(){
-    console.log('Server listening at port %d',port);
+    log.info('Server listening at port %d', port);
   });
-
 
 });
 
