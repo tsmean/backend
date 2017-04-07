@@ -1,8 +1,8 @@
 # Installation
 
 ```
-git clone https://github.com/bersling/typescript-mongo-express-node-seed.git <your-project-name>-backend
-cd <your-project-name>-backend
+git clone https://github.com/bersling/typescript-mongo-express-node-seed.git project-name-backend
+cd project-name-backend
 npm install
 ```
 
