@@ -1,11 +1,8 @@
 import * as http from 'http';
-import * as debug from 'debug'; 
 import {router} from './api/Router';
 import {database} from './db/Database';
 import {appConfig} from './config/AppConfig';
 import {log} from "./logger/logger";
-
-const appDebug = debug('app');
 
 // Step 1) Set & Get App Configuration
 appConfig.setAppConfig(process.argv[2] || 'local');
@@ -47,7 +44,6 @@ database.connectToDatabase(appConfig.appConfig, (db) => {
   const onListening = (): void => {
     let addr = server.address();
     let bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
-    debug(`Listening on ${bind}`);
   };
   server.on('error', onError);
   server.on('listening', onListening);
