@@ -4,6 +4,16 @@ import {crud} from "../../db/crud";
 export class SimpleCrudRouter {
   router: Router;
 
+
+  /**
+   * Take each handler, and attach to one of the Express.Router's
+   * endpoints.
+   */
+  init() {
+    this.router.get('/:resource', this.getAll);
+    this.router.get('/:resource/:id', this.getOne);
+  }
+
   /**
    * Initialize the CrudRouter
    */
@@ -11,6 +21,7 @@ export class SimpleCrudRouter {
     this.router = Router();
     this.init();
   }
+
 
   /**
    * GET one resource by id
@@ -43,16 +54,6 @@ export class SimpleCrudRouter {
    */
   public getAll(req: Request, res: Response, next: NextFunction) {
     // not implemented
-  }
-
-
-  /**
-   * Take each handler, and attach to one of the Express.Router's
-   * endpoints.
-   */
-  init() {
-    this.router.get('/:resource', this.getAll);
-    this.router.get('/:resource/:id', this.getOne);
   }
 
 

@@ -1,6 +1,7 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import {simpleCrudRouter} from './endpoints/SimpleCrudRouter';
+import {middleware} from "./middleware";
 
 // Creates and configures an ExpressJS web server.
 class Router {
@@ -11,14 +12,8 @@ class Router {
   //Run configuration methods on the Express instance.
   constructor() {
     this.express = express();
-    this.middleware();
+    middleware.addBodyParser(this.express);
     this.routes();
-  }
-
-  // Configure Express middleware.
-  private middleware(): void {
-    this.express.use(bodyParser.json());
-    this.express.use(bodyParser.urlencoded({ extended: false }));
   }
 
   // Configure API endpoints.
