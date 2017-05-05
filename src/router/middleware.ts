@@ -9,7 +9,6 @@ class Middleware {
     express.use(bodyParser.urlencoded({ extended: false }));
   }
 
-
 }
 
 export const middleware = new Middleware();
