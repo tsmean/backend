@@ -42,6 +42,32 @@ describe('Simple CRUD Route Test', () => {
             throw err;
           });
     });
-  })
+  });
+
+
+  it('should be able to create', (done) => {
+    chai.request(router)
+        .post(`/api/v1/items`)
+        .send({
+          'hair': 'red',
+          'nose': 'long'
+        })
+        .then(res => {
+          expect(res).to.have.status(200);
+          log.info(res.body.data);
+          //expect(res.body.data.hair).to.equal('red');
+          //expect(res.body.data._id).to.exist;
+          done();
+        }, err => {
+          //log.error('Error on POST request:');
+          //log.error(err);
+          done();
+        })
+        .catch(function (err) {
+          throw err;
+        });
+  });
+
+
 
 });

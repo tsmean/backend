@@ -1,5 +1,6 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import {crud} from "../../db/crud";
+import {log} from '../../logger/logger';
 
 export class SimpleCrudRouter {
   router: Router;
@@ -12,6 +13,7 @@ export class SimpleCrudRouter {
   init() {
     this.router.get('/:resource', this.getAll);
     this.router.get('/:resource/:id', this.getOne);
+    this.router.post('/:resource', this.create);
   }
 
   /**
@@ -21,6 +23,35 @@ export class SimpleCrudRouter {
     this.router = Router();
     this.init();
   }
+
+  /**
+   * CREATE one resource
+   */
+  public create(req: Request, res: Response, next: NextFunction) {
+
+    const resource = req.body;
+    const resourceName = req.params.resource;
+
+    log.info(resource);
+
+    crud.create(resource, resourceName, (err, data) => {
+      if (err) {
+        res.status(500).send({
+          message: "Server error",
+          status: res.status
+        })
+      } else {
+        res.status(200)
+            .send({
+              message: 'Success',
+              status: res.status,
+              data
+            })
+      }
+    })
+
+  }
+
 
 
   /**
@@ -45,8 +76,26 @@ export class SimpleCrudRouter {
             })
       }
     });
-
   }
+
+  /* somehow not working
+  private responseCallback(res) {
+    return (err, data) => {
+      if (err) {
+        res.status(500).send({
+          message: "Server error",
+          status: res.status
+        })
+      } else {
+        res.status(200)
+            .send({
+              message: 'Success',
+              status: res.status,
+              data
+            })
+      }
+    }
+  }*/
 
 
   /**

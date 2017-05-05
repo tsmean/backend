@@ -1,5 +1,6 @@
 import * as mongo from 'mongodb'
 import {database} from "./Database";
+import {log} from "../logger/logger";
 
 class Crud {
 
