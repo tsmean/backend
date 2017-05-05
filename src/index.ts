@@ -1,5 +1,5 @@
 import * as http from 'http';
-import {router} from './api/Router';
+import {router} from './router/Router';
 import {database} from './db/Database';
 import {appConfig} from './config/AppConfig';
 import {log} from "./logger/logger";
