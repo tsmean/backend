@@ -10,6 +10,8 @@ const expect = chai.expect;
 
 describe('MyPassport', () => {
 
+
+
   it('should be able to login as hans', (done) => {
     myPassport; //make sure it exists...
     expect(passport.authenticate('local', (req, res) => {

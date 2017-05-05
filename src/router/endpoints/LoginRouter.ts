@@ -1,7 +1,8 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import * as passport from "passport";
+import {log} from "../../logger/logger";
 
-export class SimpleCrudRouter {
+export class LoginRouter {
   router: Router;
 
 
@@ -15,6 +16,7 @@ export class SimpleCrudRouter {
           // If this function gets called, authentication was successful.
           // `req.user` contains the authenticated user.
           res.redirect('/users/' + req.user.username);
+          log.info('=======AUTHENTICATED=======')
         });
   }
 
@@ -28,3 +30,9 @@ export class SimpleCrudRouter {
 
 
 }
+
+// Create the CrudRouter, and export its configured Express.Router
+const intialRouter = new LoginRouter();
+intialRouter.init();
+
+export const loginRouter = intialRouter.router;
