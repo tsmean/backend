@@ -32,7 +32,6 @@ class Crud {
       if (err) return cb(err);
       collection.updateOne({"_id": new mongo.ObjectID(item._id)}, item, (err, result) => {
         if (err) return cb(err);
-        log.debug(item);
         return cb(null, result, item);
       })
     })

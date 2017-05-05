@@ -52,8 +52,6 @@ export class SimpleCrudRouter {
 
   }
 
-
-
   /**
    * GET one resource by id
    */
