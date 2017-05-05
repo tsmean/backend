@@ -15,7 +15,7 @@ class Crud {
   }
 
 
-  create(item: Object, collectionName: string, cb:(err, item?) => void) {
+  create(item: Object, collectionName: string, cb:(err, result?) => void) {
 
     database.database.collection(collectionName, (err, collection) => {
       if (err) return cb(err);

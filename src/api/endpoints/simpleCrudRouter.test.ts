@@ -54,13 +54,12 @@ describe('Simple CRUD Route Test', () => {
         })
         .then(res => {
           expect(res).to.have.status(200);
-          log.info(res.body.data);
-          //expect(res.body.data.hair).to.equal('red');
-          //expect(res.body.data._id).to.exist;
+          expect(res.body.data.hair).to.equal('red');
+          expect(res.body.data._id).to.exist;
           done();
         }, err => {
-          //log.error('Error on POST request:');
-          //log.error(err);
+          log.error('Error on POST request:');
+          log.error(err);
           done();
         })
         .catch(function (err) {

@@ -32,9 +32,7 @@ export class SimpleCrudRouter {
     const resource = req.body;
     const resourceName = req.params.resource;
 
-    log.info(resource);
-
-    crud.create(resource, resourceName, (err, data) => {
+    crud.create(resource, resourceName, (err, result) => {
       if (err) {
         res.status(500).send({
           message: "Server error",
@@ -45,7 +43,7 @@ export class SimpleCrudRouter {
             .send({
               message: 'Success',
               status: res.status,
-              data
+              data: resource
             })
       }
     })
