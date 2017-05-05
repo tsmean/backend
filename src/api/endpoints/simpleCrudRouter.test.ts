@@ -67,6 +67,61 @@ describe('Simple CRUD Route Test', () => {
         });
   });
 
+  it('should be able to update', (done) => {
+    let item: any = {"hello": "world"};
+    crud.create(item, 'items', (err, result) => {
+      item.hello = 'planet';
+      chai.request(router)
+          .put(`/api/v1/items`)
+          .send(item)
+          .then(res => {
+            expect(res).to.have.status(200);
+            chai.request(router).get(`/api/v1/items/${result.insertedId}`).then((res2) => {
+              expect(res2.body.data.hello).to.equal('planet');
+              done();
+            }, () => {
+              log.error('Error on GET request');
+              done();
+            });
+          }, err => {
+            log.error('Error on PUT request:');
+            log.error(err);
+            done();
+          })
+          .catch(function (err) {
+            throw err;
+          });
+    });
+  });
+
+
+  it('should be able to delete', (done) => {
+    crud.create({"hello": "world"}, 'items', (err, result) => {
+      chai.request(router)
+          .del(`/api/v1/items/${result.insertedId}`)
+          .then(res => {
+            expect(res).to.have.status(200);
+            chai.request(router).get(`/api/v1/items/${result.insertedId}`).then((res2) => {
+              expect(res2.body.data).to.be.null;
+              done();
+            }, () => {
+              log.error('Error on GET request');
+              done();
+            });
+          }, err => {
+            log.error('Error on DELETE request:');
+            log.error(err);
+            done();
+          })
+          .catch(function (err) {
+            throw err;
+          });
+    });
+  });
+
+
+
+
 
 
 });

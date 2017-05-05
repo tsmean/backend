@@ -2,7 +2,6 @@ import * as mocha from 'mocha';
 import * as chai from 'chai';
 import {crud} from "./crud";
 import {beforeEachDo} from "../test/BeforeEachs";
-
 const expect = chai.expect;
 
 describe('CRUD', () => {
@@ -17,7 +16,7 @@ describe('CRUD', () => {
       doCreate();
     };
 
-    const doReadOne = (id: string) => {
+    const doRead = (id: string) => {
       crud.read(id, 'items', (err, item) => {
 
         expect(err).to.equal(null);
@@ -25,17 +24,6 @@ describe('CRUD', () => {
         expect(item._id).to.exist;
 
         doUpdate(item);
-
-      });
-    };
-
-    const doReadTwo = (id: string) => {
-      crud.read(id, 'items', (err, item) => {
-
-        expect(err).to.equal(null);
-        expect(item.text).to.equal("hello world!");
-
-        doDelete(item._id);
 
       });
     };
@@ -57,7 +45,7 @@ describe('CRUD', () => {
 
         const insertedId = result.insertedId;
 
-        doReadOne(insertedId);
+        doRead(insertedId);
 
       })
     };
@@ -68,6 +56,16 @@ describe('CRUD', () => {
         expect(err).to.equal(null);
         expect(result.modifiedCount).to.equal(1);
 
+        const doReadTwo = (id: string) => {
+          crud.read(id, 'items', (err, item) => {
+
+            expect(err).to.equal(null);
+            expect(item.text).to.equal("hello world!");
+
+            doDelete(item._id);
+
+          });
+        };
         doReadTwo(item._id);
 
       })

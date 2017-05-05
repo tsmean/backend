@@ -15,25 +15,25 @@ class Crud {
   }
 
 
-  create(item: Object, collectionName: string, cb:(err, result?) => void) {
+  create(item: Object, collectionName: string, cb:(err, result?, item?) => void) {
 
     database.database.collection(collectionName, (err, collection) => {
       if (err) return cb(err);
       collection.insertOne(item, (err, result) => {
         if (err) return cb(err);
-        return cb(null, result);
+        return cb(null, result, item);
       })
     })
 
   }
 
-  update(item, collectionName: string, cb:(err, item?) => void) {
+  update(item, collectionName: string, cb:(err, result?, item?) => void) {
     database.database.collection(collectionName, (err, collection) => {
       if (err) return cb(err);
-
       collection.updateOne({"_id": new mongo.ObjectID(item._id)}, item, (err, result) => {
         if (err) return cb(err);
-        return cb(null, result);
+        log.debug(item);
+        return cb(null, result, item);
       })
     })
   }
