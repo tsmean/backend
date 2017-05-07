@@ -1,7 +1,7 @@
 import * as mongo from 'mongodb'
 import {database} from "./Database";
 import {log} from "../logger/logger";
-import {User} from "../../../models/src/user.model";
+import {User} from "ts-mean-models/src/user.model";
 import {DatabaseResponse} from "./DatabaseResponse.model";
 import {dao} from "./DAO";
 

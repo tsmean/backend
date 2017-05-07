@@ -2,7 +2,7 @@ import * as mocha from 'mocha';
 import * as chai from 'chai';
 import {beforeEachDo} from "../test/BeforeEachs";
 import {userDAO} from "./UserDAO";
-import {User} from "../../../models/src/user.model";
+import {User} from "ts-mean-models/src/user.model";
 import {log} from "../logger/logger";
 const expect = chai.expect;
 

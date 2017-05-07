@@ -3,13 +3,10 @@ import {router} from './router/Router';
 import {database} from './db/Database';
 import {appConfig} from './config/AppConfig';
 import {log} from "./logger/logger";
-import {myPassport} from "./auth/Passport";
 
 // Step 1) Set & Get App Configuration
 appConfig.setAppConfig(process.argv[2] || 'local');
 
-// Load required singletons:
-myPassport;
 
 // Step 2) Connect to the database
 database.connectToDatabase(appConfig.appConfig, (db) => {
