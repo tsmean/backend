@@ -12,6 +12,8 @@ class UserDAO {
 
     dao.readOneByField("email", user.email, "Users", (dbResp) => {
 
+      //TODO: this inverted check is quite confusing...
+
       if (dbResp.error) {
         //create when no user was found (meaning an error was thrown!)
         dao.create(user, "Users", cb)
@@ -19,8 +21,7 @@ class UserDAO {
         //if a user with this email exists, deny creation
         return cb({
           error: {
-            message: 'already exists',
-            code: 0
+            message: 'already exists'
           }
         })
       }

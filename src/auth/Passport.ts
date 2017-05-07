@@ -22,7 +22,7 @@ class Passport {
               return done(dbResp);
             } else if (!dbResp.data) {
               return done(null, false, { message: 'Incorrect username.' });
-            } else if (dbResp.data.password !== password) {
+            } else if (dbResp.data.password.hash !== password) {
               return done(null, false, { message: 'Incorrect password.' });
             } else {
               return done(null, dbResp.data);

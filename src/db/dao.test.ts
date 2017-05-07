@@ -19,15 +19,13 @@ describe('DAO', () => {
     };
 
     const doRead = (uid: string) => {
-      log.debug(uid,'uid');
       dao.read(uid, 'items', (dbResponse: DatabaseResponse) => {
 
-        log.debug('3');
         expect(dbResponse.error).to.equal(null);
         expect(dbResponse.data.text).to.equal("hello");
-        expect(dbResponse.data.id.key).to.exist;
+        expect(dbResponse.data.uid).to.exist;
 
-        doUpdate(item);
+        doUpdate(dbResponse.data);
 
       });
     };
@@ -43,24 +41,22 @@ describe('DAO', () => {
     const doCreate = () => {
       dao.create(item, 'items', (dbResp) => {
         expect(dbResp.error).to.equal(null);
-        log.debug(dbResp.data.uid);
         doRead(dbResp.data.uid);
       })
     };
 
     const doUpdate = (item) => {
       item.text = item.text + " world!";
+
       dao.update(item, 'items', (dbResp) => {
+
         expect(dbResp.error).to.equal(null);
 
         const doReadTwo = (id: string) => {
           dao.read(id, 'items', (dbResp2) => {
-
             expect(dbResp2.error).to.equal(null);
             expect(dbResp2.data.text).to.equal("hello world!");
-
             doDelete(item.uid);
-
           });
         };
         doReadTwo(item.uid);

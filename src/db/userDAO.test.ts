@@ -3,6 +3,7 @@ import * as chai from 'chai';
 import {beforeEachDo} from "../test/BeforeEachs";
 import {userDAO} from "./UserDAO";
 import {User} from "../../../models/src/user.model";
+import {log} from "../logger/logger";
 const expect = chai.expect;
 
 describe('UserDAO', () => {

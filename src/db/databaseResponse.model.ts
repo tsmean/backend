@@ -8,6 +8,6 @@ export interface DatabaseResponse {
 }
 
 export interface DatabaseError {
-  code: number,
+  code?: number,
   message: string,
 }

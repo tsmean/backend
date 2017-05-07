@@ -5,6 +5,7 @@ import {router} from "../Router";
 import {dao} from "../../db/dao";
 import {beforeEachDo} from "../../test/BeforeEachs";
 import {log} from "../../logger/logger";
+import * as assert from "assert";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -34,8 +35,6 @@ describe('Simple CRUD Route Test', () => {
             expect(res.body.data.hello).to.equal('world');
             done();
           }, err => {
-            log.error('Error on GET request:');
-            log.error(err);
             done();
           })
           .catch(function (err) {
@@ -55,7 +54,7 @@ describe('Simple CRUD Route Test', () => {
         .then(res => {
           expect(res).to.have.status(200);
           expect(res.body.data.hair).to.equal('red');
-          expect(res.body.data._id).to.exist;
+          expect(res.body.data.uid).to.exist;
           done();
         }, err => {
           log.error('Error on POST request:');
@@ -70,10 +69,10 @@ describe('Simple CRUD Route Test', () => {
   it('should be able to update', (done) => {
     let item: any = {"hello": "world"};
     dao.create(item, 'items', (dbResp) => {
-      item.hello = 'planet';
+      dbResp.data.hello = 'planet';
       chai.request(router)
           .put(`/api/v1/items`)
-          .send(item)
+          .send(dbResp.data)
           .then(res => {
             expect(res).to.have.status(200);
             chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`).then((res2) => {
@@ -101,16 +100,15 @@ describe('Simple CRUD Route Test', () => {
           .del(`/api/v1/items/${dbResp.data.uid}`)
           .then(res => {
             expect(res).to.have.status(200);
-            chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`).then((res2) => {
-              expect(res2.body.data).to.be.null;
-              done();
+            chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`).then(() => {
+              //shouldnt find anything
+              assert(false);
             }, () => {
-              log.error('Error on GET request');
+              //TODO: make this a 404
+              //expect(res.status).to.equal(500);
               done();
             });
           }, err => {
-            log.error('Error on DELETE request:');
-            log.error(err);
             done();
           })
           .catch(function (err) {

@@ -6,6 +6,7 @@ import {dao} from "../../db/dao";
 import {beforeEachDo} from "../../test/BeforeEachs";
 import {log} from "../../logger/logger";
 import * as assert from "assert";
+import {User} from "../../../../models/src/user.model";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -16,9 +17,12 @@ describe('LoginRouter', () => {
 
   it('should be able to login', (done) => {
 
-    const user = {
+    const user: User = {
       email: 'hans',
-      password: '1234'
+      password: {
+        hash: '1234',
+        algorithm: "bcrypt"
+      }
     };
 
     //TODO: test that user can only be created once
@@ -31,7 +35,7 @@ describe('LoginRouter', () => {
           .post(`/api/v1/login`)
           .send({
             email: user.email,
-            password: user.password
+            password: user.password.hash
           })
           .then((resp: any) => {
             expect(resp.body.data.uid).to.equal(dbResp.data.uid);

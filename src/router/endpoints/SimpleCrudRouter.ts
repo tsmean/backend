@@ -45,7 +45,7 @@ export class SimpleCrudRouter {
             .send({
               message: 'Success',
               status: res.status,
-              data: resource
+              data: dbResp.data
             })
       }
     })
@@ -81,8 +81,6 @@ export class SimpleCrudRouter {
    */
   public updateOne(req: Request, res: Response, next: NextFunction) {
     const resourceName = req.params.resource;
-
-    req.body._id = ObjectID.createFromHexString(req.body._id);
 
     dao.update(req.body, resourceName, (dbResp) => {
 

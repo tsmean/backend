@@ -26,8 +26,6 @@ class Database {
 
   public connectToDatabase (appConfig: AppProperties, callback?: (database: Db) => any) {
 
-    log.info('Connecting to Database');
-
     // Connect to the db
     this._mongoClient.connect(this.mongoUri(appConfig), (err, db) => {
       if(!err) {

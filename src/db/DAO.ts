@@ -15,32 +15,74 @@ import {utils} from "../utils/Utils";
 
 class DAO {
 
+
   read(id:string, collectionName: string, cb:(dbResponse: DatabaseResponse) => void) {
-    return this.readOneByField("_id", id, collectionName, cb);
-  }
-
-  readOneByField(fieldName: string, fieldValue: string, collectionName: string, cb:(dbResponse: DatabaseResponse) => void) {
     database.database.collection(collectionName, (err, collection) => {
-
-      log.debug('here', fieldName, fieldValue);
 
       if (err) {
         return cb({
           error: err
         })
       } else {
-        collection.findOne({fieldName: fieldValue}, (err, data) => {
-          log.debug('1');
+
+        collection.findOne({"_id": new mongo.ObjectID(id)}, (err, data) => {
+
           if (err) {
             return cb({
               error: err
             });
           } else {
-            log.debug('2', data, 'bla', err, 'blub');
+            if (data) {
+              return cb({
+                error: null,
+                data: this.morphDataOnRetrieval(data)
+              });
+            } else {
+              log.error('not found!');
+              return cb({
+                error: {
+                  message: 'not found'
+                }
+              })
+            }
+          }
+        });
+
+      }
+
+    })
+  }
+
+  readOneByField(fieldName: string, fieldValue: string, collectionName: string, cb:(dbResponse: DatabaseResponse) => void) {
+    database.database.collection(collectionName, (err, collection) => {
+
+      if (err) {
+        return cb({
+          error: err
+        })
+      } else {
+
+        const searchObject = {};
+        searchObject[fieldName] = fieldValue;
+
+        collection.findOne(searchObject, (err, data) => {
+          if (err) {
             return cb({
-              error: null,
-              data: this.morphDataOnRetrieval(data)
+              error: err
             });
+          } else {
+            if (data) {
+              return cb({
+                error: null,
+                data: this.morphDataOnRetrieval(data)
+              });
+            } else {
+              return cb({
+                error: {
+                  message: 'not found'
+                }
+              })
+            }
           }
         })
       }
@@ -66,11 +108,9 @@ class DAO {
               error: this.mongoErrorToGeneralDbError(err)
             });
           } else {
-            const bla = this.morphDataOnRetrieval(itemCopy);
-            log.debug(bla, 'come on');
             return cb({
               error: null,
-              data: bla
+              data: this.morphDataOnRetrieval(itemCopy)
             });
           }
         })
@@ -84,29 +124,22 @@ class DAO {
     //deep copy object so input doesn't get mutated and morph it to correct storage form
     const itemCopy = this.morphDataOnStorage(item);
 
+
+
     database.database.collection(collectionName, (err, collection) => {
       if (err) return cb({
         error: this.mongoErrorToGeneralDbError(err)
       });
-      collection.updateOne({"_id": new mongo.ObjectID(item._id)}, item, (err: MongoError, result) => {
+      collection.updateOne({"_id": new mongo.ObjectID(itemCopy._id)}, item, (err: MongoError, result) => {
         if (err) {
           return cb({
             error: this.mongoErrorToGeneralDbError(err)
           });
         } else {
-          if (result.nUpdated === 1) {
-            return cb({
-              error: null,
-              data: this.morphDataOnRetrieval(itemCopy)
-            })
-          } else {
-            return cb({
-              error: {
-                code: -1,
-                message: `There were ${result.nUpdated} items updated instead of one item`
-              }
-            })
-          }
+          cb({
+            error: null,
+            data: this.morphDataOnRetrieval(itemCopy)
+          })
         }
       })
     })
@@ -124,18 +157,9 @@ class DAO {
             error: this.mongoErrorToGeneralDbError(err)
           });
         } else {
-         if (result.deletedCount === 1) {
-           return cb({
-             error: this.mongoErrorToGeneralDbError(err)
-           });
-         } else {
-           return cb({
-             error: {
-               code: -1,
-               message: `There were ${result.deletedCount} items deleted instead of one item`
-             }
-           })
-         }
+          return cb({
+            error: null
+          });
         }
       })
     })
@@ -150,8 +174,18 @@ class DAO {
   }
 
   private morphDataOnRetrieval(data) {
+
+    if (!data) {
+      log.error('omg no data!!!');
+      return;
+    }
+
     const dataCopy = utils.deepCopyData(data);
-    dataCopy.uid = data._id.toHexString();
+    if (typeof data._id !== 'string') {
+      dataCopy.uid = data._id.toHexString();
+    } else {
+      dataCopy.uid = data._id;
+    }
     delete dataCopy._id;
     return dataCopy;
   };
