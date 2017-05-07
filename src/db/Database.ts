@@ -1,5 +1,5 @@
 import * as mongo from 'mongodb'
-import {AppProperties} from "ts-mean-models/app-properties.model";
+import {AppProperties} from "ts-mean-models/src/app-properties.model";
 import {Db} from "mongodb";
 import {log} from "../logger/logger";
 
@@ -25,8 +25,6 @@ class Database {
   }
 
   public connectToDatabase (appConfig: AppProperties, callback?: (database: Db) => any) {
-
-    log.info('Connecting to Database');
 
     // Connect to the db
     this._mongoClient.connect(this.mongoUri(appConfig), (err, db) => {

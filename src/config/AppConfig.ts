@@ -1,4 +1,4 @@
-import {AppProperties} from "ts-mean-models/app-properties.model";
+import {AppProperties} from "ts-mean-models/src/app-properties.model";
 
 class AppConfig {
 

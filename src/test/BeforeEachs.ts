@@ -5,8 +5,10 @@ class BeforeEach {
   public connectTestToDatabase() {
     return beforeEach('connect to db', (done) => {
       appConfig.setAppConfig('test');
-      database.connectToDatabase(appConfig.appConfig, () => {
-        done();
+      database.connectToDatabase(appConfig.appConfig, (db) => {
+        db.dropDatabase().then(() => {
+          done();
+        });
       })
     });
   }
