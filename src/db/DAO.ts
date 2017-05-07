@@ -38,7 +38,6 @@ class DAO {
                 data: this.morphDataOnRetrieval(data)
               });
             } else {
-              log.error('not found!');
               return cb({
                 error: {
                   message: 'not found'
@@ -176,7 +175,7 @@ class DAO {
   private morphDataOnRetrieval(data) {
 
     if (!data) {
-      log.error('omg no data!!!');
+      log.error('No data!');
       return;
     }
 
