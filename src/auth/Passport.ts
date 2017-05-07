@@ -1,16 +1,23 @@
 import * as passport from 'passport'
 import * as local from 'passport-local'
+import {log} from "../logger/logger";
 
 class Passport {
 
-  LocalStrategy = local.Strategy;
+  public constructed: boolean;
 
   constructor() {
-    passport.use(new this.LocalStrategy(
-        function(username, password, done) {
 
+    passport.use('local', new local.Strategy({
+          // by default, local strategy uses username and password, we will override with email
+          usernameField : 'email',
+          passwordField : 'password'
+        },
+        function(email, password, done) {
 
-          if (username !== 'hans') {
+          log.debug('0');
+
+          if (email !== 'hans') {
             return done(null, false, { message: 'Incorrect username.' }) //theres only hans
           } else if (password !== '1234') {
             return done(null, false, { message: 'Incorrect password.' }) //and hans has a simple pw
@@ -39,9 +46,13 @@ class Passport {
 
         }
     ));
+
+    this.constructed = true;
+
   }
 
-
 }
+
+//TODO: okay this is a bit weird, new Passport() only exists to run a constructor...
 
 export const myPassport = new Passport();

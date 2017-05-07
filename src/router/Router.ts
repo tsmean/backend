@@ -34,7 +34,7 @@ class Router {
     this.express.use('/welcome', welcomeHtmlRouter);
 
     this.express.use('/api/v1/', loginRouter);
-    this.express.use('/api/v1/', simpleCrudRouter);
+    //this.express.use('/api/v1/', simpleCrudRouter);
 
   }
 

@@ -11,13 +11,12 @@ export class LoginRouter {
    * endpoints.
    */
   init() {
-    this.router.post('/login', passport.authenticate('local'),
-        function(req, res) {
-          // If this function gets called, authentication was successful.
-          // `req.user` contains the authenticated user.
-          res.redirect('/users/' + req.user.username);
-          log.info('=======AUTHENTICATED=======')
-        });
+    this.router.post('/login',
+        passport.authenticate('local', { session: false }),
+        this.loginHandler);
+
+    //this.router.post('/login', this.loginHandler);
+
   }
 
   /**
@@ -28,6 +27,18 @@ export class LoginRouter {
     this.init();
   }
 
+  public loginHandler(req: Request, res: Response, next: NextFunction) {
+    // If this function gets called, authentication was successful.
+    // `req.user` contains the authenticated user.
+    log.info('=======AUTHENTICATED=======');
+    res.status(200).send({
+      message: 'Success',
+      status: res.status,
+      data: {
+        firstName: 'bla'
+      }
+    })
+  }
 
 }
 
