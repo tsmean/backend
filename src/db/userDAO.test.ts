@@ -1,7 +1,8 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
-import {crud} from "./crud";
 import {beforeEachDo} from "../test/BeforeEachs";
+import {userDAO} from "./UserDAO";
+import {User} from "../../../models/src/user.model";
 const expect = chai.expect;
 
 describe('UserDAO', () => {
@@ -10,17 +11,20 @@ describe('UserDAO', () => {
 
   it("should be able to retrieve user", function(done) {
 
-    const user = {
+    const user: User = {
       email: 'hans',
-      password: '1234'
+      password: {
+        hash: '1234',
+        algorithm: "bcrypt"
+      }
     };
 
     //TODO: clarify whether you really want a triple parameter callback
     //isn't just either result or item enough?
 
-    crud.create(user, 'Users', (err, result, u) => {
-      expect(err).to.be.null;
-      expect(u._id).to.exist;
+    userDAO.create(user, (dbResponse) => {
+      expect(dbResponse.error).to.be.null;
+      expect(dbResponse.data.uid).to.exist;
       done();
     })
 

@@ -2,7 +2,7 @@ import * as mocha from 'mocha';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import {router} from "../Router";
-import {crud} from "../../db/crud";
+import {dao} from "../../db/dao";
 import {beforeEachDo} from "../../test/BeforeEachs";
 import {log} from "../../logger/logger";
 
@@ -15,8 +15,8 @@ describe('Simple CRUD Route Test', () => {
 
   it('should return the item', (done) => {
 
-    crud.create({"hello": "world"}, 'items', (err, item) => {
-      chai.request(router).get(`/api/v1/items/${item.insertedId}`)
+    dao.create({"hello": "world"}, 'items', (dbResp) => {
+      chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`)
           .end((err, res) => {
             expect(res).to.have.status(200);
             expect(res.body.data.hello).to.equal('world');
@@ -27,8 +27,8 @@ describe('Simple CRUD Route Test', () => {
   });
 
   it('should work with promise', (done) => {
-    crud.create({"hello": "world"}, 'items', (err, item) => {
-      chai.request(router).get(`/api/v1/items/${item.insertedId}`)
+    dao.create({"hello": "world"}, 'items', (dbResp) => {
+      chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`)
           .then(res => {
             expect(res).to.have.status(200);
             expect(res.body.data.hello).to.equal('world');
@@ -69,14 +69,14 @@ describe('Simple CRUD Route Test', () => {
 
   it('should be able to update', (done) => {
     let item: any = {"hello": "world"};
-    crud.create(item, 'items', (err, result) => {
+    dao.create(item, 'items', (dbResp) => {
       item.hello = 'planet';
       chai.request(router)
           .put(`/api/v1/items`)
           .send(item)
           .then(res => {
             expect(res).to.have.status(200);
-            chai.request(router).get(`/api/v1/items/${result.insertedId}`).then((res2) => {
+            chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`).then((res2) => {
               expect(res2.body.data.hello).to.equal('planet');
               done();
             }, () => {
@@ -96,12 +96,12 @@ describe('Simple CRUD Route Test', () => {
 
 
   it('should be able to delete', (done) => {
-    crud.create({"hello": "world"}, 'items', (err, result) => {
+    dao.create({"hello": "world"}, 'items', (dbResp) => {
       chai.request(router)
-          .del(`/api/v1/items/${result.insertedId}`)
+          .del(`/api/v1/items/${dbResp.data.uid}`)
           .then(res => {
             expect(res).to.have.status(200);
-            chai.request(router).get(`/api/v1/items/${result.insertedId}`).then((res2) => {
+            chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`).then((res2) => {
               expect(res2.body.data).to.be.null;
               done();
             }, () => {

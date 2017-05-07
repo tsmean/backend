@@ -2,7 +2,7 @@ import * as mocha from 'mocha';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import {router} from "../Router";
-import {crud} from "../../db/crud";
+import {dao} from "../../db/dao";
 import {beforeEachDo} from "../../test/BeforeEachs";
 import {log} from "../../logger/logger";
 

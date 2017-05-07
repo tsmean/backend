@@ -2,7 +2,7 @@ import * as mocha from 'mocha';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
 import {router} from "../Router";
-import {crud} from "../../db/crud";
+import {dao} from "../../db/dao";
 import {beforeEachDo} from "../../test/BeforeEachs";
 import {log} from "../../logger/logger";
 import * as assert from "assert";
@@ -21,11 +21,11 @@ describe('LoginRouter', () => {
       password: '1234'
     };
 
-    //TODO: user should only be created once.
+    //TODO: test that user can only be created once
 
-    crud.create(user, 'Users', (err, result) => {
+    dao.create(user, 'Users', (dbResp) => {
 
-      expect(err).to.be.null;
+      expect(dbResp.error).to.be.null;
 
       chai.request(router)
           .post(`/api/v1/login`)
@@ -34,7 +34,7 @@ describe('LoginRouter', () => {
             password: user.password
           })
           .then((resp: any) => {
-            expect(resp.body.data._id).to.equal(result.insertedId.toHexString());
+            expect(resp.body.data.uid).to.equal(dbResp.data.uid);
             done();
           }, (err) => {
             log.error(err);

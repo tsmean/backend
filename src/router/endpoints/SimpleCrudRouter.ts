@@ -1,5 +1,5 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import {crud} from "../../db/crud";
+import {dao} from "../../db/dao";
 import {log} from '../../logger/logger';
 import {ObjectID} from "bson";
 
@@ -34,8 +34,8 @@ export class SimpleCrudRouter {
     const resource = req.body;
     const resourceName = req.params.resource;
 
-    crud.create(resource, resourceName, (err, result) => {
-      if (err) {
+    dao.create(resource, resourceName, (dbResp) => {
+      if (dbResp.error) {
         res.status(500).send({
           message: "Server error",
           status: res.status
@@ -59,8 +59,8 @@ export class SimpleCrudRouter {
     const resourceId = req.params.id;
     const resourceName = req.params.resource;
 
-    crud.read(resourceId, resourceName, (err, data) => {
-      if (err) {
+    dao.read(resourceId, resourceName, (dbResp) => {
+      if (dbResp.error) {
         res.status(500).send({
           message: "Server error",
           status: res.status
@@ -70,7 +70,7 @@ export class SimpleCrudRouter {
             .send({
               message: 'Success',
               status: res.status,
-              data
+              data: dbResp.data
             })
       }
     });
@@ -84,30 +84,22 @@ export class SimpleCrudRouter {
 
     req.body._id = ObjectID.createFromHexString(req.body._id);
 
-    crud.update(req.body, resourceName, (err, result) => {
+    dao.update(req.body, resourceName, (dbResp) => {
 
-      if (err) {
+      if (dbResp.error) {
         res.status(500).send({
-          message: "Server error",
+          message: `Database error:(${dbResp.error.code}) ${dbResp.error.message}`,
           status: res.status
         })
       } else {
-
-        if (result.modifiedCount !== 1) {
-          res.status(404).send({
-            message: "Resource not found",
-            status: res.status
-          })
-        } else {
-          res.status(200)
-              .send({
-                message: 'Success',
-                status: res.status,
-                result
-              })
-        }
-
+        res.status(200)
+            .send({
+              message: 'Success',
+              status: res.status
+            })
       }
+
+
     });
   }
 
@@ -126,8 +118,8 @@ export class SimpleCrudRouter {
     const resourceId = req.params.id;
     const resourceName = req.params.resource;
 
-    crud.delete(resourceId, resourceName, (err, data) => {
-      if (err) {
+    dao.delete(resourceId, resourceName, (dbResp) => {
+      if (dbResp.error) {
         res.status(500).send({
           message: "Server error",
           status: res.status
@@ -136,8 +128,7 @@ export class SimpleCrudRouter {
         res.status(200)
             .send({
               message: 'Success',
-              status: res.status,
-              data
+              status: res.status
             })
       }
     });

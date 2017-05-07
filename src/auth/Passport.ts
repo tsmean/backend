@@ -1,7 +1,7 @@
 import * as passport from 'passport'
 import * as local from 'passport-local'
 import {log} from "../logger/logger";
-import {crud} from "../db/crud";
+import {dao} from "../db/dao";
 import {userDAO} from "../db/UserDAO";
 
 class Passport {
@@ -17,30 +17,16 @@ class Passport {
         },
         function(email, password, done) {
 
-      /*
-          if (email !== 'hans') {
-            return done(null, false, { message: 'Incorrect username.' }) //theres only hans
-          } else if (password !== '1234') {
-            return done(null, false, { message: 'Incorrect password.' }) //and hans has a simple pw
-          } else {
-            return done(null, {
-              email: 'hans@bla',
-              firstName: 'bla',
-              lastName: 'blub'
-            })
-          }
-*/
-
-          userDAO.findOne(email, function (err, user) {
-            if (err) { return done(err); }
-            if (!user) {
+          dao.readOneByField("email", email, "Users", function (dbResp) {
+            if (dbResp.error) {
+              return done(dbResp);
+            } else if (!dbResp.data) {
               return done(null, false, { message: 'Incorrect username.' });
-            }
-            if (user.password !== password) {
+            } else if (dbResp.data.password !== password) {
               return done(null, false, { message: 'Incorrect password.' });
+            } else {
+              return done(null, dbResp.data);
             }
-
-            return done(null, user);
           });
 
         }
