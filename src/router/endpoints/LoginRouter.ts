@@ -7,16 +7,12 @@ export class LoginRouter {
 
 
   /**
-   * Take each handler, and attach to one of the Express.Router's
-   * endpoints.
+   * Take login handler and attach to login endpoint, but precede it with authentication
    */
   init() {
     this.router.post('/login',
         passport.authenticate('local', { session: false }),
         this.loginHandler);
-
-    //this.router.post('/login', this.loginHandler);
-
   }
 
   /**
@@ -30,13 +26,10 @@ export class LoginRouter {
   public loginHandler(req: Request, res: Response, next: NextFunction) {
     // If this function gets called, authentication was successful.
     // `req.user` contains the authenticated user.
-    log.info('=======AUTHENTICATED=======');
     res.status(200).send({
       message: 'Success',
       status: res.status,
-      data: {
-        firstName: 'bla'
-      }
+      data: req.user
     })
   }
 

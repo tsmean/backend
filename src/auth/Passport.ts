@@ -1,6 +1,8 @@
 import * as passport from 'passport'
 import * as local from 'passport-local'
 import {log} from "../logger/logger";
+import {crud} from "../db/crud";
+import {userDAO} from "../db/UserDAO";
 
 class Passport {
 
@@ -11,12 +13,11 @@ class Passport {
     passport.use('local', new local.Strategy({
           // by default, local strategy uses username and password, we will override with email
           usernameField : 'email',
-          passwordField : 'password'
+          passwordField : 'password',
         },
         function(email, password, done) {
 
-          log.debug('0');
-
+      /*
           if (email !== 'hans') {
             return done(null, false, { message: 'Incorrect username.' }) //theres only hans
           } else if (password !== '1234') {
@@ -28,21 +29,19 @@ class Passport {
               lastName: 'blub'
             })
           }
+*/
 
-
-          /*
-          User.findOne({ username: username }, function (err, user) {
+          userDAO.findOne(email, function (err, user) {
             if (err) { return done(err); }
             if (!user) {
               return done(null, false, { message: 'Incorrect username.' });
             }
-            if (!user.validPassword(password)) {
+            if (user.password !== password) {
               return done(null, false, { message: 'Incorrect password.' });
             }
+
             return done(null, user);
           });
-          */
-
 
         }
     ));

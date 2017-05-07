@@ -10,33 +10,43 @@ import * as assert from "assert";
 chai.use(chaiHttp);
 const expect = chai.expect;
 
-describe('Test Login', () => {
+describe('LoginRouter', () => {
+
+  beforeEachDo.connectTestToDatabase();
 
   it('should be able to login', (done) => {
-    chai.request(router)
 
+    const user = {
+      email: 'hans',
+      password: '1234'
+    };
 
-        .post(`/api/v1/login`)
-        .send({
-          email: 'hans',
-          password: '1234'
-        })
+    //TODO: user should only be created once.
 
-        //.get(`/welcome`)
+    crud.create(user, 'Users', (err, result) => {
 
-        .then((resp) => {
-          log.debug('success!');
-          expect(resp.body.data.firstName).to.equal('bla');
+      expect(err).to.be.null;
 
-          done();
-        }, (err) => {
-          log.error(err);
-          assert(false);
-          done();
-        })
-        .catch((err) => {
-          throw err;
-        });
-  });
+      chai.request(router)
+          .post(`/api/v1/login`)
+          .send({
+            email: user.email,
+            password: user.password
+          })
+          .then((resp: any) => {
+            expect(resp.body.data._id).to.equal(result.insertedId.toHexString());
+            done();
+          }, (err) => {
+            log.error(err);
+            assert(false);
+            done();
+          })
+          .catch((err) => {
+            throw err;
+          });
+    });
+
+    });
+
 
 });
