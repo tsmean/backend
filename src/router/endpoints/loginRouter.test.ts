@@ -6,7 +6,7 @@ import {dao} from "../../db/dao";
 import {beforeEachDo} from "../../test/BeforeEachs";
 import {log} from "../../logger/logger";
 import * as assert from "assert";
-import {User} from "ts-mean-models/src/user.model";
+import {User} from "../../db/User.model";
 
 chai.use(chaiHttp);
 const expect = chai.expect;

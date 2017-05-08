@@ -1,8 +1,5 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
-
-import Bcrypt from './Bcrypt';
-import {log} from "../logger/logger";
 import {myPassport} from "./Passport";
 import * as passport from "passport";
 

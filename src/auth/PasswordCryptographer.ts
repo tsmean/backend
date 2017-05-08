@@ -16,4 +16,4 @@ class PasswordCryptographer {
 
 }
 
-export default new PasswordCryptographer();
+export const passwordCryptographer = new PasswordCryptographer();

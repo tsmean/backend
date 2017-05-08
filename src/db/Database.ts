@@ -1,7 +1,7 @@
 import * as mongo from 'mongodb'
-import {AppProperties} from "ts-mean-models/src/app-properties.model";
 import {Db} from "mongodb";
 import {log} from "../logger/logger";
+import {AppProperties} from "../config/app-properties.model";
 
 class Database {
 

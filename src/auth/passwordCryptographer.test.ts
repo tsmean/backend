@@ -1,7 +1,7 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
 
-import Bcrypt from './Bcrypt';
+import {passwordCryptographer} from './PasswordCryptographer';
 import {log} from "../logger/logger";
 
 const expect = chai.expect;
@@ -12,9 +12,9 @@ describe('bcrypt', () => {
 
     const mypw = 'Hello World';
 
-    Bcrypt.doHash(mypw).then(encrypted => {
-      Bcrypt.doCompare(mypw, encrypted).then((decrypted) => {
-        expect(decrypted).to.equal(true);
+    passwordCryptographer.doHash(mypw).then(encrypted => {
+      passwordCryptographer.doCompare(mypw, encrypted).then((isMatching: boolean) => {
+        expect(isMatching).to.equal(true);
         done();
       }, (err) => {
         log.error('Error while decrypting:');
