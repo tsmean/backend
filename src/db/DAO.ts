@@ -15,7 +15,6 @@ import {utils} from "../utils/Utils";
 
 class DAO {
 
-
   read(id:string, collectionName: string, cb:(dbResponse: DatabaseResponse) => void) {
     database.database.collection(collectionName, (err, collection) => {
 
@@ -93,7 +92,7 @@ class DAO {
   create(item: Object, collectionName: string, cb:(dbResp: DatabaseResponse) => void) {
 
     //deep copy object so input doesn't get mutated
-    const itemCopy = JSON.parse(JSON.stringify(item));
+    const itemCopy = utils.deepCopyData(item);
 
     database.database.collection(collectionName, (err: MongoError, collection) => {
       if (err) {
@@ -122,8 +121,6 @@ class DAO {
 
     //deep copy object so input doesn't get mutated and morph it to correct storage form
     const itemCopy = this.morphDataOnStorage(item);
-
-
 
     database.database.collection(collectionName, (err, collection) => {
       if (err) return cb({

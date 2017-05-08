@@ -25,8 +25,6 @@ describe('LoginRouter', () => {
       }
     };
 
-    //TODO: test that user can only be created once
-
     dao.create(user, 'Users', (dbResp) => {
 
       expect(dbResp.error).to.be.null;

@@ -17,7 +17,7 @@ describe('bcrypt', () => {
         expect(isMatching).to.equal(true);
         done();
       }, (err) => {
-        log.error('Error while decrypting:');
+        log.error('Error while comparing:');
         log.error(err);
       })
     }, (err) => {
