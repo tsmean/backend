@@ -19,6 +19,12 @@ echo "---------------------------------"
 
 scp backend.zip "${server}:~"
 
-#Cleanup & switch back to deployment
+ssh ${server} "rm -rf backend"
+ssh ${server} "unzip backend.zip"
+ssh ${server} "cd backend && npm install"
+
+echo ""
+echo "---------------------------------"
+echo "Cleanup"
+echo "---------------------------------"
 rm backend.zip
-cd backend
