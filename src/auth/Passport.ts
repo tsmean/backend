@@ -1,8 +1,8 @@
 import * as passport from 'passport'
 import * as local from 'passport-local'
 import {log} from "../logger/logger";
-import {dao} from "../db/dao";
 import {userDAO} from "../db/UserDAO";
+import {dao} from "../db/DAO";
 
 class Passport {
 

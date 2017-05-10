@@ -1,5 +1,4 @@
-server=root@46.101.140.209
-rootDir=~
+server=root@104.236.93.140
 
 # Switch to main folder
 cd ..
@@ -18,9 +17,8 @@ echo "---------------------------------"
 echo "Upload Zip"
 echo "---------------------------------"
 
-scp backend.zip ${server}:${rootDir}
+scp backend.zip "${server}:~"
 
 #Cleanup & switch back to deployment
 rm backend.zip
 cd backend
-
