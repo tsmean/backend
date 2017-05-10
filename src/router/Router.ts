@@ -23,14 +23,27 @@ class Router {
     /* This is just to get up and running, and to make sure what we've got is
      * working so far. This function will change when we start to add more
      * API endpoints */
+
+    // VIEWS
     let router = express.Router();
+
+    this.express.set('view engine', 'ejs');
+
     // placeholder route handler
-    router.get('/', (req, res, next) => {
-      res.json({
-        message: 'Hello World!'
-      });
+    router.get('/', function(req, res) {
+      res.render('pages/index');
     });
+
     this.express.use('/', router);
+
+    this.express.get('/about', function(req, res) {
+      res.render('pages/about');
+    });
+
+
+
+
+    //API
     this.express.use('/welcome', welcomeHtmlRouter);
 
     this.express.use('/api/v1/', loginRouter);
