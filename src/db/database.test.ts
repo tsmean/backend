@@ -1,8 +1,8 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
-import {database} from "./Database";
-import {beforeEachDo} from "../test/BeforeEachs";
+import {database} from "./database";
+import {beforeEachDo} from "../test/before-eachs";
 
 chai.use(chaiHttp);
 const expect = chai.expect;

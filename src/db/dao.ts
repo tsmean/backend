@@ -1,9 +1,9 @@
 import * as mongo from 'mongodb'
-import {database} from "./Database";
+import {database} from "./database";
 import {log} from "../logger/logger";
-import {DatabaseError, DatabaseResponse} from "./DatabaseResponse.model";
+import {DatabaseError, DatabaseResponse} from "./database-response.model";
 import {MongoError} from "mongodb";
-import {utils} from "../utils/Utils";
+import {utils} from "../utils/utils";
 
 //Database Access Object
 //Everything that operates directly on the database goes here

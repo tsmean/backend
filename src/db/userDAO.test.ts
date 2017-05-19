@@ -1,9 +1,9 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
-import {beforeEachDo} from "../test/BeforeEachs";
-import {userDAO} from "./UserDAO";
+import {beforeEachDo} from "../test/before-eachs";
+import {userDAO} from "./userDAO";
 import {log} from "../logger/logger";
-import {User} from "./User.model";
+import {User} from "./user.model";
 const expect = chai.expect;
 
 describe('UserDAO', () => {

@@ -1,4 +1,4 @@
-import {User} from "../../db/User.model";
+import {User} from "../../db/user.model";
 
 export interface api {
   v1: {

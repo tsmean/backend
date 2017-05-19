@@ -1,8 +1,8 @@
 import * as http from 'http';
-import {router} from './router/Router';
-import {database} from './db/Database';
-import {appConfig} from './config/AppConfig';
+import {router} from './router/router';
+import {database} from './db/database';
 import {log} from "./logger/logger";
+import {appConfig} from "./config/app-config";
 
 // Step 1) Set & Get App Configuration
 appConfig.setAppConfig(process.argv[2] || 'local');

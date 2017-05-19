@@ -1,10 +1,10 @@
 import * as mongo from 'mongodb'
-import {database} from "./Database";
+import {database} from "./database";
 import {log} from "../logger/logger";
-import {DatabaseResponse} from "./DatabaseResponse.model";
-import {dao} from "./DAO";
-import {passwordCryptographer} from "../auth/PasswordCryptographer";
-import {User} from "./User.model";
+import {DatabaseResponse} from "./database-response.model";
+import {dao} from "./dao";
+import {passwordCryptographer} from "../auth/password-cryptographer";
+import {User} from "./user.model";
 
 
 class UserDAO {

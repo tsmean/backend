@@ -1,9 +1,9 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import {simpleCrudRouter} from './endpoints/SimpleCrudRouter';
 import {middleware} from "./middleware";
-import {welcomeHtmlRouter} from "./endpoints/WelcomeHtmlRouter";
-import {loginRouter} from "./endpoints/LoginRouter";
+import {welcomeHtmlRouter} from "./endpoints/welcome-html-router";
+import {loginRouter} from "./endpoints/login-router";
+import {simpleCrudRouter} from "./endpoints/simple-crud-router";
 
 // Creates and configures an ExpressJS web server.
 class Router {

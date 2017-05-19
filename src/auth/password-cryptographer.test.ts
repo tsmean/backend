@@ -1,8 +1,8 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
 
-import {passwordCryptographer} from './PasswordCryptographer';
 import {log} from "../logger/logger";
+import {passwordCryptographer} from "./password-cryptographer";
 
 const expect = chai.expect;
 

@@ -1,6 +1,6 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
-import {appConfig} from "./AppConfig";
+import {appConfig} from "./app-config";
 
 const expect = chai.expect;
 

@@ -1,4 +1,4 @@
-server=root@104.236.93.140
+server=root@107.170.33.76
 
 # Switch to main folder
 cd ..
