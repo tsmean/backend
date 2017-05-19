@@ -8,8 +8,7 @@ class Middleware {
   public addBodyParser(express): void {
     express.use(bodyParser.json());
     express.use(bodyParser.urlencoded({ extended: false }));
-    express.use(passport.initialize());
-    //express.use(passport.session());
+    express.use(passport.initialize())
   }
 
 }

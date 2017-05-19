@@ -54,15 +54,3 @@ database.connectToDatabase(appConfig.appConfig, (db) => {
   });
 
 });
-
-
-
-
-
-
-
-
-
-
-
-

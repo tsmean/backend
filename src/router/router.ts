@@ -1,5 +1,4 @@
 import * as express from 'express';
-import * as bodyParser from 'body-parser';
 import {middleware} from "./middleware";
 import {welcomeHtmlRouter} from "./endpoints/welcome-html-router";
 import {loginRouter} from "./endpoints/login-router";
@@ -26,7 +25,6 @@ class Router {
 
     // VIEWS
     let router = express.Router();
-
     this.express.set('view engine', 'ejs');
 
     // placeholder route handler
@@ -40,14 +38,11 @@ class Router {
       res.render('pages/about');
     });
 
-
-
-
-    //API
     this.express.use('/welcome', welcomeHtmlRouter);
 
-    this.express.use('/api/v1/', loginRouter);
+    //API
     this.express.use('/api/v1/', simpleCrudRouter);
+    this.express.use('/api/v1/', loginRouter);
 
   }
 

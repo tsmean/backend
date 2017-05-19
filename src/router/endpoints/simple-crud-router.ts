@@ -1,7 +1,5 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import {dao} from "../../db/dao";
-import {log} from '../../logger/logger';
-import {ObjectID} from "bson";
 
 export class SimpleCrudRouter {
   router: Router;
