@@ -21,7 +21,7 @@ describe('LoginRouter', () => {
       email: 'hans'
     };
 
-    const plaintextPassword: string = '3456';
+    const plaintextPassword: string = 'Hello World';
 
     userDAO.create(user, plaintextPassword, (dbResp) => {
 
