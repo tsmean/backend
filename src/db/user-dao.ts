@@ -6,17 +6,15 @@ import {dao} from "./dao";
 import {passwordCryptographer} from "../auth/password-cryptographer";
 import {User} from "./user.model";
 
-
 class UserDAO {
 
   create(user: User, password: string, cb:(dbResponse: DatabaseResponse) => void) {
 
     dao.readOneByField("email", user.email, "Users", (dbResp) => {
 
-      //TODO: this inverted check is quite confusing...
-
+      // Condition to create a new is user is no user with this email exists
+      // This means that a database error is actually what you expect when creating a new user!
       if (dbResp.error) {
-        //create when no user was found (meaning an error was thrown!)
 
         passwordCryptographer.doHash(password).then((hash: string) => {
           user.password = {

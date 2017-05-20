@@ -1,7 +1,7 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
 import {beforeEachDo} from "../test/before-eachs";
-import {userDAO} from "./userDAO";
+import {userDAO} from "./user-dao";
 import {log} from "../logger/logger";
 import {User} from "./user.model";
 const expect = chai.expect;
