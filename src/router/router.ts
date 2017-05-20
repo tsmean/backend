@@ -35,7 +35,7 @@ class Router {
     //API
     this.express.use('/api/v1/', loginRouter);
 
-    //This one should stay last, since it covers quite a broad range of requests and if it's moved above
+    //The simpleCrudRouter should stay last, since it covers quite a broad range of requests and if it's moved above
     //it will steal away the endpoints of the more specific implementations
     this.express.use('/api/v1/', simpleCrudRouter);
 

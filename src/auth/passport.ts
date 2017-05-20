@@ -16,7 +16,7 @@ class Passport {
         },
         function(email, password, done) {
 
-          dao.readOneByField("email", email, "users", function (dbResp) {
+          dao.readOneByField('email', email, 'users', function (dbResp) {
             if (dbResp.error) {
               return done(dbResp);
             } else if (!dbResp.data) {
@@ -36,7 +36,5 @@ class Passport {
   }
 
 }
-
-//TODO: okay this is a bit weird, new Passport() only exists to run a constructor...
 
 export const myPassport = new Passport();

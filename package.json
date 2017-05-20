@@ -18,7 +18,8 @@
     "mongodb": "^2.2.25",
     "passport": "^0.3.2",
     "winston": "^2.3.1",
-    "winston-color": "^1.0.0"
+    "winston-color": "^1.0.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^1.0.0",
@@ -36,7 +37,6 @@
     "chai": "^3.5.0",
     "chai-http": "^3.0.0",
     "mocha": "^3.1.2",
-    "passport-local": "^1.0.0",
     "ts-node": "^1.6.1",
     "typescript": "^2.0.6"
   }

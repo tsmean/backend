@@ -13,7 +13,7 @@ class UserDAO {
 
     const userCopy = utils.deepCopyData(user);
 
-    dao.readOneByField("email", userCopy.email, "users", (dbResp) => {
+    dao.readOneByField("email", userCopy.email, 'users', (dbResp) => {
 
       // Condition to create a new is user is no user with this email exists
       // This means that a database error is actually what you expect when creating a new user!
@@ -24,7 +24,7 @@ class UserDAO {
             hash: hash,
             algorithm: "bcrypt"
           };
-          dao.create(userCopy, "users", cb)
+          dao.create(userCopy, 'users', cb)
         }, (err) => {
           log.error(err);
           return cb({
