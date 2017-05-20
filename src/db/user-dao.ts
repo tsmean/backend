@@ -5,23 +5,26 @@ import {DatabaseResponse} from "./database-response.model";
 import {dao} from "./dao";
 import {passwordCryptographer} from "../auth/password-cryptographer";
 import {User} from "./user.model";
+import {utils} from "../utils/utils";
 
 class UserDAO {
 
   create(user: User, password: string, cb:(dbResponse: DatabaseResponse) => void) {
 
-    dao.readOneByField("email", user.email, "users", (dbResp) => {
+    const userCopy = utils.deepCopyData(user);
+
+    dao.readOneByField("email", userCopy.email, "users", (dbResp) => {
 
       // Condition to create a new is user is no user with this email exists
       // This means that a database error is actually what you expect when creating a new user!
       if (dbResp.error) {
 
         passwordCryptographer.doHash(password).then((hash: string) => {
-          user.password = {
+          userCopy.password = {
             hash: hash,
             algorithm: "bcrypt"
           };
-          dao.create(user, "users", cb)
+          dao.create(userCopy, "users", cb)
         }, (err) => {
           log.error(err);
           return cb({
