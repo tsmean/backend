@@ -10,7 +10,7 @@ class UserDAO {
 
   create(user: User, password: string, cb:(dbResponse: DatabaseResponse) => void) {
 
-    dao.readOneByField("email", user.email, "Users", (dbResp) => {
+    dao.readOneByField("email", user.email, "users", (dbResp) => {
 
       // Condition to create a new is user is no user with this email exists
       // This means that a database error is actually what you expect when creating a new user!
@@ -21,7 +21,7 @@ class UserDAO {
             hash: hash,
             algorithm: "bcrypt"
           };
-          dao.create(user, "Users", cb)
+          dao.create(user, "users", cb)
         }, (err) => {
           log.error(err);
           return cb({

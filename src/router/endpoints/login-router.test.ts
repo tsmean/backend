@@ -6,7 +6,7 @@ import {beforeEachDo} from "../../test/before-eachs";
 import {log} from "../../logger/logger";
 import * as assert from "assert";
 import {User} from "../../db/user.model";
-import {dao} from "../../db/dao";
+import {userDAO} from "../../db/user-dao";
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -18,14 +18,12 @@ describe('LoginRouter', () => {
   it('should be able to login', (done) => {
 
     const user: User = {
-      email: 'hans',
-      password: {
-        hash: '1234',
-        algorithm: "bcrypt"
-      }
+      email: 'hans'
     };
 
-    dao.create(user, 'Users', (dbResp) => {
+    const plaintextPassword: string = '3456';
+
+    userDAO.create(user, plaintextPassword, (dbResp) => {
 
       expect(dbResp.error).to.be.null;
 
@@ -33,7 +31,7 @@ describe('LoginRouter', () => {
           .post(`/api/v1/login`)
           .send({
             email: user.email,
-            password: user.password.hash
+            password: plaintextPassword
           })
           .then((resp: any) => {
             expect(resp.body.data.uid).to.equal(dbResp.data.uid);
@@ -48,7 +46,6 @@ describe('LoginRouter', () => {
           });
     });
 
-    });
-
+  });
 
 });

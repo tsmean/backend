@@ -1,6 +1,7 @@
 import * as passport from 'passport'
 import * as local from 'passport-local'
 import {dao} from "../db/dao";
+import {passwordCryptographer} from "./password-cryptographer";
 
 class Passport {
 
@@ -15,12 +16,13 @@ class Passport {
         },
         function(email, password, done) {
 
-          dao.readOneByField("email", email, "Users", function (dbResp) {
+          dao.readOneByField("email", email, "users", function (dbResp) {
+
             if (dbResp.error) {
               return done(dbResp);
             } else if (!dbResp.data) {
               return done(null, false, { message: 'Incorrect username.' });
-            } else if (dbResp.data.password.hash !== password) {
+            } else if (passwordCryptographer.doCompare(password, dbResp.data.password.hash)) {
               return done(null, false, { message: 'Incorrect password.' });
             } else {
               return done(null, dbResp.data);
