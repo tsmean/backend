@@ -15,7 +15,6 @@ describe('Simple CRUD Route Test', () => {
   beforeEachDo.connectTestToDatabase();
 
   it('should return the item', (done) => {
-
     dao.create({"hello": "world"}, 'items', (dbResp) => {
       chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`)
           .end((err, res) => {
@@ -24,7 +23,20 @@ describe('Simple CRUD Route Test', () => {
             done();
           });
     });
+  });
 
+  it('should return all items', (done) => {
+    dao.create({"hello": "world"}, 'items', (dbResp1) => {
+      dao.create({"goodbye": "world"}, 'items', (dbResp2) => {
+        chai.request(router).get(`/api/v1/items`)
+            .end((err, res) => {
+              expect(res).to.have.status(200);
+              expect(Array.isArray(res.body.data)).to.be.true;
+              expect(res.body.data.length).to.equal(2);
+              done();
+            });
+      })
+    });
   });
 
   it('should work with promise', (done) => {

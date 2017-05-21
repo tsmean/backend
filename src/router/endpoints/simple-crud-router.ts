@@ -104,7 +104,23 @@ export class SimpleCrudRouter {
    * GET all Resources.
    */
   public getAll(req: Request, res: Response, next: NextFunction) {
-    // not implemented
+    const resourceName = req.params.resource;
+
+    dao.readAll(resourceName, (dbResp) => {
+      if (dbResp.error) {
+        res.status(500).send({
+          message: "Server error",
+          status: res.status
+        })
+      } else {
+        res.status(200)
+            .send({
+              message: 'Success',
+              status: res.status,
+              data: dbResp.data
+            })
+      }
+    });
   }
 
   /**

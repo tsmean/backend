@@ -9,6 +9,8 @@ describe('DAO', () => {
 
   beforeEachDo.connectTestToDatabase();
 
+
+  //TODO: unnecessarily nested!
   it("should be able to insert, read, update, delete", function(done) {
 
     const item = {text: 'hello'};
@@ -64,6 +66,25 @@ describe('DAO', () => {
     };
 
     start();
+
+  });
+
+  it("should be able to readAll", function(done) {
+
+    const item = {hello: 'world'};
+    const item2 = {hello: 'world'};
+
+
+    dao.create(item, 'items', (dbResp) => {
+      dao.create(item, 'items', (dbResp2) => {
+        dao.readAll('items', dbResp3 => {
+          expect(dbResp3.error).to.be.null;
+          expect(Array.isArray(dbResp3.data)).to.be.true;
+          expect(dbResp3.data.length).to.equal(2);
+          done();
+        });
+      })
+    });
 
   });
 

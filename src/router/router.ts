@@ -24,18 +24,22 @@ class Router {
      * API endpoints */
     let router = express.Router();
     // placeholder route handler
+
+    //this.express.use('/', express.static('../frontend/dist'));
+
     router.get('/', (req, res, next) => {
       res.json({
         message: 'Hello World!'
       });
     });
     this.express.use('/', router);
+
     this.express.use('/welcome', welcomeHtmlRouter);
 
     //API
     this.express.use('/api/v1/', loginRouter);
 
-    //The simpleCrudRouter should stay last, since it covers quite a broad range of requests and if it's moved above
+    //The simpleCrudRouter one should stay last, since it covers quite a broad range of requests and if it's moved above
     //it will steal away the endpoints of the more specific implementations
     this.express.use('/api/v1/', simpleCrudRouter);
 
