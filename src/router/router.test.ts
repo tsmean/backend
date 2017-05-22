@@ -9,6 +9,7 @@ const expect = chai.expect;
 
 describe('Router Test', () => {
 
+  /* not valid anymore with frontend
   it('should be json', () => {
     return chai.request(router).get('/')
         .then(res => {
@@ -22,5 +23,6 @@ describe('Router Test', () => {
           expect(res.body.message).to.eql('Hello World!');
         });
   });
+  */
 
 });

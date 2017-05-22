@@ -72,7 +72,7 @@ class DAO {
               cursor.toArray().then(ary => {
                 cb({
                   error: null,
-                  data: ary
+                  data: this.morphDataOnRetrieval(ary)
                 });
               });
 
@@ -227,12 +227,12 @@ class DAO {
     const dataCopy = utils.deepCopyData(data);
 
     const morphResource = (resource): void => {
-      if (typeof data._id !== 'string') {
-        dataCopy.uid = data._id.toHexString();
+      if (typeof resource._id !== 'string') {
+        resource.uid = resource._id.toHexString();
       } else {
-        dataCopy.uid = data._id;
+        resource.uid = resource._id;
       }
-      delete dataCopy._id;
+      delete resource._id;
     };
 
     if (Array.isArray(dataCopy)) {

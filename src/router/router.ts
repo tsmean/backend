@@ -25,14 +25,16 @@ class Router {
     let router = express.Router();
     // placeholder route handler
 
-    //this.express.use('/', express.static('../frontend/dist'));
+    this.express.use('/', express.static('../frontend/dist'));
 
+    /*
     router.get('/', (req, res, next) => {
       res.json({
         message: 'Hello World!'
       });
     });
     this.express.use('/', router);
+    */
 
     this.express.use('/welcome', welcomeHtmlRouter);
 
