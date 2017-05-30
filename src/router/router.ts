@@ -3,6 +3,7 @@ import {middleware} from "./middleware";
 import {welcomeHtmlRouter} from "./endpoints/welcome-html-router";
 import {loginRouter} from "./endpoints/login-router";
 import {simpleCrudRouter} from "./endpoints/simple-crud-router";
+import {userRouter} from "./endpoints/user-router";
 
 // Creates and configures an ExpressJS web server.
 class Router {
@@ -40,6 +41,7 @@ class Router {
 
     //API
     this.express.use('/api/v1/', loginRouter);
+    this.express.use('/api/v1/', userRouter);
 
     //The simpleCrudRouter one should stay last, since it covers quite a broad range of requests and if it's moved above
     //it will steal away the endpoints of the more specific implementations
