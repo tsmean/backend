@@ -38,7 +38,7 @@ class UserDAO {
         //if a user with this email exists, deny creation
         return cb({
           error: {
-            message: 'already exists'
+            message: 'User already exists'
           }
         })
       }

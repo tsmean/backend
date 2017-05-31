@@ -28,11 +28,13 @@ export class UserRouter {
   private postHandler(req: Request, res: Response, next: NextFunction) {
     userDAO.create(req.body.user, req.body.password, (dbResponse => {
       if (dbResponse.error) {
-        res.status(500).send({
-          message: 'Error',
-          status: res.status,
-          error: dbResponse.error //TODO: does that work?
-        })
+        if (dbResponse.error.message === 'User already exists') {
+          res.statusMessage = dbResponse.error.message;
+          res.status(403).send()
+        } else {
+          res.statusMessage = dbResponse.error.message;
+          res.status(500).send()
+        }
       } else {
         res.status(200).send({
           message: 'Success',

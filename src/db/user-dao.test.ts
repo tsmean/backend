@@ -22,7 +22,7 @@ describe('UserDAO', () => {
 
       userDAO.create(user, '1234', (dbResponse) => {
         expect(dbResponse.error).to.exist;
-        expect(dbResponse.error.message).to.equal('already exists');
+        expect(dbResponse.error.message).to.equal('User already exists');
         done();
       });
 
