@@ -16,6 +16,7 @@ npm start
 ```
 npm test
 ```
+(on windows: `npm run windows_test`)
 
 or to run a single test
 
