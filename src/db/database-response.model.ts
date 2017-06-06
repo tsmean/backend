@@ -4,6 +4,6 @@ export interface DatabaseResponse {
 }
 
 export interface DatabaseError {
-  code?: number,
-  message: string,
+  code?: number;
+  message: string;
 }

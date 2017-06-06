@@ -29,7 +29,7 @@ export class LoginRouter {
       message: 'Success',
       status: res.status,
       data: req.user
-    })
+    });
   }
 
 }

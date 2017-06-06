@@ -8,10 +8,10 @@ const expect = chai.expect;
 describe('Logger', () => {
 
   it('should be able to log', () => {
-    log.info("Hello");
-    log.warn("World.");
-    log.debug("You are");
-    log.error("nice.");
+    log.info('Hello');
+    log.warn('World.');
+    log.debug('You are');
+    log.error('nice.');
   });
 
 });

@@ -4,7 +4,7 @@ export interface User {
   password?: {
     hash: string;
     algorithm: HashingAlgorithm;
-  }
+  };
 }
 
-type HashingAlgorithm = 'bcrypt'
+type HashingAlgorithm = 'bcrypt';

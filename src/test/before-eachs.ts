@@ -9,7 +9,7 @@ class BeforeEach {
         db.dropDatabase().then(() => {
           done();
         });
-      })
+      });
     });
   }
 
