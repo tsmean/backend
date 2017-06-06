@@ -1,7 +1,7 @@
-import * as passport from 'passport'
-import * as local from 'passport-local'
-import {dao} from "../db/dao";
-import {passwordCryptographer} from "./password-cryptographer";
+import * as passport from 'passport';
+import * as local from 'passport-local';
+import {dao} from '../db/dao';
+import {passwordCryptographer} from './password-cryptographer';
 
 class Passport {
 

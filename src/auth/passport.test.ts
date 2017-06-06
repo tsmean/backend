@@ -1,7 +1,7 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
-import {myPassport} from "./passport";
-import * as passport from "passport";
+import {myPassport} from './passport';
+import * as passport from 'passport';
 
 const expect = chai.expect;
 

@@ -1,12 +1,12 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
-import {router} from "../router";
-import {beforeEachDo} from "../../test/before-eachs";
-import {log} from "../../logger/logger";
-import * as assert from "assert";
-import {User} from "../../db/user.model";
-import {userDAO} from "../../db/user-dao";
+import {router} from '../router';
+import {beforeEachDo} from '../../test/before-eachs';
+import {log} from '../../logger/logger';
+import * as assert from 'assert';
+import {User} from '../../db/user.model';
+import {userDAO} from '../../db/user-dao';
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -21,7 +21,7 @@ describe('LoginRouter', () => {
       email: 'hans'
     };
 
-    const plaintextPassword: string = 'Hello World';
+    const plaintextPassword = 'Hello World';
 
     userDAO.create(user, plaintextPassword, (dbResp) => {
 

@@ -1,11 +1,11 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
-import {router} from "../router";
-import {beforeEachDo} from "../../test/before-eachs";
-import {log} from "../../logger/logger";
-import * as assert from "assert";
-import {dao} from "../../db/dao";
+import {router} from '../router';
+import {beforeEachDo} from '../../test/before-eachs';
+import {log} from '../../logger/logger';
+import * as assert from 'assert';
+import {dao} from '../../db/dao';
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -15,7 +15,7 @@ describe('Simple CRUD Route Test', () => {
   beforeEachDo.connectTestToDatabase();
 
   it('should return the item', (done) => {
-    dao.create({"hello": "world"}, 'items', (dbResp) => {
+    dao.create({'hello': 'world'}, 'items', (dbResp) => {
       chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`)
           .end((err, res) => {
             expect(res).to.have.status(200);
@@ -26,8 +26,8 @@ describe('Simple CRUD Route Test', () => {
   });
 
   it('should return all items', (done) => {
-    dao.create({"hello": "world"}, 'items', (dbResp1) => {
-      dao.create({"goodbye": "world"}, 'items', (dbResp2) => {
+    dao.create({'hello': 'world'}, 'items', (dbResp1) => {
+      dao.create({'goodbye': 'world'}, 'items', (dbResp2) => {
         chai.request(router).get(`/api/v1/items`)
             .end((err, res) => {
               expect(res).to.have.status(200);
@@ -35,12 +35,12 @@ describe('Simple CRUD Route Test', () => {
               expect(res.body.data.length).to.equal(2);
               done();
             });
-      })
+      });
     });
   });
 
   it('should work with promise', (done) => {
-    dao.create({"hello": "world"}, 'items', (dbResp) => {
+    dao.create({'hello': 'world'}, 'items', (dbResp) => {
       chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`)
           .then(res => {
             expect(res).to.have.status(200);
@@ -79,7 +79,7 @@ describe('Simple CRUD Route Test', () => {
   });
 
   it('should be able to update', (done) => {
-    let item: any = {"hello": "world"};
+    const item: any = {'hello': 'world'};
     dao.create(item, 'items', (dbResp) => {
       dbResp.data.hello = 'planet';
       chai.request(router)
@@ -107,17 +107,17 @@ describe('Simple CRUD Route Test', () => {
 
 
   it('should be able to delete', (done) => {
-    dao.create({"hello": "world"}, 'items', (dbResp) => {
+    dao.create({'hello': 'world'}, 'items', (dbResp) => {
       chai.request(router)
           .del(`/api/v1/items/${dbResp.data.uid}`)
           .then(res => {
             expect(res).to.have.status(200);
             chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`).then(() => {
-              //shouldnt find anything
+              // shouldnt find anything
               assert(false);
             }, () => {
-              //TODO: make this a 404
-              //expect(res.status).to.equal(500);
+              // TODO: make this a 404
+              // expect(res.status).to.equal(500);
               done();
             });
           }, err => {

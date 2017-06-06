@@ -1,4 +1,4 @@
-import {User} from "../../db/user.model";
+import {User} from '../../db/user.model';
 
 // Not in use yet
 

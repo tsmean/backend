@@ -1,5 +1,5 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import {dao} from "../../db/dao";
+import {dao} from '../../db/dao';
 
 export class SimpleCrudRouter {
   router: Router;
@@ -35,18 +35,18 @@ export class SimpleCrudRouter {
     dao.create(resource, resourceName, (dbResp) => {
       if (dbResp.error) {
         res.status(500).send({
-          message: "Server error",
+          message: 'Server error',
           status: res.status
-        })
+        });
       } else {
         res.status(200)
             .send({
               message: 'Success',
               status: res.status,
               data: dbResp.data
-            })
+            });
       }
-    })
+    });
 
   }
 
@@ -60,16 +60,16 @@ export class SimpleCrudRouter {
     dao.read(resourceId, resourceName, (dbResp) => {
       if (dbResp.error) {
         res.status(500).send({
-          message: "Server error",
+          message: 'Server error',
           status: res.status
-        })
+        });
       } else {
         res.status(200)
             .send({
               message: 'Success',
               status: res.status,
               data: dbResp.data
-            })
+            });
       }
     });
   }
@@ -86,13 +86,13 @@ export class SimpleCrudRouter {
         res.status(500).send({
           message: `Database error:(${dbResp.error.code}) ${dbResp.error.message}`,
           status: res.status
-        })
+        });
       } else {
         res.status(200)
             .send({
               message: 'Success',
               status: res.status
-            })
+            });
       }
 
 
@@ -109,16 +109,16 @@ export class SimpleCrudRouter {
     dao.readAll(resourceName, (dbResp) => {
       if (dbResp.error) {
         res.status(500).send({
-          message: "Server error",
+          message: 'Server error',
           status: res.status
-        })
+        });
       } else {
         res.status(200)
             .send({
               message: 'Success',
               status: res.status,
               data: dbResp.data
-            })
+            });
       }
     });
   }
@@ -133,15 +133,15 @@ export class SimpleCrudRouter {
     dao.delete(resourceId, resourceName, (dbResp) => {
       if (dbResp.error) {
         res.status(500).send({
-          message: "Server error",
+          message: 'Server error',
           status: res.status
-        })
+        });
       } else {
         res.status(200)
             .send({
               message: 'Success',
               status: res.status
-            })
+            });
       }
     });
   }

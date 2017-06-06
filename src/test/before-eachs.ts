@@ -1,5 +1,5 @@
-import {database} from "./../db/database";
-import {appConfig} from "../config/app-config";
+import {database} from './../db/database';
+import {appConfig} from '../config/app-config';
 class BeforeEach {
 
   public connectTestToDatabase() {

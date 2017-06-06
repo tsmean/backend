@@ -1,4 +1,4 @@
-import {AppProperties} from "./app-properties.model";
+import {AppProperties} from './app-properties.model';
 class AppConfig {
 
   // configName is the name of the properties file.

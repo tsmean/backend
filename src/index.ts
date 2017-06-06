@@ -1,8 +1,8 @@
 import * as http from 'http';
 import {router} from './router/router';
 import {database} from './db/database';
-import {log} from "./logger/logger";
-import {appConfig} from "./config/app-config";
+import {log} from './logger/logger';
+import {appConfig} from './config/app-config';
 
 // Step 1) Set & Get App Configuration
 appConfig.setAppConfig(process.argv[2] || 'local');
@@ -15,10 +15,14 @@ database.connectToDatabase(appConfig.appConfig, (db) => {
 
   // Step 3) Set Port for router
   const normalizePort = (val: number|string): number|string|boolean => {
-    let port: number = (typeof val === 'string') ? parseInt(val, 10) : val;
-    if (isNaN(port)) return val;
-    else if (port >= 0) return port;
-    else return false;
+    const port: number = (typeof val === 'string') ? parseInt(val, 10) : val;
+    if (isNaN(port)) {
+      return val;
+    } else if (port >= 0) {
+      return port;
+    } else {
+      return false;
+    }
   };
 
   const port = normalizePort(process.env.PORT || 3000);
@@ -27,8 +31,10 @@ database.connectToDatabase(appConfig.appConfig, (db) => {
 
   // Step 4) Handle Errors
   const onError = (error: NodeJS.ErrnoException): void => {
-    if (error.syscall !== 'listen') throw error;
-    let bind = (typeof port === 'string') ? 'Pipe ' + port : 'Port ' + port;
+    if (error.syscall !== 'listen') {
+      throw error;
+    }
+    const bind = (typeof port === 'string') ? 'Pipe ' + port : 'Port ' + port;
     switch(error.code) {
       case 'EACCES':
         console.error(`${bind} requires elevated privileges`);
@@ -43,13 +49,13 @@ database.connectToDatabase(appConfig.appConfig, (db) => {
     }
   };
   const onListening = (): void => {
-    let addr = server.address();
-    let bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
+    const addr = server.address();
+    const bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
   };
   server.on('error', onError);
   server.on('listening', onListening);
 
-  server.listen(port,function(){
+  server.listen(port, function(){
     log.info('Server listening at port %d', port);
   });
 

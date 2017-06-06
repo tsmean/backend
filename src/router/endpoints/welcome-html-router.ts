@@ -21,7 +21,7 @@ export class WelcomeHtmlRouter {
 
   public welcome(req: Request, res: Response, next: NextFunction) {
     res.status(200)
-        .send(`<html><head><title>My Title</title></head><body><p>Welcome!</p></body></html>`)
+        .send(`<html><head><title>My Title</title></head><body><p>Welcome!</p></body></html>`);
   }
 
 

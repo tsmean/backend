@@ -1,7 +1,7 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
-import {router} from "../router";
+import {router} from '../router';
 
 chai.use(chaiHttp);
 const expect = chai.expect;

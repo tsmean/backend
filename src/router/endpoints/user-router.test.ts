@@ -1,12 +1,12 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
-import {router} from "../router";
-import {beforeEachDo} from "../../test/before-eachs";
-import {log} from "../../logger/logger";
-import * as assert from "assert";
-import {User} from "../../db/user.model";
-import {userDAO} from "../../db/user-dao";
+import {router} from '../router';
+import {beforeEachDo} from '../../test/before-eachs';
+import {log} from '../../logger/logger';
+import * as assert from 'assert';
+import {User} from '../../db/user.model';
+import {userDAO} from '../../db/user-dao';
 
 chai.use(chaiHttp);
 const expect = chai.expect;
@@ -21,7 +21,7 @@ describe('UserRouter', () => {
       email: 'hans'
     };
 
-    const plaintextPassword: string = 'Hello World';
+    const plaintextPassword = 'Hello World';
 
     chai.request(router)
         .post(`/api/v1/users`)
@@ -37,7 +37,7 @@ describe('UserRouter', () => {
           assert(false);
           done();
         })
-        .catch((err) => { //TODO: do i really need catch here?
+        .catch((err) => { // TODO: do i really need catch here?
           throw err;
         });
 
@@ -48,18 +48,18 @@ describe('UserRouter', () => {
       email: 'hans'
     };
 
-    const plaintextPassword: string = 'Hello World';
+    const plaintextPassword = 'Hello World';
 
     userDAO.create(user, plaintextPassword, (dbResp) => {
-      const user: User = dbResp.data;
+      const responseUser: User = dbResp.data;
       chai.request(router)
           .post(`/api/v1/login`)
           .send({
-            email: user.email,
+            email: responseUser.email,
             password: plaintextPassword
           })
           .then((resp: any) => {
-            chai.request(router).get('/api/v1/users/' + user.uid)
+            chai.request(router).get('/api/v1/users/' + responseUser.uid)
                 .then(resp2 => {
                   expect(resp2.body.data.email).to.equal('hans');
                   done();
@@ -80,7 +80,5 @@ describe('UserRouter', () => {
     });
 
   });
-
-
 
 });
