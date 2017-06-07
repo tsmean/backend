@@ -8,7 +8,8 @@
     "windows_test": "mocha --reporter spec --compilers ts:ts-node/register **\\*.test.ts",
     "start": "tsc && node dist/index.js",
     "spec": "mocha --reporter spec --compilers ts:ts-node/register --grep ${TEST} '**/*.test.ts'",
-    "lint": "tslint src/**/*.ts"
+    "lint": "tslint src/**/*.ts",
+    "forever": "tsc && forever stopall && forever start dist/index.js"
   },
   "author": "Daniel Niederberger <bersling@gmail.com>",
   "license": "MIT",
