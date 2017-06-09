@@ -7,8 +7,4 @@ export interface AppProperties {
     dbpassword: string;
     testsMayDropDb: boolean;
   };
-  redis: {
-    url: string;
-    secret: string;
-  };
 }

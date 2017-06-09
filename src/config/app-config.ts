@@ -13,7 +13,6 @@ class AppConfig {
     return this._appConfig;
   }
 
-
 }
 
 export const appConfig = new AppConfig();
