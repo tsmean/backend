@@ -16,7 +16,7 @@ describe('DAO', () => {
     const item = {text: 'hello'};
 
     const doDelete = (id: string) => {
-      dao.delete(id, 'items', (dbResponse: DatabaseResponse) => {
+      dao.remove(id, 'items', (dbResponse: DatabaseResponse) => {
         expect(dbResponse.error).to.equal(null);
         done();
       });

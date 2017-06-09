@@ -185,7 +185,7 @@ class DAO {
   }
 
 
-  delete(id: string, collectionName: string, cb: (dbResp: DatabaseResponse) => void): void {
+  remove(id: string, collectionName: string, cb: (dbResp: DatabaseResponse) => void): void {
     database.database.collection(collectionName, (err, collection) => {
       if (err) {
         cb({

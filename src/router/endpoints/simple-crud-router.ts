@@ -130,7 +130,7 @@ export class SimpleCrudRouter {
     const resourceId = req.params.id;
     const resourceName = req.params.resource;
 
-    dao.delete(resourceId, resourceName, (dbResp) => {
+    dao.remove(resourceId, resourceName, (dbResp) => {
       if (dbResp.error) {
         res.status(500).send({
           message: 'Server error',
