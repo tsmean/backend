@@ -7,9 +7,9 @@ import {passwordCryptographer} from '../auth/password-cryptographer';
 import {User} from './user.model';
 import {utils} from '../utils/utils';
 
-class UserDAO {
+export namespace userDAO {
 
-  create(user: User, password: string, cb: (dbResponse: DatabaseResponse) => void) {
+  export function create(user: User, password: string, cb: (dbResponse: DatabaseResponse) => void) {
 
     const userCopy = utils.deepCopyData(user);
 
@@ -47,5 +47,3 @@ class UserDAO {
   }
 
 }
-
-export const userDAO = new UserDAO();

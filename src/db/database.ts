@@ -11,7 +11,7 @@ class Database {
   private mongoUri = (appParams: AppProperties) => {
     const params = appParams.db;
     return `mongodb://${params.dbuser}:${params.dbpassword}@${params.host}:${params.port}/${params.dbname}`;
-  }
+  };
 
   constructor(
 

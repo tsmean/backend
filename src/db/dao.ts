@@ -13,9 +13,9 @@ import {utils} from '../utils/utils';
 
 // also, don't expose Mongo API directly, but program against an interface (DatabaseResponse)
 
-class DAO {
+export namespace dao {
 
-  read(id: string, collectionName: string, cb: (dbResponse: DatabaseResponse) => void): void {
+  export function read(id: string, collectionName: string, cb: (dbResponse: DatabaseResponse) => void): void {
     database.database.collection(collectionName, (err, collection) => {
 
       if (err) {
@@ -34,7 +34,7 @@ class DAO {
             if (data) {
               cb({
                 error: null,
-                data: this.morphDataOnRetrieval(data)
+                data: morphDataOnRetrieval(data)
               });
             } else {
               cb({
@@ -52,7 +52,7 @@ class DAO {
   }
 
 
-  readAll(collectionName: string, cb: (dbResponse: DatabaseResponse) => void): void {
+  export function readAll(collectionName: string, cb: (dbResponse: DatabaseResponse) => void): void {
     database.database.collection(collectionName, (err, collection) => {
 
       if (err) {
@@ -72,7 +72,7 @@ class DAO {
               cursor.toArray().then(ary => {
                 cb({
                   error: null,
-                  data: this.morphDataOnRetrieval(ary)
+                  data: morphDataOnRetrieval(ary)
                 });
               });
 
@@ -91,7 +91,7 @@ class DAO {
     });
   }
 
-  readOneByField(fieldName: string, fieldValue: string, collectionName: string, cb: (dbResponse: DatabaseResponse) => void): void {
+  export function readOneByField(fieldName: string, fieldValue: string, collectionName: string, cb: (dbResponse: DatabaseResponse) => void): void {
     database.database.collection(collectionName, (err, collection) => {
 
       if (err) {
@@ -112,7 +112,7 @@ class DAO {
             if (data) {
               cb({
                 error: null,
-                data: this.morphDataOnRetrieval(data)
+                data: morphDataOnRetrieval(data)
               });
             } else {
               cb({
@@ -129,7 +129,7 @@ class DAO {
   }
 
 
-  create(item: Object, collectionName: string, cb: (dbResp: DatabaseResponse) => void): void {
+  export function create(item: Object, collectionName: string, cb: (dbResp: DatabaseResponse) => void): void {
 
     // deep copy object so input doesn't get mutated
     const itemCopy = utils.deepCopyData(item);
@@ -137,18 +137,18 @@ class DAO {
     database.database.collection(collectionName, (err: MongoError, collection) => {
       if (err) {
         cb({
-          error: this.mongoErrorToGeneralDbError(err)
+          error: mongoErrorToGeneralDbError(err)
         });
       } else {
         collection.insertOne(itemCopy, (innerError: MongoError, result) => {
           if (innerError) {
             cb({
-              error: this.mongoErrorToGeneralDbError(innerError)
+              error: mongoErrorToGeneralDbError(innerError)
             });
           } else {
             cb({
               error: null,
-              data: this.morphDataOnRetrieval(itemCopy)
+              data: morphDataOnRetrieval(itemCopy)
             });
           }
         });
@@ -157,26 +157,26 @@ class DAO {
   }
 
 
-  update(item, collectionName: string, cb: (dbResp: DatabaseResponse) => void): void {
+  export function update(item, collectionName: string, cb: (dbResp: DatabaseResponse) => void): void {
 
     // deep copy object so input doesn't get mutated and morph it to correct storage form
-    const itemCopy = this.morphDataOnStorage(item);
+    const itemCopy = morphDataOnStorage(item);
 
     database.database.collection(collectionName, (err, collection) => {
       if (err) {
         cb({
-          error: this.mongoErrorToGeneralDbError(err)
+          error: mongoErrorToGeneralDbError(err)
         });
       } else {
         collection.updateOne({'_id': new mongo.ObjectID(itemCopy._id)}, item, (innerError: MongoError, result) => {
           if (innerError) {
             cb({
-              error: this.mongoErrorToGeneralDbError(innerError)
+              error: mongoErrorToGeneralDbError(innerError)
             });
           } else {
             cb({
               error: null,
-              data: this.morphDataOnRetrieval(itemCopy)
+              data: morphDataOnRetrieval(itemCopy)
             });
           }
         });
@@ -185,17 +185,17 @@ class DAO {
   }
 
 
-  remove(id: string, collectionName: string, cb: (dbResp: DatabaseResponse) => void): void {
+  export function remove(id: string, collectionName: string, cb: (dbResp: DatabaseResponse) => void): void {
     database.database.collection(collectionName, (err, collection) => {
       if (err) {
         cb({
-          error: this.mongoErrorToGeneralDbError(err)
+          error: mongoErrorToGeneralDbError(err)
         });
       } else {
         collection.deleteOne({'_id': new mongo.ObjectID(id)}, (innerError, result) => {
           if (innerError) {
             cb({
-              error: this.mongoErrorToGeneralDbError(innerError)
+              error: mongoErrorToGeneralDbError(innerError)
             });
           } else {
             cb({
@@ -208,14 +208,14 @@ class DAO {
   }
 
 
-  private mongoErrorToGeneralDbError (err: MongoError): DatabaseError {
+  function mongoErrorToGeneralDbError (err: MongoError): DatabaseError {
     return {
       code: err.code,
       message: err.message
     };
   }
 
-  private morphDataOnRetrieval(data, logme?: boolean) {
+  function morphDataOnRetrieval(data, logme?: boolean) {
 
     if (!data) {
       log.error('No data!');
@@ -244,7 +244,7 @@ class DAO {
     return dataCopy;
   };
 
-  private morphDataOnStorage(data) {
+  function morphDataOnStorage(data) {
     const dataCopy = utils.deepCopyData(data);
     dataCopy._id = data.uid;
     delete dataCopy.uid;
@@ -252,5 +252,3 @@ class DAO {
   };
 
 }
-
-export const dao = new DAO();

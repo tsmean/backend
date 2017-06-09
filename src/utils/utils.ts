@@ -1,13 +1,8 @@
-class Utils {
-
-  constructor() {}
+export namespace utils {
 
   /* Copies the data, but loses function assignments! */
-  deepCopyData(data: Object) {
+  export function deepCopyData(data: Object) {
     return JSON.parse(JSON.stringify(data));
   }
 
 }
-
-export const utils = new Utils();
-

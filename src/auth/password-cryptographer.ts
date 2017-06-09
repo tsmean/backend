@@ -1,19 +1,17 @@
 import * as bcrypt from 'bcrypt';
 
-class PasswordCryptographer {
+export namespace passwordCryptographer {
 
-  private get saltRounds() {
+  function saltRounds() {
     return 10;
   }
 
-  public doHash (plaintextPassword: string): Promise<string> {
-    return bcrypt.hash(plaintextPassword, this.saltRounds);
-  };
+  export function doHash (plaintextPassword: string): Promise<string> {
+    return bcrypt.hash(plaintextPassword, saltRounds());
+  }
 
-  public doCompare (plaintextPassword, hash): Promise<boolean> {
+  export function doCompare (plaintextPassword, hash): Promise<boolean> {
     return bcrypt.compare(plaintextPassword, hash);
-  };
+  }
 
 }
-
-export const passwordCryptographer = new PasswordCryptographer();
