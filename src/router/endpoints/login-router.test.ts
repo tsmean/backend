@@ -44,6 +44,33 @@ describe('LoginRouter', () => {
           .catch((err) => {
             throw err;
           });
+
+    });
+
+  });
+
+  it('shouldnt be able to login with wrong password', (done) => {
+
+    const user: User = {
+      email: 'hans'
+    };
+
+    const plaintextPassword = 'Hello World';
+
+    userDAO.create(user, plaintextPassword, (dbResp) => {
+
+      expect(dbResp.error).to.be.null;
+
+      chai.request(router)
+          .post('/api/v1/login')
+          .send({
+            email: user.email,
+            password: 'some wrong password'
+          })
+          .catch((err) => {
+            expect(err.response.res.statusCode).to.equal(401);
+            done();
+          });
     });
 
   });

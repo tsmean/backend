@@ -26,4 +26,15 @@ describe('bcrypt', () => {
     });
   });
 
+  it('shouldnt allow wrong comparisons', (done) => {
+    passwordCryptographer.doCompare('a', 'jklasdjlqewjk').then((isMatching: boolean) => {
+      expect(isMatching).to.equal(false);
+      done();
+    }, (err) => {
+      log.error('Error while comparing:');
+      log.error(err);
+      done();
+    });
+  });
+
 });
