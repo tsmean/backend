@@ -10,8 +10,7 @@ export class LoginRouter {
    */
   init() {
     this.router.post('/login',
-        passport.authenticate('local', { session: false }),
-        this.loginHandler);
+        passport.authenticate('local', { session: false }), this.loginHandler);
   }
 
   /**
@@ -25,6 +24,7 @@ export class LoginRouter {
   public loginHandler(req: Request, res: Response, next: NextFunction) {
     // If this function gets called, authentication was successful.
     // `req.user` contains the authenticated user.
+
     res.status(200).send({
       message: 'Success',
       status: res.status,
