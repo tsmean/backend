@@ -4,13 +4,10 @@ import {dao} from '../db/dao';
 import {passwordCryptographer} from './password-cryptographer';
 import {User} from '../db/user.model';
 import {userDAO} from '../db/user-dao';
-// import * as cookieParser from 'cookie-parser';
 import * as expressSession from 'express-session';
 
 import * as express from 'express';
-import {SessionOptions} from 'express-session';
 
-const flash = require('connect-flash');
 
 export namespace passportInit {
 
@@ -68,7 +65,6 @@ export namespace passportInit {
   export function init(appRouter): string {
     appRouter.use(passport.initialize());
     sessionSetup(appRouter);
-    appRouter.use(flash());
     initializePassportLocalStrategy();
     return 'success';
   }

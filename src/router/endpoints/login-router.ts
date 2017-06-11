@@ -10,10 +10,7 @@ export class LoginRouter {
    */
   init() {
     this.router.post('/login',
-        passport.authenticate('local', {
-          failureFlash: true,
-          session: true
-        }), this.loginHandler);
+        passport.authenticate('local'), this.loginHandler);
   }
 
   /**
