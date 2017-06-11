@@ -11,8 +11,8 @@ export class LoginRouter {
   init() {
     this.router.post('/login',
         passport.authenticate('local', {
-          // failureFlash: true
-          session: false
+          failureFlash: true,
+          session: true
         }), this.loginHandler);
   }
 

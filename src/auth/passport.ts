@@ -41,8 +41,8 @@ export namespace passportInit {
   }
 
   function sessionSetup(appRouter) {
-    // appRouter.use(express.cookieParser('keyboard cat'));
-    // appRouter.use(express.session({ key: 'sid', cookie: { maxAge: 60000 }}));
+    appRouter.use((<any>express).cookieParser('keyboard cat'));
+    appRouter.use((<any>express).session({ key: 'sid', cookie: { maxAge: 60000 }}));
 
     passport.serializeUser(function(user: User, done) {
       done(null, user.uid);
