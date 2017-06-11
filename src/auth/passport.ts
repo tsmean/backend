@@ -4,8 +4,11 @@ import {dao} from '../db/dao';
 import {passwordCryptographer} from './password-cryptographer';
 import {User} from '../db/user.model';
 import {userDAO} from '../db/user-dao';
+// import * as cookieParser from 'cookie-parser';
+import * as expressSession from 'express-session';
 
 import * as express from 'express';
+import {SessionOptions} from 'express-session';
 
 const flash = require('connect-flash');
 
@@ -41,8 +44,13 @@ export namespace passportInit {
   }
 
   function sessionSetup(appRouter) {
-    appRouter.use((<any>express).cookieParser('keyboard cat'));
-    appRouter.use((<any>express).session({ key: 'sid', cookie: { maxAge: 60000 }}));
+    // appRouter.use(cookieParser());
+    appRouter.use(expressSession({
+      secret: 'keyboard cat',
+      resave: false,
+      saveUninitialized: true,
+      cookie: { secure: false }
+    }));
 
     passport.serializeUser(function(user: User, done) {
       done(null, user.uid);
