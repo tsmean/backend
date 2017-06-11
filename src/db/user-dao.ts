@@ -46,4 +46,13 @@ export namespace userDAO {
 
   }
 
+  export function getByMail(email: string, cb: (dbResponse: DatabaseResponse) => void) {
+    dao.readOneByField('email', email, 'Users', cb);
+  }
+
+
+  export function getById(id: string, cb: (dbResponse: DatabaseResponse) => void) {
+    dao.read(id, 'Users', cb);
+  }
+
 }
