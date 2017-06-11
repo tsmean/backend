@@ -1,16 +1,16 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import * as passport from 'passport';
+import {passportInit} from '../../auth/passport';
 
 export class LoginRouter {
   router: Router;
-
 
   /**
    * Take login handler and attach to login endpoint, but precede it with authentication
    */
   init() {
     this.router.post('/login',
-        passport.authenticate('local', { session: false }), this.loginHandler);
+        passport.authenticate('local'), this.loginHandler);
   }
 
   /**
@@ -30,6 +30,7 @@ export class LoginRouter {
       status: res.status,
       data: req.user
     });
+
   }
 
 }

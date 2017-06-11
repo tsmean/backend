@@ -3,6 +3,7 @@ import {router} from './router/router';
 import {database} from './db/database';
 import {log} from './logger/logger';
 import {appConfig} from './config/app-config';
+import {passportInit} from './auth/passport';
 
 // Step 1) Set & Get App Configuration
 appConfig.setAppConfig(process.argv[2] || 'local');
@@ -35,7 +36,7 @@ database.connectToDatabase(appConfig.appConfig, (db) => {
       throw error;
     }
     const bind = (typeof port === 'string') ? 'Pipe ' + port : 'Port ' + port;
-    switch(error.code) {
+    switch (error.code) {
       case 'EACCES':
         console.error(`${bind} requires elevated privileges`);
         process.exit(1);

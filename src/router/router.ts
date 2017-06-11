@@ -1,20 +1,27 @@
 import * as express from 'express';
-import {middleware} from './middleware';
 import {welcomeHtmlRouter} from './endpoints/welcome-html-router';
 import {loginRouter} from './endpoints/login-router';
 import {simpleCrudRouter} from './endpoints/simple-crud-router';
 import {userRouter} from './endpoints/user-router';
+import {passportInit} from '../auth/passport';
+import * as bodyParser from 'body-parser';
+
 
 // Creates and configures an ExpressJS web server.
 class Router {
 
   // ref to Express instance
-  public express: express.Application;
+  public appRouter: express.Application;
 
   // Run configuration methods on the Express instance.
   constructor() {
-    this.express = express();
-    middleware.addBodyParser(this.express);
+    this.appRouter = express();
+    this.appRouter.use(bodyParser.json());
+    this.appRouter.use(bodyParser.urlencoded({ extended: false }));
+
+    // passport config
+    passportInit.init(this.appRouter);
+
     this.routes();
   }
 
@@ -26,7 +33,7 @@ class Router {
     const router = express.Router();
     // placeholder route handler
 
-    this.express.use('/', express.static('../frontend/dist'));
+    this.appRouter.use('/', express.static('../frontend/dist'));
 
     /*
     router.get('/', (req, res, next) => {
@@ -37,19 +44,19 @@ class Router {
     this.express.use('/', router);
     */
 
-    this.express.use('/welcome', welcomeHtmlRouter);
+
+    this.appRouter.use('/welcome', welcomeHtmlRouter);
 
     // API
-    this.express.use('/api/v1/', loginRouter);
-    this.express.use('/api/v1/', userRouter);
+    this.appRouter.use('/api/v1/', loginRouter);
+    this.appRouter.use('/api/v1/', userRouter);
 
     // The simpleCrudRouter one should stay last, since it covers quite a broad range of requests and if it's moved above
     // it will steal away the endpoints of the more specific implementations
-    this.express.use('/api/v1/', simpleCrudRouter);
-
+    this.appRouter.use('/api/v1/', simpleCrudRouter);
 
   }
 
 }
 
-export const router = new Router().express;
+export const router = new Router().appRouter;
