@@ -1,6 +1,4 @@
 import {Router, Request, Response, NextFunction} from 'express';
-import * as passport from 'passport';
-import {log} from '../../logger/logger';
 import {dao} from '../../db/dao';
 import {userDAO} from '../../db/user-dao';
 

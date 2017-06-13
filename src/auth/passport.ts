@@ -3,10 +3,7 @@ import * as local from 'passport-local';
 import {dao} from '../db/dao';
 import {passwordCryptographer} from './password-cryptographer';
 import {User} from '../db/user.model';
-import {userDAO} from '../db/user-dao';
 import * as expressSession from 'express-session';
-
-import * as express from 'express';
 
 
 export namespace passportInit {
@@ -40,8 +37,8 @@ export namespace passportInit {
     return updatedPassport ? true : false;
   }
 
+  // TODO: sessions
   function sessionSetup(appRouter) {
-    // appRouter.use(cookieParser());
     appRouter.use(expressSession({
       secret: 'keyboard cat',
       resave: false,
@@ -55,10 +52,6 @@ export namespace passportInit {
 
     passport.deserializeUser(function(id, done) {
       console.log(id);
-
-      // userDAO.getById(id, function(err, user) {
-      //   done(err, user);
-      // });
     });
   }
 

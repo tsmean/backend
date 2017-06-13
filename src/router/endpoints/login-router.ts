@@ -1,6 +1,5 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import * as passport from 'passport';
-import {passportInit} from '../../auth/passport';
 
 export class LoginRouter {
   router: Router;

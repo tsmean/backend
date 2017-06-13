@@ -1,6 +1,5 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
-import * as passport from 'passport';
 import {passportInit} from './passport';
 import * as express from 'express';
 

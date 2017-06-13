@@ -9,8 +9,7 @@ describe('DAO', () => {
 
   beforeEachDo.connectTestToDatabase();
 
-
-  // TODO: unnecessarily nested!
+  // TODO: remove unnecessary nesting
   it('should be able to insert, read, update, delete', function(done) {
 
     const item = {text: 'hello'};

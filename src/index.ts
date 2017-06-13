@@ -3,7 +3,6 @@ import {router} from './router/router';
 import {database} from './db/database';
 import {log} from './logger/logger';
 import {appConfig} from './config/app-config';
-import {passportInit} from './auth/passport';
 
 // Step 1) Set & Get App Configuration
 appConfig.setAppConfig(process.argv[2] || 'local');
