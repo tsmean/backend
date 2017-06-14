@@ -33,14 +33,12 @@ class Router {
     const router = express.Router();
     // placeholder route handler
 
-    /*
-    router.get('/', (req, res, next) => {
-      res.json({
-        message: 'Hello World!'
-      });
+    // Allow CORS since frontent is served completely independently
+    this.appRouter.use(function(req, res, next) {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+      next();
     });
-    this.express.use('/', router);
-    */
 
     this.appRouter.use('/welcome', welcomeHtmlRouter);
 
