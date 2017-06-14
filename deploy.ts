@@ -54,8 +54,8 @@ ngBuild.on('close', (code) => {
         await ssh.execCommand('cd tsmean/be && npm install --production');
 
         console.log('Starting Forever');
-        await ssh.execCommand('forever stop tsmean/be/dist/src/index.js');
-        await ssh.execCommand('forever start tsmean/be/dist/src/index.js');
+        await ssh.execCommand('forever stop tsmean/be/dist/index.js');
+        await ssh.execCommand('forever start tsmean/be/dist/index.js');
       }
 
       console.log('Everything done!');
