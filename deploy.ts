@@ -38,10 +38,10 @@ ngBuild.on('close', (code) => {
         privateKey: config.ssh.privateKey
       });
 
-      await ssh.mkdir('tsmean');
-      await ssh.mkdir('tsmean/be');
+      await ssh.execCommand('rm -rf tsmean/be');
+      await ssh.mkdir('tsmean/be/dist'); // creates all folders if they don't exist yet
 
-      console.log('Uploading dist folder: ');
+      console.log('Uploading dist folder');
       await ssh.putDirectory('dist', 'tsmean/be/dist');
 
       if (config.restartServer) {
@@ -54,8 +54,8 @@ ngBuild.on('close', (code) => {
         await ssh.execCommand('cd tsmean/be && npm install --production');
 
         console.log('Starting Forever');
-        await ssh.execCommand('forever stop tsmean/be/dist/index.js');
-        await ssh.execCommand('forever start tsmean/be/dist/index.js');
+        await ssh.execCommand('forever stop tsmean/be/dist/src/index.js');
+        await ssh.execCommand('forever start tsmean/be/dist/src/index.js');
       }
 
       console.log('Everything done!');
