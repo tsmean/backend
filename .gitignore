@@ -2,6 +2,7 @@
 ######################
 dist
 #properties
+deploy.config.json
 
 # NodeJS #
 ######################
