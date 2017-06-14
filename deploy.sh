@@ -11,7 +11,7 @@ echo "Upload new contents"
 ssh ${server} "mkdir tsmean/be"
 scp -r dist "${server}:~/tsmean/be/dist"
 scp package.json "${server}:~/tsmean/be/package.json"
-scp -r dist "${server}:~/tsmean/be/properties"
+scp -r properties "${server}:~/tsmean/be/properties"
 
 echo "Install packages on server"
 ssh ${server} "cd tsmean/be && npm install --production"
