@@ -33,8 +33,6 @@ class Router {
     const router = express.Router();
     // placeholder route handler
 
-    this.appRouter.use('/', express.static('../frontend/dist'));
-
     /*
     router.get('/', (req, res, next) => {
       res.json({
@@ -43,7 +41,6 @@ class Router {
     });
     this.express.use('/', router);
     */
-
 
     this.appRouter.use('/welcome', welcomeHtmlRouter);
 
