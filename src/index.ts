@@ -25,7 +25,7 @@ database.connectToDatabase(appConfig.appConfig, (db) => {
     }
   };
 
-  const port = normalizePort(process.env.PORT || 3000);
+  const port = normalizePort(process.env.PORT || 4242);
   router.set('port', port);
   const server = http.createServer(router);
 
