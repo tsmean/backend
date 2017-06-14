@@ -1,8 +1,0 @@
-{
-  "ssh": {
-    "host": "54.93.232.18",
-    "username": "ubuntu",
-    "privateKey": "/Users/Bersling/.ssh/taskbase-aws.pem"
-  },
-  "restartServer": true
-}
