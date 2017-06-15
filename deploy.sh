@@ -1,24 +1,45 @@
 #!/usr/bin/env bash
 server="ubuntu@52.59.71.133"
 
-echo "Remove old directory"
-ssh ${server} "rm -rf tsmean/be"
+if [ "${1}" == "test" ]; then
+  rootdir="tsmean/testbe"
+else
+  rootdir="tsmean/be"
+fi
+
+# Setup server (Debian / Ubuntu assumed)
+# ssh ${server} curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+# ssh ${server} sudo apt-get install -y nodejs
+# ssh ${server} sudo npm install -g typescript
+# ssh ${server} sudo npm install -g yarn
+
+# Those are the same steps for production & test setup
+echo "Remove old test directory"
+ssh ${server} "rm -rf ${rootdir}"
 
 echo "Upload source"
-ssh ${server} "mkdir tsmean/be"
-scp -r src "${server}:~/tsmean/be/src"
-scp package.json "${server}:~/tsmean/be/package.json"
-scp tsconfig.json "${server}:~/tsmean/be/tsconfig.json"
-scp -r properties "${server}:~/tsmean/be/properties"
+ssh ${server} "mkdir ${rootdir}"
+scp -r src "${server}:${rootdir}/src"
+scp package.json "${server}:${rootdir}/package.json"
+scp yarn.lock "${server}:${rootdir}/yarn.lock"
+scp tsconfig.json "${server}:${rootdir}/tsconfig.json"
+scp -r properties "${server}:${rootdir}/properties"
 
 echo "Install packages on server"
-ssh ${server} "cd tsmean/be && npm install"
+ssh ${server} "cd ${rootdir} && yarn install"
 
 echo "Compiling sources"
-ssh ${server} "cd tsmean/be && tsc"
+ssh ${server} "cd ${rootdir} && tsc"
 
-echo "(Re-)Start server"
-ssh ${server} "forever stop tsmean/be/dist/index.js"
-ssh ${server} "forever start tsmean/be/dist/index.js"
+
+# Special logic for test setup
+if [ "${1}" == "test" ]; then
+  echo "Runt tests"
+  ssh ${server} "cd ${rootdir} && npm test"
+else
+  echo "(Re-)Start server"
+  ssh ${server} "forever stop ${rootdir}/dist/index.js"
+  ssh ${server} "forever start ${rootdir}/dist/index.js"
+fi
 
 echo "Done!"

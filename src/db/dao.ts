@@ -210,7 +210,6 @@ export namespace dao {
 
   function mongoErrorToGeneralDbError (err: MongoError): DatabaseError {
     return {
-      code: err.code,
       message: err.message
     };
   }
