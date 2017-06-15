@@ -35,7 +35,9 @@ directly from the IDE! See https://www.jetbrains.com/help/idea/2017.1/run-debug-
 I have configured a small `deploy.sh` script
 (doing it with typescript was horrible, so I switched back to a good old shell script).
 That way you should be able to deploy on any remote (ubuntu) instance easily.
-Just run `./deploy.sh` or `./deploy.sh test` for a dry run
+Just change the `server` variable in the script
+and run
+`./deploy.sh` or `./deploy.sh test` for a dry run
 executing all unit tests reomtely.
 
 
