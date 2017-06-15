@@ -1,0 +1,6 @@
+{
+  "host"     : "mysql.cn32tstd6wqk.eu-central-1.rds.amazonaws.com",
+  "user"     : "tsmean",
+  "password" : "jdj2198fjj1jjf9j1jwjd",
+  "database" : "mydb"
+}
