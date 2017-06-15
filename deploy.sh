@@ -14,6 +14,7 @@ scp package.json "${server}:~/tsmean/be/package.json"
 scp -r properties "${server}:~/tsmean/be/properties"
 
 echo "Install packages on server"
+ssh ${server} "sudo npm install -g node-gyp"
 ssh ${server} "cd tsmean/be && npm install --production"
 
 echo "(Re-)Start server"
