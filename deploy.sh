@@ -34,7 +34,7 @@ ssh ${server} "cd ${rootdir} && tsc"
 
 # Special logic for test setup
 if [ "${1}" == "test" ]; then
-  echo "Runt tests"
+  echo "Run tests"
   ssh ${server} "cd ${rootdir} && npm test"
 else
   echo "(Re-)Start server"
