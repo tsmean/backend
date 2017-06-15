@@ -17,15 +17,15 @@ export namespace passportInit {
       function(email, password, done) {
 
         dao.readOneByField('email', email, 'users', function (dbResp) {
-
           if (dbResp.error) {
-            return done(dbResp);
+            // It's better not to disclose whether username OR password is wrong
+            return done(null, false, { message: 'Wrong password or username.' });
           } else if (!dbResp.data) {
-            return done(null, false, { message: 'Incorrect username.' });
+            return done(null, false, { message: 'Wrong password or username.' });
           } else {
             passwordCryptographer.doCompare(password, dbResp.data.password.hash).then(isMatching => {
               if (!isMatching) {
-                return done(null, false, { message: 'Incorrect password.' });
+                return done(null, false, { message: 'Wrong password or username.' });
               } else {
                 return done(null, dbResp.data);
               }
@@ -37,27 +37,9 @@ export namespace passportInit {
     return updatedPassport ? true : false;
   }
 
-  // TODO: sessions
-  function sessionSetup(appRouter) {
-    appRouter.use(expressSession({
-      secret: 'keyboard cat',
-      resave: false,
-      saveUninitialized: true,
-      cookie: { secure: false }
-    }));
-
-    passport.serializeUser(function(user: User, done) {
-      done(null, user.uid);
-    });
-
-    passport.deserializeUser(function(id, done) {
-      console.log(id);
-    });
-  }
 
   export function init(appRouter): string {
     appRouter.use(passport.initialize());
-    sessionSetup(appRouter);
     initializePassportLocalStrategy();
     return 'success';
   }

@@ -8,8 +8,14 @@ export class LoginRouter {
    * Take login handler and attach to login endpoint, but precede it with authentication
    */
   init() {
-    this.router.post('/login',
-        passport.authenticate('local'), this.loginHandler);
+    this.router.post('/login', passport.authenticate(
+      'local',
+      {
+        session: false,
+        failWithError: true
+      }),
+      this.loginHandler,
+      this.errorHandler);
   }
 
   /**
@@ -31,6 +37,14 @@ export class LoginRouter {
     });
 
   }
+
+  errorHandler(err, req, res, next) {
+    console.log('handling error');
+    res.statusMessage = 'Wrong username or password.';
+    res.status(err.status).send();
+  }
+
+
 
 }
 

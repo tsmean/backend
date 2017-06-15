@@ -11,6 +11,7 @@ fi
 # ssh ${server} curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 # ssh ${server} sudo apt-get install -y nodejs
 # ssh ${server} sudo npm install -g typescript
+# ssh ${server} sudo npm install -g forever
 # ssh ${server} sudo npm install -g yarn
 
 # Those are the same steps for production & test setup

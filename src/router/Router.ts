@@ -31,9 +31,8 @@ class Router {
      * working so far. This function will change when we start to add more
      * API endpoints */
     const router = express.Router();
-    // placeholder route handler
 
-    // Allow CORS since frontent is served completely independently
+    // Allow CORS since frontend is served completely independently
     this.appRouter.use(function(req, res, next) {
       res.header('Access-Control-Allow-Origin', '*');
       res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT ,DELETE, PATCH');
