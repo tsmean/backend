@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-server="ubuntu@54.93.232.18"
+server="ubuntu@52.59.71.133"
 
 echo "Compile typescript"
 tsc
