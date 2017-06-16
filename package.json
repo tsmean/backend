@@ -39,6 +39,7 @@
     "@types/express-session": "^1.15.0",
     "@types/mocha": "^2.2.32",
     "@types/mongodb": "^2.1.41",
+    "@types/mysql": "^0.0.33",
     "@types/node": "^6.0.46",
     "@types/passport": "^0.3.3",
     "@types/passport-local": "^1.0.30",

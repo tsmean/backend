@@ -9,7 +9,7 @@ var con = mysql.createConnection({
 con.connect(function(err) {
   if (err) throw err;
   console.log("Connected!");
-  con.query("CREATE DATABASE mydb", function (err, result) {
+  con.query("CREATE DATABASE testdb", function (err, result) {
     if (err) throw err;
     console.log("Database created");
     con.end();

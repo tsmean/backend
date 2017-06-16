@@ -19,9 +19,10 @@ describe('Connect Test', () => {
     };
 
     expect(database.database !== undefined).to.be.true;
-    database.database.collection('notes').insertOne(item, function(err, result) {
+    const sql = `INSERT INTO users (email, firstName, lastName) VALUES ('bla@bla.com', 'Urs', 'Schweizer')`;
+    database.database.query(sql, function(err, result) {
       expect(err).to.equal(null);
-      expect(result.insertedCount).to.equal(1);
+      expect(result.affectedRows).to.equal(1);
       done();
     });
 

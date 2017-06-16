@@ -9,6 +9,7 @@ describe('DAO', () => {
 
   beforeEachDo.connectTestToDatabase();
 
+
   // TODO: remove unnecessary nesting
   it('should be able to insert, read, update, delete', function(done) {
 

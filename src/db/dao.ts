@@ -4,6 +4,8 @@ import {log} from '../logger/logger';
 import {DatabaseError, DatabaseResponse} from './database-response.model';
 import {Cursor, MongoCallback, MongoClient, MongoError} from 'mongodb';
 import {utils} from '../utils/utils';
+import {type} from 'os';
+import {orm} from './orm';
 
 // Database Access Object
 // Everything that operates directly on the database goes here
@@ -15,201 +17,193 @@ import {utils} from '../utils/utils';
 
 export namespace dao {
 
-  export function read(id: string, collectionName: string, cb: (dbResponse: DatabaseResponse) => void): void {
-    database.database.collection(collectionName, (err, collection) => {
+  export function read(id: string, tableName: string, cb: (dbResponse: DatabaseResponse) => void): void {
+    database.database.query(`SELECT * from ${tableName} WHERE id = ${id}`, (err, data) => {
 
       if (err) {
         cb({
-          error: err
+          error: {
+            message: err.code
+          }
         });
       } else {
-
-        collection.findOne({'_id': new mongo.ObjectID(id)}, (innerError, data) => {
-
-          if (innerError) {
-            cb({
-              error: innerError
-            });
-          } else {
-            if (data) {
-              cb({
-                error: null,
-                data: morphDataOnRetrieval(data)
-              });
-            } else {
-              cb({
-                error: {
-                  message: 'not found'
-                }
-              });
+        if (data) {
+          cb({
+            error: null,
+            data: morphDataOnRetrieval(data)
+          });
+        } else {
+          cb({
+            error: {
+              message: 'not found'
             }
-          }
-        });
-
+          });
+        }
       }
 
     });
   }
 
 
-  export function readAll(collectionName: string, cb: (dbResponse: DatabaseResponse) => void): void {
-    database.database.collection(collectionName, (err, collection) => {
+  export function readAll(tableName: string, cb: (dbResponse: DatabaseResponse) => void): void {
+    database.database.query(`SELECT * from ${tableName}`, (err, data) => {
 
       if (err) {
         cb({
-          error: err
+          error: {
+            message: err.code
+          }
         });
       } else {
-
-        collection.find({}, (innerError, cursor) => {
-
-          if (innerError) {
-            cb({
-              error: innerError
-            });
-          } else {
-            if (cursor) {
-              cursor.toArray().then(ary => {
-                cb({
-                  error: null,
-                  data: morphDataOnRetrieval(ary)
-                });
-              });
-
-            } else {
-              cb({
-                error: {
-                  message: 'not found'
-                }
-              });
+        if (data) {
+          cb({
+            error: null,
+            data: morphDataOnRetrieval(data)
+          });
+        } else {
+          cb({
+            error: {
+              message: 'not found'
             }
-          }
-        });
-
+          });
+        }
       }
 
     });
   }
 
-  export function readOneByField(fieldName: string, fieldValue: string, collectionName: string, cb: (dbResponse: DatabaseResponse) => void): void {
-    database.database.collection(collectionName, (err, collection) => {
+  export function readOneByField(
+    fieldName: string,
+    fieldValue: string,
+    tableName: string,
+    cb: (dbResponse: DatabaseResponse) => void): void {
+    database.database.query(`SELECT * from ${tableName} WHERE ${fieldName} = ${fieldValue}`, (err, data) => {
 
       if (err) {
         cb({
-          error: err
+          error: {
+            message: err.code
+          }
         });
       } else {
-
-        const searchObject = {};
-        searchObject[fieldName] = fieldValue;
-
-        collection.findOne(searchObject, (innerError, data) => {
-          if (innerError) {
-            cb({
-              error: innerError
-            });
-          } else {
-            if (data) {
-              cb({
-                error: null,
-                data: morphDataOnRetrieval(data)
-              });
-            } else {
-              cb({
-                error: {
-                  message: 'not found'
-                }
-              });
+        if (data) {
+          cb({
+            error: null,
+            data: morphDataOnRetrieval(data)
+          });
+        } else {
+          cb({
+            error: {
+              message: 'not found'
             }
-          }
-        });
+          });
+        }
       }
 
     });
   }
 
+  export function create(item: Object, tableName: string, cb: (dbResp: DatabaseResponse) => void): void {
 
-  export function create(item: Object, collectionName: string, cb: (dbResp: DatabaseResponse) => void): void {
+    const converted = orm.flatObjectToMysql(item);
+    converted.push(['createTime', 'now()']);
 
-    // deep copy object so input doesn't get mutated
-    const itemCopy = utils.deepCopyData(item);
+    const sql = `INSERT INTO ${tableName} (${converted.join(', ')}) VALUES (${converted.join(', ')})`;
+    database.database.query(sql, (err, data) => {
 
-    database.database.collection(collectionName, (err: MongoError, collection) => {
       if (err) {
         cb({
-          error: mongoErrorToGeneralDbError(err)
-        });
-      } else {
-        collection.insertOne(itemCopy, (innerError: MongoError, result) => {
-          if (innerError) {
-            cb({
-              error: mongoErrorToGeneralDbError(innerError)
-            });
-          } else {
-            cb({
-              error: null,
-              data: morphDataOnRetrieval(itemCopy)
-            });
+          error: {
+            message: err.code
           }
         });
+      } else {
+        if (data) {
+          cb({
+            error: null,
+            data: morphDataOnRetrieval(data)
+          });
+        } else {
+          cb({
+            error: {
+              message: 'not found'
+            }
+          });
+        }
       }
+
     });
+
   }
 
 
-  export function update(item, collectionName: string, cb: (dbResp: DatabaseResponse) => void): void {
+  export function update(item, tableName: string, cb: (dbResp: DatabaseResponse) => void): void {
+    let converted = orm.flatObjectToMysql(item);
+    converted = converted.filter(x => x[0] !== 'updateTime');
+    converted.push(['updateTime', 'now()']);
 
-    // deep copy object so input doesn't get mutated and morph it to correct storage form
-    const itemCopy = morphDataOnStorage(item);
+    const sql = `UPDATE ${tableName} (${converted.join(', ')}) VALUES (${converted.join(', ')}) WHERE id=${item.id}`;
+    database.database.query(sql, (err, data) => {
 
-    database.database.collection(collectionName, (err, collection) => {
       if (err) {
         cb({
-          error: mongoErrorToGeneralDbError(err)
-        });
-      } else {
-        collection.updateOne({'_id': new mongo.ObjectID(itemCopy._id)}, item, (innerError: MongoError, result) => {
-          if (innerError) {
-            cb({
-              error: mongoErrorToGeneralDbError(innerError)
-            });
-          } else {
-            cb({
-              error: null,
-              data: morphDataOnRetrieval(itemCopy)
-            });
+          error: {
+            message: err.code
           }
         });
+      } else {
+        if (data) {
+          cb({
+            error: null,
+            data: morphDataOnRetrieval(data)
+          });
+        } else {
+          cb({
+            error: {
+              message: 'not found'
+            }
+          });
+        }
       }
+
     });
+
   }
 
 
-  export function remove(id: string, collectionName: string, cb: (dbResp: DatabaseResponse) => void): void {
-    database.database.collection(collectionName, (err, collection) => {
+  export function remove(id: string, tableName: string, cb: (dbResp: DatabaseResponse) => void): void {
+
+    const sql = `DELETE FROM ${tableName} WHERE id=${id}`;
+    database.database.query(sql, (err, data) => {
+
       if (err) {
         cb({
-          error: mongoErrorToGeneralDbError(err)
-        });
-      } else {
-        collection.deleteOne({'_id': new mongo.ObjectID(id)}, (innerError, result) => {
-          if (innerError) {
-            cb({
-              error: mongoErrorToGeneralDbError(innerError)
-            });
-          } else {
-            cb({
-              error: null
-            });
+          error: {
+            message: err.code
           }
         });
+      } else {
+        if (data) {
+          cb({
+            error: null,
+            data: morphDataOnRetrieval(data)
+          });
+        } else {
+          cb({
+            error: {
+              message: 'not found'
+            }
+          });
+        }
       }
+
     });
   }
 
 
   function mongoErrorToGeneralDbError (err: MongoError): DatabaseError {
     return {
+      code: err.code,
       message: err.message
     };
   }
@@ -224,12 +218,12 @@ export namespace dao {
     const dataCopy = utils.deepCopyData(data);
 
     const morphResource = (resource): void => {
-      if (typeof resource._id !== 'string') {
-        resource.uid = resource._id.toHexString();
+      if (typeof resource.id !== 'string') {
+        resource.uid = resource.id.toHexString();
       } else {
-        resource.uid = resource._id;
+        resource.uid = resource.id;
       }
-      delete resource._id;
+      delete resource.id;
     };
 
     if (Array.isArray(dataCopy)) {
@@ -245,7 +239,7 @@ export namespace dao {
 
   function morphDataOnStorage(data) {
     const dataCopy = utils.deepCopyData(data);
-    dataCopy._id = data.uid;
+    dataCopy.id = data.uid;
     delete dataCopy.uid;
     return dataCopy;
   };
