@@ -1,3 +1,4 @@
+/*
 import * as mocha from 'mocha';
 import * as chai from 'chai';
 import {dao} from './dao';
@@ -27,3 +28,4 @@ describe('ORM', () => {
   });
 
 });
+*/

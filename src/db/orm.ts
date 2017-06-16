@@ -1,5 +1,6 @@
+/*
 import moment = require('moment');
-export namespace orm {
+namespace orm {
 
   export function flatObjectToMysql(obj: Object): any[][] {
 
@@ -36,3 +37,4 @@ export namespace orm {
   }
 
 }
+*/

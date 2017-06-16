@@ -8,7 +8,6 @@ import {
 import {Cursor, MongoCallback, MongoClient, MongoError} from 'mongodb';
 import {utils} from '../utils/utils';
 import {type} from 'os';
-import {orm} from './orm';
 
 // Database Access Object
 // Everything that operates directly on the database goes here
@@ -22,9 +21,10 @@ export namespace dao {
 
   export function read(id, tableName: string, cb: (dbResponse: DatabaseResponse<any>) => void): void {
 
-    const sql = `SELECT * from ${mysql.escape(tableName)} WHERE _id = ${mysql.escape(id)} LIMIT 1`;
+    const sql = 'SELECT * from ?? WHERE _id = ? LIMIT 1';
 
-    database.database.query(sql, (err, data) => {
+
+    database.database.query(sql, [tableName, id], (err, data) => {
 
       if (err) {
         cb({
@@ -52,7 +52,7 @@ export namespace dao {
 
 
   export function readAll(tableName: string, cb: (dbResponse: DatabaseResponse<any>) => void): void {
-    database.database.query(`SELECT * from ${mysql.escape(tableName)}`, (err, data) => {
+    database.database.query('SELECT * from ??', [tableName], (err, data) => {
 
       if (err) {
         cb({
@@ -84,10 +84,9 @@ export namespace dao {
     tableName: string,
     cb: (dbResponse: DatabaseResponse<any>) => void): void {
 
-    const sql = `SELECT * from ${mysql.escape(tableName)}
-    WHERE ${mysql.escape(fieldName)} = ${mysql.escape(orm.mapValue(fieldValue))} LIMIT 1`;
+    const sql = 'SELECT * from ?? WHERE ?? = ? LIMIT 1';
 
-    database.database.query(sql, (err, data) => {
+    database.database.query(sql, [tableName, fieldName, fieldValue], (err, data) => {
 
       if (err) {
         cb({
@@ -115,52 +114,73 @@ export namespace dao {
 
   export function create(item: Object, tableName: string, cb: (dbResp: DatabaseResponse<CreateResponse>) => void): void {
 
-    const converted = orm.flatObjectToMysql(item);
-    converted.push(['createTime', 'now()']);
+    const keyValuePairs = [];
+    Object.keys(item).forEach(key => {
+      keyValuePairs.push([key, item[key]]);
+    });
+    keyValuePairs.push(['createTime', 'now()']);
 
-    const sql = `INSERT INTO ${mysql.escape(tableName)} (${mysql.escape(converted.map(x => x[0]).join(', '))})
-    VALUES (${mysql.escape(converted.map(x => x[1]).join(', '))})`;
+    const l = keyValuePairs.length;
+    const keyReplacement = Array(l).fill('??').join(', ');
+    const valueReplacement = Array(l).fill('?').join(', ');
 
-    database.database.query(sql, (err, data) => {
+    const sql = `INSERT INTO ?? (${keyReplacement}) VALUES (${valueReplacement})`;
 
-      if (err) {
-        cb({
-          error: {
-            message: err.code
-          }
-        });
-      } else {
-        if (data) {
+    database.database.query(sql,
+      [tableName, ...keyValuePairs.map(x => x[0]), ...keyValuePairs.map(x => x[1])], (err, data) => {
+
+        if (err) {
           cb({
-            error: null,
-            data: {
-              insertId: data.insertId
+            error: {
+              message: err.code
             }
           });
         } else {
-          cb({
-            error: {
-              message: 'not found'
-            }
-          });
+          if (data) {
+            cb({
+              error: null,
+              data: {
+                insertId: data.insertId
+              }
+            });
+          } else {
+            cb({
+              error: {
+                message: 'not found'
+              }
+            });
+          }
         }
-      }
 
-    });
+      });
 
   }
 
 
   export function update(item, tableName: string, cb: (dbResp: DatabaseResponse<UpdateResponse>) => void): void {
     const morphedItem = morphDataOnStorage(item);
-    let converted = orm.flatObjectToMysql(morphedItem);
-    converted = converted.filter(x => x[0] !== 'updateTime');
-    converted.push(['updateTime', 'now()']);
+    const id = morphedItem._id;
+    delete morphedItem._id;
 
-    const sql = `UPDATE ${mysql.escape(tableName)} SET ${mysql.escape(converted.map(x => `${x[0]}=${x[1]}`).join(', '))} 
-    WHERE _id=${mysql.escape(morphedItem._id)}`;
+    const keyValuePairs = [];
+    Object.keys(morphedItem).forEach(key => {
+      keyValuePairs.push([key, morphedItem[key]]);
+    });
 
-    database.database.query(sql, (err, data) => {
+    const l = keyValuePairs.length;
+    const keyValueReplacement = Array(l).fill('?? = ?').join(', ');
+
+    const sql = `UPDATE ?? SET ${keyValueReplacement} WHERE _id = ?`;
+
+    const mergedArray = [];
+    keyValuePairs.forEach(pair => {
+      mergedArray.push(pair[0]);
+      mergedArray.push(pair[1]);
+    });
+
+    database.database.query(sql,
+      [tableName, ...mergedArray, id],
+      (err, data) => {
 
       if (err) {
         cb({
@@ -190,8 +210,8 @@ export namespace dao {
 
   export function remove(id, tableName: string, cb: (dbResp: DatabaseResponse<DeleteResponse>) => void): void {
 
-    const sql = `DELETE FROM ${mysql.escape(tableName)} WHERE _id=${mysql.escape(id)}`;
-    database.database.query(sql, (err, data) => {
+    const sql = `DELETE FROM ?? WHERE _id=?`;
+    database.database.query(sql, [tableName, id], (err, data) => {
 
       if (err) {
         cb({

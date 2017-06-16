@@ -9,19 +9,20 @@ class BeforeEach {
     return beforeEach('connect to db', (done) => {
       appConfig.setAppConfig('test');
       database.connectToNoSpecificDatabase(appConfig.appConfig, (con) => {
-        con.query(`DROP DATABASE ${mysql.escape(appConfig.appConfig.db.dbname)}`, (err) => {
+        const sql = `DROP DATABASE ??`;
+        con.query(sql, [appConfig.appConfig.db.dbname], (err) => {
           if (err) {
             console.error(err);
             throw err;
           }
-          con.query(`CREATE DATABASE ${mysql.escape(appConfig.appConfig.db.dbname)}`, (innerError) => {
+          con.query(`CREATE DATABASE ??`, [appConfig.appConfig.db.dbname], (innerError) => {
             if (innerError) {
               console.error(innerError);
               throw innerError;
             }
             database.connectToDatabase(appConfig.appConfig, (connection) => {
               if (connection) {
-                createTables(connection, done)
+                createTables(connection, done);
               }
             });
           });
