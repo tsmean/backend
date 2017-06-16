@@ -69,7 +69,7 @@ describe('Simple CRUD Route Test', () => {
           'hello': 'world'
         })
         .then(res => {
-          expect(res).to.have.status(200);
+          expect(res).to.have.status(201);
           expect(res.body.data.insertId).to.exist;
           done();
         }, err => {
