@@ -93,7 +93,8 @@ export class SimpleCrudRouter {
         res.status(200)
             .send({
               message: 'Success',
-              status: res.status
+              status: res.status,
+              data: dbResp.data
             });
       }
 
