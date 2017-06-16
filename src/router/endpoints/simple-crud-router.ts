@@ -39,7 +39,7 @@ export class SimpleCrudRouter {
           status: res.status
         });
       } else {
-        res.status(200)
+        res.status(201)
             .send({
               message: 'Success',
               status: res.status,
