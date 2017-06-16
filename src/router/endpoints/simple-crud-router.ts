@@ -1,5 +1,6 @@
 import {Router, Request, Response, NextFunction} from 'express';
 import {dao} from '../../db/dao';
+import {api} from '../api';
 
 export class SimpleCrudRouter {
   router: Router;
@@ -40,6 +41,7 @@ export class SimpleCrudRouter {
         });
       } else {
         res.status(201)
+          res.location(`${api.root()}/${resourceName}/${dbResp.data.insertId}`)
             .send({
               message: 'Success',
               status: res.status,
