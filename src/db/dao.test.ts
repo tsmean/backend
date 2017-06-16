@@ -1,8 +1,8 @@
 import * as mocha from 'mocha';
 import * as chai from 'chai';
 import {dao} from './dao';
-import {beforeEachDo} from '../test/before-eachs';
-import {DatabaseResponse} from './database-response.model';
+import {BeforeEachDo} from '../test/before-eachs';
+import {DatabaseResponse, DeleteResponse, ReadResponse} from './database-response.model';
 const expect = chai.expect;
 
 describe('DAO', () => {
@@ -15,7 +15,7 @@ describe('DAO', () => {
     const item = {text: 'hello'};
 
     const doDelete = (id: string) => {
-      dao.remove(id, 'items', (dbResponse: DatabaseResponse) => {
+      dao.remove(id, 'items', (dbResponse: DatabaseResponse<DeleteResponse>) => {
         expect(dbResponse.error).to.equal(null);
         done();
       });
@@ -41,7 +41,7 @@ describe('DAO', () => {
     };
 
     const doRead = (uid: string) => {
-      dao.read(uid, 'items', (dbResponse: DatabaseResponse) => {
+      dao.read(uid, 'items', (dbResponse: DatabaseResponse<ReadResponse>) => {
 
         expect(dbResponse.error).to.equal(null);
         expect(dbResponse.data.text).to.equal('hello');

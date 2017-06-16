@@ -1,8 +1,8 @@
 import {database} from './../db/database';
 import {appConfig} from '../config/app-config';
-class BeforeEach {
+export namespace BeforeEach {
 
-  public connectTestToDatabase() {
+  export async function connectTestToDatabase() {
     return beforeEach('connect to db', (done) => {
       appConfig.setAppConfig('test');
       database.connectToDatabase(appConfig.appConfig, (db) => {
@@ -14,5 +14,3 @@ class BeforeEach {
   }
 
 }
-
-export const beforeEachDo = new BeforeEach();

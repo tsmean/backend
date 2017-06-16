@@ -1,7 +1,10 @@
 import * as mongo from 'mongodb';
 import {database} from './database';
 import {log} from '../logger/logger';
-import {DatabaseError, DatabaseResponse} from './database-response.model';
+import {
+  CreateResponse, DatabaseError, DatabaseResponse, DeleteResponse, ReadResponse,
+  UpdateResponse
+} from './database-response.model';
 import {Cursor, MongoCallback, MongoClient, MongoError} from 'mongodb';
 import {utils} from '../utils/utils';
 
@@ -15,7 +18,7 @@ import {utils} from '../utils/utils';
 
 export namespace dao {
 
-  export function read(id: string, collectionName: string, cb: (dbResponse: DatabaseResponse) => void): void {
+  export function read(id: string, collectionName: string, cb: (dbResponse: DatabaseResponse<ReadResponse>) => void): void {
     database.database.collection(collectionName, (err, collection) => {
 
       if (err) {
@@ -52,7 +55,7 @@ export namespace dao {
   }
 
 
-  export function readAll(collectionName: string, cb: (dbResponse: DatabaseResponse) => void): void {
+  export function readAll(collectionName: string, cb: (dbResponse: DatabaseResponse<ReadResponse[]>) => void): void {
     database.database.collection(collectionName, (err, collection) => {
 
       if (err) {
@@ -91,7 +94,8 @@ export namespace dao {
     });
   }
 
-  export function readOneByField(fieldName: string, fieldValue: string, collectionName: string, cb: (dbResponse: DatabaseResponse) => void): void {
+  export function readOneByField(fieldName: string, fieldValue: string, collectionName: string,
+                                 cb: (dbResponse: DatabaseResponse<ReadResponse>) => void): void {
     database.database.collection(collectionName, (err, collection) => {
 
       if (err) {
@@ -129,7 +133,8 @@ export namespace dao {
   }
 
 
-  export function create(item: Object, collectionName: string, cb: (dbResp: DatabaseResponse) => void): void {
+  export function create(item: Object, collectionName: string,
+                         cb: (dbResp: DatabaseResponse<CreateResponse>) => void): void {
 
     // deep copy object so input doesn't get mutated
     const itemCopy = utils.deepCopyData(item);
@@ -157,7 +162,7 @@ export namespace dao {
   }
 
 
-  export function update(item, collectionName: string, cb: (dbResp: DatabaseResponse) => void): void {
+  export function update(item, collectionName: string, cb: (dbResp: DatabaseResponse<UpdateResponse>) => void): void {
 
     // deep copy object so input doesn't get mutated and morph it to correct storage form
     const itemCopy = morphDataOnStorage(item);
@@ -185,7 +190,7 @@ export namespace dao {
   }
 
 
-  export function remove(id: string, collectionName: string, cb: (dbResp: DatabaseResponse) => void): void {
+  export function remove(id: string, collectionName: string, cb: (dbResp: DatabaseResponse<DeleteResponse>) => void): void {
     database.database.collection(collectionName, (err, collection) => {
       if (err) {
         cb({
