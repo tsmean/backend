@@ -1,7 +1,7 @@
 import * as mongo from 'mongodb';
 import {database} from './database';
 import {log} from '../logger/logger';
-import {DatabaseResponse} from './database-response.model';
+import {CreateResponse, DatabaseResponse} from './database-response.model';
 import {dao} from './dao';
 import {passwordCryptographer} from '../auth/password-cryptographer';
 import {User} from './user.model';
@@ -9,21 +9,19 @@ import {utils} from '../utils/utils';
 
 export namespace userDAO {
 
-  export function create(user: User, password: string, cb: (dbResponse: DatabaseResponse) => void) {
+  export function create(user: User, password: string, cb: (dbResponse: DatabaseResponse<CreateResponse>) => void) {
 
     const userCopy = utils.deepCopyData(user);
 
     dao.readOneByField('email', userCopy.email, 'users', (dbResp) => {
 
-      // Condition to create a new is user is no user with this email exists
-      // This means that a database error is actually what you expect when creating a new user!
-      if (dbResp.error) {
-
+      /**
+       * Condition to create a new is user is no user with this email exists.
+       * This means if NO user is found, go ahead and create it.
+       */
+      if (!dbResp.data) {
         passwordCryptographer.doHash(password).then((hash: string) => {
-          userCopy.password = {
-            hash: hash,
-            algorithm: 'bcrypt'
-          };
+          userCopy.password = hash;
           dao.create(userCopy, 'users', cb);
         }, (err) => {
           log.error(err);
@@ -46,12 +44,12 @@ export namespace userDAO {
 
   }
 
-  export function getByMail(email: string, cb: (dbResponse: DatabaseResponse) => void) {
+  export function getByMail(email: string, cb: (dbResponse: DatabaseResponse<any>) => void) {
     dao.readOneByField('email', email, 'Users', cb);
   }
 
 
-  export function getById(id: string, cb: (dbResponse: DatabaseResponse) => void) {
+  export function getById(id: string, cb: (dbResponse: DatabaseResponse<any>) => void) {
     dao.read(id, 'Users', cb);
   }
 

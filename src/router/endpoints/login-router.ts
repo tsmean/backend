@@ -39,7 +39,6 @@ export class LoginRouter {
   }
 
   errorHandler(err, req, res, next) {
-    console.log('handling error');
     res.statusMessage = 'Wrong username or password.';
     res.status(err.status).send();
   }

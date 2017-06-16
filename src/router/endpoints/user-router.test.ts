@@ -30,7 +30,7 @@ describe('UserRouter', () => {
           password: plaintextPassword
         })
         .then((resp: any) => {
-          expect(resp.body.data.uid).to.exist;
+          expect(resp.body.data.insertId).to.exist;
           done();
         }, (err) => {
           log.error(err);
@@ -51,15 +51,15 @@ describe('UserRouter', () => {
     const plaintextPassword = 'Hello World';
 
     userDAO.create(user, plaintextPassword, (dbResp) => {
-      const responseUser: User = dbResp.data;
+      const insertId: number = dbResp.data.insertId;
       chai.request(router)
           .post(`/api/v1/login`)
           .send({
-            email: responseUser.email,
+            email: user.email,
             password: plaintextPassword
           })
           .then((resp: any) => {
-            chai.request(router).get('/api/v1/users/' + responseUser.uid)
+            chai.request(router).get('/api/v1/users/' + insertId)
                 .then(resp2 => {
                   expect(resp2.body.data.email).to.equal('hans');
                   done();

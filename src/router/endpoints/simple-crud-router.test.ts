@@ -16,7 +16,8 @@ describe('Simple CRUD Route Test', () => {
 
   it('should return the item', (done) => {
     dao.create({'hello': 'world'}, 'items', (dbResp) => {
-      chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`)
+      expect(dbResp.error).to.be.null;
+      chai.request(router).get(`/api/v1/items/${dbResp.data.insertId}`)
           .end((err, res) => {
             expect(res).to.have.status(200);
             expect(res.body.data.hello).to.equal('world');
@@ -27,7 +28,9 @@ describe('Simple CRUD Route Test', () => {
 
   it('should return all items', (done) => {
     dao.create({'hello': 'world'}, 'items', (dbResp1) => {
-      dao.create({'goodbye': 'world'}, 'items', (dbResp2) => {
+      expect(dbResp1.error).to.be.null;
+      dao.create({'hello': 'universe'}, 'items', (dbResp2) => {
+        expect(dbResp2.error).to.be.null;
         chai.request(router).get(`/api/v1/items`)
             .end((err, res) => {
               expect(res).to.have.status(200);
@@ -41,13 +44,16 @@ describe('Simple CRUD Route Test', () => {
 
   it('should work with promise', (done) => {
     dao.create({'hello': 'world'}, 'items', (dbResp) => {
-      chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`)
+      chai.request(router).get(`/api/v1/items/${dbResp.data.insertId}`)
           .then(res => {
+
             expect(res).to.have.status(200);
             expect(res.body.data.hello).to.equal('world');
             done();
           }, err => {
-            done();
+            log.error('Error on GET request:');
+            log.error(err);
+            assert(false);
           })
           .catch(function (err) {
             throw err;
@@ -60,18 +66,16 @@ describe('Simple CRUD Route Test', () => {
     chai.request(router)
         .post(`/api/v1/items`)
         .send({
-          'hair': 'red',
-          'nose': 'long'
+          'hello': 'world'
         })
         .then(res => {
           expect(res).to.have.status(200);
-          expect(res.body.data.hair).to.equal('red');
-          expect(res.body.data.uid).to.exist;
+          expect(res.body.data.insertId).to.exist;
           done();
         }, err => {
           log.error('Error on POST request:');
           log.error(err);
-          done();
+          assert(false);
         })
         .catch(function (err) {
           throw err;
@@ -81,23 +85,22 @@ describe('Simple CRUD Route Test', () => {
   it('should be able to update', (done) => {
     const item: any = {'hello': 'world'};
     dao.create(item, 'items', (dbResp) => {
-      dbResp.data.hello = 'planet';
+      item.hello = 'planet';
+      item.uid = dbResp.data.insertId;
       chai.request(router)
           .put(`/api/v1/items`)
-          .send(dbResp.data)
+          .send(item)
           .then(res => {
             expect(res).to.have.status(200);
-            chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`).then((res2) => {
+            chai.request(router).get(`/api/v1/items/${dbResp.data.insertId}`).then((res2) => {
               expect(res2.body.data.hello).to.equal('planet');
               done();
             }, () => {
               log.error('Error on GET request');
-              done();
             });
           }, err => {
             log.error('Error on PUT request:');
             log.error(err);
-            done();
           })
           .catch(function (err) {
             throw err;
@@ -108,20 +111,19 @@ describe('Simple CRUD Route Test', () => {
 
   it('should be able to delete', (done) => {
     dao.create({'hello': 'world'}, 'items', (dbResp) => {
+      expect(dbResp.error).to.be.null;
       chai.request(router)
-          .del(`/api/v1/items/${dbResp.data.uid}`)
+          .del(`/api/v1/items/${dbResp.data.insertId}`)
           .then(res => {
             expect(res).to.have.status(200);
-            chai.request(router).get(`/api/v1/items/${dbResp.data.uid}`).then(() => {
-              // shouldnt find anything
-              assert(false);
-            }, () => {
-              // TODO: make this a 404
-              // expect(res.status).to.equal(500);
+            dao.read(1, 'items', (dbResponse => {
+              expect(dbResponse.data).to.be.undefined;
               done();
-            });
+            }));
           }, err => {
-            done();
+            log.error('Error on DELETE request:');
+            log.error(err);
+            assert(false);
           })
           .catch(function (err) {
             throw err;

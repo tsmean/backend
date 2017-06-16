@@ -15,15 +15,15 @@ export namespace passportInit {
         passwordField : 'password',
       },
       function(email, password, done) {
-
         dao.readOneByField('email', email, 'users', function (dbResp) {
+
           if (dbResp.error) {
             // It's better not to disclose whether username OR password is wrong
             return done(null, false, { message: 'Wrong password or username.' });
           } else if (!dbResp.data) {
             return done(null, false, { message: 'Wrong password or username.' });
           } else {
-            passwordCryptographer.doCompare(password, dbResp.data.password.hash).then(isMatching => {
+            passwordCryptographer.doCompare(password, dbResp.data.password).then(isMatching => {
               if (!isMatching) {
                 return done(null, false, { message: 'Wrong password or username.' });
               } else {

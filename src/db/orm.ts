@@ -1,8 +1,7 @@
+import moment = require('moment');
 export namespace orm {
 
-  export function flatObjectToMysql(obj: Object): null | any[][] {
-
-    let invalidResult = false;
+  export function flatObjectToMysql(obj: Object): any[][] {
 
     const result: any[][] = [];
 
@@ -10,19 +9,29 @@ export namespace orm {
       const convertedKeyValuePair = [];
       convertedKeyValuePair.push(key);
       const val = obj[key];
-      if (typeof val === 'string') {
-        convertedKeyValuePair.push(`'${val}'`);
-      } else if (typeof obj[key] === 'number') {
-        convertedKeyValuePair.push(val);
-      } else if (val instanceof Date) {
-        convertedKeyValuePair.push(`${val.getFullYear()}-${val.getMonth()}-${val.getDay()}`);
-      } else {
-        invalidResult = true;
-      }
+      convertedKeyValuePair.push(mapValue(val));
       result.push(convertedKeyValuePair);
     });
 
-    return invalidResult ? null : result;
+    return result;
+
+  }
+
+  export function mapValue(val: any): string {
+
+    let convertedValue = null;
+
+    if (typeof val === 'string') {
+      convertedValue = `'${val}'`;
+    } else if (typeof val === 'number') {
+      convertedValue = val;
+    } else if (val instanceof Date) {
+      convertedValue = moment(val).format('YYYY-MM-DD');
+    } else {
+      throw new Error('Unmappable Type:' + val);
+    }
+
+    return convertedValue;
 
   }
 

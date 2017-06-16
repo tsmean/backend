@@ -28,22 +28,21 @@ describe('LoginRouter', () => {
       expect(dbResp.error).to.be.null;
 
       chai.request(router)
-          .post(`/api/v1/login`)
-          .send({
-            email: user.email,
-            password: plaintextPassword
-          })
-          .then((resp: any) => {
-            expect(resp.body.data.uid).to.equal(dbResp.data.uid);
-            done();
-          }, (err) => {
-            log.error(err);
-            assert(false);
-            done();
-          })
-          .catch((err) => {
-            throw err;
-          });
+        .post(`/api/v1/login`)
+        .send({
+          email: user.email,
+          password: plaintextPassword
+        }).then((resp: any) => {
+        expect(resp.body.data.uid).to.equal(dbResp.data.insertId);
+        done();
+      }, (err) => {
+        log.error(err);
+        assert(false);
+        done();
+      })
+        .catch((err) => {
+          throw err;
+        });
 
     });
 
@@ -62,15 +61,15 @@ describe('LoginRouter', () => {
       expect(dbResp.error).to.be.null;
 
       chai.request(router)
-          .post('/api/v1/login')
-          .send({
-            email: user.email,
-            password: 'some wrong password'
-          })
-          .catch((err) => {
-            expect(err.response.res.statusCode).to.equal(401);
-            done();
-          });
+        .post('/api/v1/login')
+        .send({
+          email: user.email,
+          password: 'some wrong password'
+        })
+        .catch((err) => {
+          expect(err.response.res.statusCode).to.equal(401);
+          done();
+        });
     });
 
   });
