@@ -2,12 +2,13 @@ import * as mysql from 'mysql';
 import {database} from './database';
 import {log} from '../logger/logger';
 import {
-  CreateResponse, DatabaseError, DatabaseResponse, DeleteResponse,
+  CreateResponse, DatabaseError, DatabaseResponse, DeleteResponse, MysqlSuccess,
   UpdateResponse
 } from './database-response.model';
 import {Cursor, MongoCallback, MongoClient, MongoError} from 'mongodb';
 import {utils} from '../utils/utils';
 import {type} from 'os';
+import {IConnection, IError} from 'mysql';
 
 // Database Access Object
 // Everything that operates directly on the database goes here
@@ -22,7 +23,6 @@ export namespace dao {
   export function read(id, tableName: string, cb: (dbResponse: DatabaseResponse<any>) => void): void {
 
     const sql = 'SELECT * from ?? WHERE _id = ? LIMIT 1';
-
 
     database.database.query(sql, [tableName, id], (err, data) => {
 
@@ -137,12 +137,20 @@ export namespace dao {
           });
         } else {
           if (data) {
-            cb({
-              error: null,
-              data: {
-                insertId: data.insertId
+
+            // Retrieve data from database, so the client has the updated object with id, timestamp etc.
+            dao.read(data.insertId, tableName, (innerDbResp) => {
+
+              if (innerDbResp.error) {
+                cb({error: innerDbResp.error});
+              } else {
+                cb({
+                  error: null,
+                  data: innerDbResp.data
+                });
               }
             });
+
           } else {
             cb({
               error: {
@@ -180,7 +188,7 @@ export namespace dao {
 
     database.database.query(sql,
       [tableName, ...mergedArray, id],
-      (err, data) => {
+      (err: mysql.IError, updateResponseFromDatabase: MysqlSuccess) => {
 
       if (err) {
         cb({
@@ -189,11 +197,34 @@ export namespace dao {
           }
         });
       } else {
-        if (data) {
-          cb({
-            error: null,
-            data: morphDataOnRetrieval(data)
-          });
+        if (updateResponseFromDatabase) {
+
+          if (updateResponseFromDatabase.affectedRows === 1) {
+
+            // Retrieve data from database, so the client has the updated object with id, timestamp etc.
+            dao.read(id, tableName, (innerDbResp) => {
+
+              if (innerDbResp.error) {
+
+                cb({error: innerDbResp.error});
+              } else {
+                cb({
+                  error: null,
+                  data: innerDbResp.data
+                });
+              }
+            });
+
+          } else {
+
+            cb({
+              error: {
+                message: `Instead of 1, there were ${updateResponseFromDatabase.affectedRows} rows affected`
+              }
+            });
+
+          }
+
         } else {
           cb({
             error: {
@@ -211,7 +242,7 @@ export namespace dao {
   export function remove(id, tableName: string, cb: (dbResp: DatabaseResponse<DeleteResponse>) => void): void {
 
     const sql = `DELETE FROM ?? WHERE _id=?`;
-    database.database.query(sql, [tableName, id], (err, data) => {
+    database.database.query(sql, [tableName, id], (err, data: MysqlSuccess) => {
 
       if (err) {
         cb({
@@ -220,15 +251,15 @@ export namespace dao {
           }
         });
       } else {
-        if (data) {
+        if (data && data.affectedRows === 1) {
           cb({
             error: null,
-            data: morphDataOnRetrieval(data)
+            data: null
           });
         } else {
           cb({
             error: {
-              message: 'not found'
+              message: `deleted ${data.affectedRows} items`
             }
           });
         }

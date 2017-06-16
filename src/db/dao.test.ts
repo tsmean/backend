@@ -18,7 +18,7 @@ describe('DAO', () => {
     };
     dao.create(user, 'users', (dbResp) => {
       expect(dbResp.error).to.equal(null);
-      expect(dbResp.data.insertId).to.equal(1);
+      expect(dbResp.data.uid).to.equal(1);
       done();
     });
   });
@@ -31,7 +31,7 @@ describe('DAO', () => {
     };
     dao.create(user, 'users', (dbResp) => {
       expect(dbResp.error).to.equal(null);
-      expect(dbResp.data.insertId).to.equal(1);
+      expect(dbResp.data.uid).to.equal(1);
       dao.read(1, 'users', (innerDbResp) => {
         expect(innerDbResp.error).to.equal(null);
         expect(innerDbResp.data.uid).to.equal(1);
@@ -49,7 +49,7 @@ describe('DAO', () => {
     };
     dao.create(user, 'users', (dbResp) => {
       expect(dbResp.error).to.equal(null);
-      expect(dbResp.data.insertId).to.equal(1);
+      expect(dbResp.data.uid).to.equal(1);
       dao.readOneByField('email', user.email, 'users', (innerDbResp) => {
         expect(innerDbResp.error).to.equal(null);
         expect(innerDbResp.data.uid).to.equal(1);
@@ -65,13 +65,16 @@ describe('DAO', () => {
       lastName: 'Stark',
       email: 'brandon.stark@gmail.com',
     };
+
     dao.create(user, 'users', (dbResp) => {
+
       expect(dbResp.error).to.equal(null);
-      expect(dbResp.data.insertId).to.equal(1);
+      expect(dbResp.data.uid).to.equal(1);
       user.uid = 1;
       user.firstName = 'Sansa';
       dao.update(user, 'users', (innerDbResp) => {
         expect(innerDbResp.error).to.equal(null);
+        expect(innerDbResp.data.firstName).to.equal('Sansa');
         done();
       });
     });
@@ -85,7 +88,7 @@ describe('DAO', () => {
     };
     dao.create(user, 'users', (dbResp) => {
       expect(dbResp.error).to.equal(null);
-      expect(dbResp.data.insertId).to.equal(1);
+      expect(dbResp.data.uid).to.equal(1);
       dao.remove(1, 'users', (innerDbResp) => {
         expect(innerDbResp.error).to.equal(null);
         done();
@@ -101,7 +104,7 @@ describe('DAO', () => {
     };
     dao.create(user, 'users', (dbResp) => {
       expect(dbResp.error).to.equal(null);
-      expect(dbResp.data.insertId).to.equal(1);
+      expect(dbResp.data.uid).to.equal(1);
       dao.readAll('users', (innerDbResp) => {
         expect(innerDbResp.error).to.equal(null);
         expect(innerDbResp.data.length).to.equal(1);

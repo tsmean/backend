@@ -19,7 +19,7 @@ describe('UserDAO', () => {
     userDAO.create(user, '1234', (dbResponse) => {
 
       expect(dbResponse.error).to.be.null;
-      expect(dbResponse.data.insertId).to.exist;
+      expect(dbResponse.data.uid).to.exist;
 
       userDAO.create(user, '1234', (innerDbResponse) => {
         expect(innerDbResponse.error).to.exist;

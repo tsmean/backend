@@ -41,7 +41,7 @@ export class SimpleCrudRouter {
         });
       } else {
         res.status(201)
-          res.location(`${api.root()}/${resourceName}/${dbResp.data.insertId}`)
+          res.location(`${api.root()}/${resourceName}/${dbResp.data.uid}`)
             .send({
               message: 'Success',
               status: res.status,
@@ -93,7 +93,8 @@ export class SimpleCrudRouter {
         res.status(200)
             .send({
               message: 'Success',
-              status: res.status
+              status: res.status,
+              data: dbResp.data
             });
       }
 

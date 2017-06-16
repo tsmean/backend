@@ -10,14 +10,27 @@ export interface DatabaseError {
 }
 
 export interface CreateResponse {
-  insertId: number;
+  uid: number;
+  createTime: Date;
+  [x: string]: any;
 }
 
 export interface UpdateResponse {
-  bla: any; // TODO: what does it really return?
+  uid: number;
+  updateTime: Date;
+  [x: string]: any;
 }
-
 
 export interface DeleteResponse {
   bla: any; // TODO: what does it really return?
+}
+
+export interface MysqlSuccess {
+  fieldCount: number;
+  affectedRows: number;
+  uid: number;
+  serverStatus: number;
+  warningCount: number;
+  message: string;
+  changedRows: 1;
 }

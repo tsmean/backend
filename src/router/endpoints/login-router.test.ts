@@ -33,7 +33,7 @@ describe('LoginRouter', () => {
           email: user.email,
           password: plaintextPassword
         }).then((resp: any) => {
-        expect(resp.body.data.uid).to.equal(dbResp.data.insertId);
+        expect(resp.body.data.uid).to.equal(dbResp.data.uid);
         done();
       }, (err) => {
         log.error(err);
