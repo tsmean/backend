@@ -10,10 +10,10 @@ con.connect(function(err) {
     firstName varchar(35) NOT NULL,
     lastName varchar(35) NOT NULL,
     createTime DATETIME NOT NULL,
+    updateTime DATETIME,
     birthday DATE,
     gender TINYINT(1),
-    passwordHash VARCHAR(255),
-    hashingAlgo TINYINT(1),
+    password VARCHAR(255),
     PRIMARY KEY (_id)
 );`;
   con.query(sql, function (err, result) {

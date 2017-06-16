@@ -7,6 +7,8 @@ con.connect(function(err) {
   var sql = `CREATE TABLE heroes (
     _id int NOT NULL AUTO_INCREMENT,
     name varchar(50) NOT NULL,
+    createTime DATETIME NOT NULL,
+    updateTime DATETIME,
     PRIMARY KEY (_id)
 );`;
   con.query(sql, function (err, result) {

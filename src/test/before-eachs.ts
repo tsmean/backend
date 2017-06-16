@@ -1,17 +1,20 @@
+import * as mysql from 'mysql';
 import {database} from './../db/database';
 import {appConfig} from '../config/app-config';
 class BeforeEach {
 
+
   public connectTestToDatabase() {
+
     return beforeEach('connect to db', (done) => {
       appConfig.setAppConfig('test');
       database.connectToNoSpecificDatabase(appConfig.appConfig, (con) => {
-        con.query(`DROP DATABASE ${appConfig.appConfig.db.dbname}`, (err) => {
+        con.query(`DROP DATABASE ${mysql.escape(appConfig.appConfig.db.dbname)}`, (err) => {
           if (err) {
             console.error(err);
             throw err;
           }
-          con.query(`CREATE DATABASE ${appConfig.appConfig.db.dbname}`, (innerError) => {
+          con.query(`CREATE DATABASE ${mysql.escape(appConfig.appConfig.db.dbname)}`, (innerError) => {
             if (innerError) {
               console.error(innerError);
               throw innerError;
