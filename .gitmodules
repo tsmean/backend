@@ -1,0 +1,3 @@
+[submodule "src/db"]
+	path = src/db
+	url = https://github.com/bersling/typescript-mongo-module
