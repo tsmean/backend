@@ -1,4 +1,5 @@
 import * as mysql from 'mysql';
+import * as mysql2 from 'mysql2';
 import {log} from '../logger/logger';
 import {AppProperties} from '../config/app-properties.model';
 import {IConnection, IConnectionConfig} from 'mysql';
@@ -14,7 +15,7 @@ class Database {
     return this._database;
   }
 
-  private genericConnector(appConfig: AppProperties, nospecificdb: boolean, callback?: (database: IConnection) => any) {
+  private genericConnector(appConfig: AppProperties, nospecificdb: boolean): Promise<IConnection> {
 
     // Connect to the db
     const connectionConfig: IConnectionConfig = {
@@ -28,27 +29,28 @@ class Database {
       delete connectionConfig.database;
     }
 
-    const con = mysql.createConnection(connectionConfig);
-    con.connect((err) => {
-      if (!err) {
-        this._database = con;
-        if (callback) {
-          callback(con);
+    return new Promise((resolve, reject) => {
+
+      const con = mysql.createConnection(connectionConfig);
+      con.connect((err) => {
+        if (!err) {
+          this._database = con;
+          resolve (con);
+        } else {
+          reject(err);
         }
-      } else {
-        log.error('Error while connecting to Database:');
-        log.error(err.message);
-      }
+      });
+
     });
 
   }
 
-  public connectToDatabase (appConfig: AppProperties, callback?: (database: IConnection) => any) {
-    this.genericConnector(appConfig, false, callback);
+  public connectToDatabase (appConfig: AppProperties): Promise<IConnection> {
+    return this.genericConnector(appConfig, false);
   };
 
-  public connectToNoSpecificDatabase (appConfig: AppProperties, callback?: (database: IConnection) => any) {
-    this.genericConnector(appConfig, true, callback);
+  public connectToNoSpecificDatabase (appConfig: AppProperties): Promise<IConnection> {
+    return this.genericConnector(appConfig, true);
   };
 
 }

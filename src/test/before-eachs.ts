@@ -1,43 +1,71 @@
 import * as mysql from 'mysql';
+
+import * as mysql2 from 'mysql2';
+
 import {database} from './../db/database';
 import {appConfig} from '../config/app-config';
-class BeforeEach {
+import {IConnection} from 'mysql';
+import {MysqlSuccess} from '../db/database-response.model';
+export namespace beforeEachDo {
 
-
-  public connectTestToDatabase() {
-
+  export async function connectTestToDatabase() {
     return beforeEach('connect to db', (done) => {
       appConfig.setAppConfig('test');
-      database.connectToNoSpecificDatabase(appConfig.appConfig, (con) => {
-        const sql = `DROP DATABASE ??`;
-        con.query(sql, [appConfig.appConfig.db.dbname], (err) => {
-          if (err) {
-            console.error(err);
-            throw err;
-          }
-          con.query(`CREATE DATABASE ??`, [appConfig.appConfig.db.dbname], (innerError) => {
-            if (innerError) {
-              console.error(innerError);
-              throw innerError;
-            }
-            database.connectToDatabase(appConfig.appConfig, (connection) => {
-              if (connection) {
-                createTables(connection, done);
-              }
-            });
-          });
-        });
-      });
+      doAsyncStuff(done);
     });
   }
 
 }
 
-async function createTables(connection, done) {
+async function doAsyncStuff (done) {
+  const con = await database.connectToNoSpecificDatabase(appConfig.appConfig);
+  await dropDatabase(con);
+  await createDatabase(con);
+  const con2 = await getNewConnection();
+  await createTables(con2);
+  done();
+}
+
+function getNewConnection(): Promise<IConnection> {
+  return database.connectToDatabase(appConfig.appConfig);
+}
+
+function createDatabase (con: IConnection): Promise<MysqlSuccess> {
+  return new Promise((resolve, reject) => {
+
+    con.query(`CREATE DATABASE ??`, [appConfig.appConfig.db.dbname], (err, result) => {
+      if (err) {
+        reject(err);
+      } else {
+       resolve(result);
+      }
+    });
+  });
+}
+
+
+function dropDatabase(con): Promise<MysqlSuccess> {
+  const sql = `DROP DATABASE ??`;
+
+
+  return new Promise((resolve, reject) => {
+    con.query(sql, [appConfig.appConfig.db.dbname], (err, result) => {
+
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result);
+      }
+
+    });
+  });
+
+}
+
+async function createTables(connection) {
   await createUsersTable(connection);
   await createHeroesTable(connection);
   await createItemsTable(connection);
-  done();
 }
 
 function createUsersTable (connection) {
@@ -74,6 +102,3 @@ function createItemsTable (connection) {
     PRIMARY KEY (_id)
 );`);
 }
-
-
-export const beforeEachDo = new BeforeEach();
