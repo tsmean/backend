@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec --timeout 15000  --compilers ts:ts-node/register '**/*.test.ts'",
-    "windows_test": "mocha --reporter spec --timeout 15000 --compilers ts:ts-node/register **\\*.test.ts",
+    "test": "mocha --reporter spec --timeout 15000  --compilers ts:ts-node/register 'src/**/*.test.ts'",
+    "windows_test": "mocha --reporter spec --timeout 15000 --compilers ts:ts-node/register 'src\\**\\*.test.ts'",
     "start": "tsc && node dist/index.js",
-    "spec": "mocha --reporter spec --compilers ts:ts-node/register --grep ${TEST} '**/*.test.ts'",
+    "spec": "mocha --reporter spec --compilers ts:ts-node/register --grep ${TEST} 'src/**/*.test.ts'",
     "lint": "tslint src/**/*.ts",
     "forever": "tsc && forever stopall && forever start dist/index.js"
   },
@@ -23,6 +23,8 @@
     "mongodb": "^2.2.25",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
+    "tsauth": "x.x.x",
+    "tsmongo": "x.x.x",
     "winston": "^2.3.1",
     "winston-color": "^1.0.0"
   },

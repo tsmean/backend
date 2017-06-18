@@ -1,3 +1,12 @@
 [submodule "src/db"]
 	path = src/db
 	url = https://github.com/bersling/typescript-mongo-module
+[submodule "auth"]
+	path = auth
+	url = https://github.com/bersling/typescript-auth-module
+[submodule "auth-module"]
+	path = auth-module
+	url = https://github.com/bersling/typescript-auth-module
+[submodule "router-module"]
+	path = router-module
+	url = https://github.com/bersling/typescript-router-module.git

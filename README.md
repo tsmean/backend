@@ -47,6 +47,17 @@ You can test the interface at http://demo.tsmean.com:4242, e.g.
 http://demo.tsmean.com:4242/api/v1/heroes.
 
 
+# Where is all the code?!
+
+Writing modular code is a good idea, so the different parts
+of this application live in different git repositories and are
+pulled into each other as npm packages.
+
+The database layer comes from `tsmongo`. If you check the
+`package.json` you can see it listed there. The routing layer lives in the `tsrouter` layer.
+Another package being imported is `tsauth`.
+
+
 # Database
 When you first run this project,
 it will connect to a remote Mongo instance I have setup so this project can be run with minimal overhead.
