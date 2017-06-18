@@ -2,18 +2,10 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es6",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist",
-    "baseUrl": ".",
-    "paths": {
-      "*": [
-        "node_modules/*",
-        "src/types/*"
-      ]
-    }
+    "outDir": "dist"
   },
   "include": [
     "src/**/*"
-  ]
+  ],
+  "exclude": ["**/node_modules", "node_modules", "src/db/node_modules/**"]
 }
