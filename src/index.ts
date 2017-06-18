@@ -1,8 +1,8 @@
 import * as http from 'http';
-import {router} from './router/router';
 import {log} from './logger/logger';
 import {appConfig} from './config/app-config';
 import {database} from 'tsmongo/dist/database';
+import {router} from 'tsrouter';
 
 // Step 1) Set & Get App Configuration
 appConfig.setAppConfig(process.argv[2] || 'local');
