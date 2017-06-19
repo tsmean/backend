@@ -1,9 +1,11 @@
 [submodule "router-module"]
 	path = router-module
 	url = https://github.com/bersling/typescript-router-module.git
+	branch = master
 [submodule "auth-module"]
 	path = auth-module
 	url = https://github.com/bersling/typescript-auth-module.git
+	branch = master
 [submodule "mongo-module"]
 	path = mongo-module
 	url = https://github.com/bersling/typescript-mongo-module.git
