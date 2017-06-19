@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "install": "./install.sh",
-    "test": "./testall.sh"
+    "test": "./testall.sh",
+    "start": "node main-module/dist/index.js"
   },
   "repository": {
     "type": "git",
