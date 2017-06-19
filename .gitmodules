@@ -5,5 +5,5 @@
 	path = auth-module
 	url = https://github.com/bersling/typescript-auth-module.git
 [submodule "mysql-module"]
-	path = mysql-module
+	path = db-module
 	url = https://github.com/bersling/typescript-mysql-module
