@@ -43,4 +43,4 @@ else
   ssh ${server} "forever start ${rootdir}/dist/index.js"
 fi
 
-echo "Done!!"
+echo "Done!!!"
