@@ -1,7 +1,7 @@
 # Foreword
 
 This is the backend for the TSMEAN stack.
-I have expanded the definition of the "M" in mean,
+I have expanded the definition of the "M" in MEAN,
 to mean either "Mongo" or "MySQL". The backend has
 an implementation for both databases. Which one is used
 is determined in `properties/..properties.json` file as the
