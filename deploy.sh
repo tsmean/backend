@@ -3,8 +3,11 @@ server="ubuntu@52.59.71.133"
 
 if [ "${1}" == "test" ]; then
   rootdir="tsmean/testbe"
-else
+elif [ "${1}" == "prod" ]; then
   rootdir="tsmean/be"
+else
+  echo "Provide argument test or prod"
+  exit 0;
 fi
 
 # Setup server (Debian / Ubuntu assumed)
