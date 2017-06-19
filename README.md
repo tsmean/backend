@@ -25,6 +25,7 @@ cd project-name-backend
 npm run install
 ```
 
+This will execute `install.sh`.
 You need to have git and yarn installed to make this work.
 
 # Run
