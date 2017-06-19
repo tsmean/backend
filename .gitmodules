@@ -12,3 +12,6 @@
 [submodule "mysql-module"]
 	path = mysql-module
 	url = https://github.com/bersling/typescript-mysql-module
+[submodule "dbadapter-module"]
+	path = dbadapter-module
+	url = https://github.com/bersling/typescript-database-adapter

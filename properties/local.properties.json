@@ -1,9 +1,0 @@
-{
-  "db": {
-    "host": "ds145220.mlab.com",
-    "dbuser": "notely",
-    "port": 45220,
-    "dbpassword": "jlkajoijjjaksjkfiiq82",
-    "dbname": "notely-local"
-  }
-}
