@@ -9,3 +9,6 @@
 [submodule "mongo-module"]
 	path = mongo-module
 	url = https://github.com/bersling/typescript-mongo-module.git
+[submodule "mysql-module"]
+	path = mysql-module
+	url = https://github.com/bersling/typescript-mysql-module
