@@ -31,8 +31,8 @@ if [ "${1}" == "test" ]; then
   ssh ${server} "cd ${rootdir} && npm test"
 else
   echo "(Re-)Start server"
-  ssh ${server} "forever stop ${rootdir}/dist/index.js"
-  ssh ${server} "forever start ${rootdir}/dist/index.js"
+  ssh ${server} "forever stop ${rootdir}/main-module/dist/index.js"
+  ssh ${server} "forever start ${rootdir}/main-module/dist/index.js"
 fi
 
 echo "Done!!!"
