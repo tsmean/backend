@@ -2,6 +2,38 @@
 # yarn lockfile v1
 
 
+"@tsmean/dbadapter@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@tsmean/dbadapter/-/dbadapter-1.0.4.tgz#664d697cfb274a85bbd5d7831e1725e1a05768de"
+  dependencies:
+    "@tsmean/mongo" "^1.0.1"
+    "@tsmean/mysql" "^1.0.4"
+    bcrypt-node "^0.1.0"
+    bcrypt-nodejs "^0.0.3"
+    chai "^4.0.2"
+    express "^4.15.3"
+    mocha "^3.4.2"
+    passport "^0.3.2"
+    passport-local "^1.0.0"
+
+"@tsmean/mongo@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@tsmean/mongo/-/mongo-1.0.1.tgz#73b2002f339275df34fddb4555d09cb136c17e51"
+  dependencies:
+    chai "^4.0.2"
+    chai-http "^3.0.0"
+    mocha "^3.4.2"
+    mongodb "^2.2.28"
+
+"@tsmean/mysql@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@tsmean/mysql/-/mysql-1.0.4.tgz#7b97185ebb2577819e0d76108e211b5f2d134577"
+  dependencies:
+    chai "^4.0.2"
+    chai-http "^3.0.0"
+    mocha "^3.4.2"
+    mysql "^2.13.0"
+
 "@types/bcrypt-nodejs@^0.0.30":
   version "0.0.30"
   resolved "https://registry.yarnpkg.com/@types/bcrypt-nodejs/-/bcrypt-nodejs-0.0.30.tgz#4cdd96b49293b3932122e4b7e29543e35e6bae58"
@@ -58,7 +90,7 @@
     "@types/express" "*"
     "@types/node" "*"
 
-"@types/express@*", "@types/express@^4.0.33", "@types/express@^4.0.36":
+"@types/express@*", "@types/express@^4.0.33":
   version "4.0.36"
   resolved "https://registry.yarnpkg.com/@types/express/-/express-4.0.36.tgz#14eb47de7ecb10319f0a2fb1cf971aa8680758c2"
   dependencies:
@@ -165,7 +197,11 @@ bcrypt-nodejs@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/bcrypt-nodejs/-/bcrypt-nodejs-0.0.3.tgz#c60917f26dc235661566c681061c303c2b28842b"
 
-body-parser@^1.15.2, body-parser@^1.17.2:
+bignumber.js@3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/bignumber.js/-/bignumber.js-3.1.2.tgz#f3bdb99ad5268a15fc1f0bed2fb018e2693fe236"
+
+body-parser@^1.15.2:
   version "1.17.2"
   resolved "https://registry.yarnpkg.com/body-parser/-/body-parser-1.17.2.tgz#f8892abc8f9e627d42aedafbca66bf5ab99104ee"
   dependencies:
@@ -553,6 +589,10 @@ is-utf8@^0.2.0:
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/is-utf8/-/is-utf8-0.2.1.tgz#4b0da1442104d1b336340e80797e865cf39f7d72"
 
+isarray@0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/isarray/-/isarray-0.0.1.tgz#8a18acfca9a8f4177e09abfc6038939b05d1eedf"
+
 isarray@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/isarray/-/isarray-1.0.0.tgz#bb935d48582cba168c06834957a54a3e07124f11"
@@ -701,6 +741,14 @@ ms@2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.0.0.tgz#5608aeadfc00be6c2901df5f9861788de0d597c8"
 
+mysql@^2.13.0:
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/mysql/-/mysql-2.13.0.tgz#998f1f8ca46e2e3dd7149ce982413653986aae47"
+  dependencies:
+    bignumber.js "3.1.2"
+    readable-stream "1.1.14"
+    sqlstring "2.2.0"
+
 negotiator@0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/negotiator/-/negotiator-0.6.1.tgz#2b327184e8992101177b28563fb5e7102acd0ca9"
@@ -812,6 +860,15 @@ raw-body@~2.2.0:
     iconv-lite "0.4.15"
     unpipe "1.0.0"
 
+readable-stream@1.1.14:
+  version "1.1.14"
+  resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-1.1.14.tgz#7cf4c54ef648e3813084c636dd2079e166c081d9"
+  dependencies:
+    core-util-is "~1.0.0"
+    inherits "~2.0.1"
+    isarray "0.0.1"
+    string_decoder "~0.10.x"
+
 readable-stream@2.2.7, readable-stream@^2.0.5:
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/readable-stream/-/readable-stream-2.2.7.tgz#07057acbe2467b22042d36f98c5ad507054e95b1"
@@ -902,6 +959,10 @@ source-map@^0.5.6:
   version "0.5.6"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.5.6.tgz#75ce38f52bf0733c5a7f0c118d81334a2bb5f412"
 
+sqlstring@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/sqlstring/-/sqlstring-2.2.0.tgz#c3135c4ea8abcd7e7ee741a4966a891d86a4f191"
+
 ssh2-streams@~0.1.18:
   version "0.1.19"
   resolved "https://registry.yarnpkg.com/ssh2-streams/-/ssh2-streams-0.1.19.tgz#f80ececc2de1a39e1aa64469851ec32bc96b83f9"
@@ -928,6 +989,10 @@ streamsearch@~0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/streamsearch/-/streamsearch-0.1.2.tgz#808b9d0e56fc273d809ba57338e929919a1a9f1a"
 
+string_decoder@~0.10.x:
+  version "0.10.31"
+  resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-0.10.31.tgz#62e203bc41766c6c28c9fc84301dab1c5310fa94"
+
 string_decoder@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/string_decoder/-/string_decoder-1.0.2.tgz#b29e1f4e1125fa97a10382b8a533737b7491e179"
@@ -945,10 +1010,6 @@ strip-bom@^2.0.0:
   resolved "https://registry.yarnpkg.com/strip-bom/-/strip-bom-2.0.0.tgz#6219a85616520491f35788bdbf1447a99c7e6b0e"
   dependencies:
     is-utf8 "^0.2.0"
-
-strip-bom@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/strip-bom/-/strip-bom-3.0.0.tgz#2334c18e9c759f7bdd56fdef7e9ae3d588e68ed3"
 
 strip-json-comments@^2.0.0:
   version "2.0.1"
@@ -996,34 +1057,6 @@ ts-node@^1.6.1:
     xtend "^4.0.0"
     yn "^1.2.0"
 
-ts-node@^3.0.6:
-  version "3.0.6"
-  resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-3.0.6.tgz#55127ff790c7eebf6ba68c1e6dde94b09aaa21e0"
-  dependencies:
-    arrify "^1.0.0"
-    chalk "^1.1.1"
-    diff "^3.1.0"
-    make-error "^1.1.1"
-    minimist "^1.2.0"
-    mkdirp "^0.5.1"
-    source-map-support "^0.4.0"
-    tsconfig "^6.0.0"
-    v8flags "^2.0.11"
-    yn "^2.0.0"
-
-tsauth@^1.0.0, tsauth@x.x.x:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/tsauth/-/tsauth-1.0.1.tgz#4a630d2c18aa56907c800e721c9891cd6f38af7d"
-  dependencies:
-    bcrypt-node "^0.1.0"
-    bcrypt-nodejs "^0.0.3"
-    chai "^4.0.2"
-    express "^4.15.3"
-    mocha "^3.4.2"
-    passport "^0.3.2"
-    passport-local "^1.0.0"
-    tsmongo "^1.0.0"
-
 tsconfig@^5.0.2:
   version "5.0.3"
   resolved "https://registry.yarnpkg.com/tsconfig/-/tsconfig-5.0.3.tgz#5f4278e701800967a8fc383fd19648878f2a6e3a"
@@ -1032,39 +1065,6 @@ tsconfig@^5.0.2:
     parse-json "^2.2.0"
     strip-bom "^2.0.0"
     strip-json-comments "^2.0.0"
-
-tsconfig@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/tsconfig/-/tsconfig-6.0.0.tgz#6b0e8376003d7af1864f8df8f89dd0059ffcd032"
-  dependencies:
-    strip-bom "^3.0.0"
-    strip-json-comments "^2.0.0"
-
-tsmongo@^1.0.0, tsmongo@x.x.x:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/tsmongo/-/tsmongo-1.0.0.tgz#1d2f001d5dc33aa78dc3adef86d5080f2be3f602"
-  dependencies:
-    chai "^4.0.2"
-    chai-http "^3.0.0"
-    mocha "^3.4.2"
-    mongodb "^2.2.28"
-
-tsrouter@^1.0.1:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/tsrouter/-/tsrouter-1.0.2.tgz#5dedf338de0d7448ff64675ab174fbf560f1361d"
-  dependencies:
-    "@types/express" "^4.0.36"
-    body-parser "^1.17.2"
-    chai "^4.0.2"
-    chai-http "^3.0.0"
-    express "^4.15.3"
-    mocha "^3.4.2"
-    mongodb "^2.2.28"
-    passport "^0.3.2"
-    passport-local "^1.0.0"
-    ts-node "^3.0.6"
-    tsauth "^1.0.0"
-    tsmongo "^1.0.0"
 
 type-detect@0.1.1:
   version "0.1.1"
@@ -1155,7 +1155,3 @@ yn@^1.2.0:
   resolved "https://registry.yarnpkg.com/yn/-/yn-1.3.0.tgz#1b0812abb8d805d48966f8df385dc9dacc9a19d8"
   dependencies:
     object-assign "^4.1.1"
-
-yn@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/yn/-/yn-2.0.0.tgz#e5adabc8acf408f6385fc76495684c88e6af689a"
