@@ -5,5 +5,5 @@ cd ..
 cd ./auth-module/
 mocha --reporter spec --timeout 15000  --compilers ts:ts-node/register 'src/**/*.test.ts'
 cd ..
-cd ./db-module/
+cd ./mongo-module/
 mocha --reporter spec --timeout 15000  --compilers ts:ts-node/register 'src/**/*.test.ts'
