@@ -1,11 +1,28 @@
+# Foreword
+
+This is the backend for the TSMEAN stack.
+I have expanded the definition of the "M" in mean,
+to mean either "Mongo" or "MySQL". The backend has
+an implementation for both databases. Which one is used
+is determined in `properties/..properties.json` file as the
+type property, default is Mongo.
+
+The backend is built in a fully modular manner. Currently there are:
+
+- Mongo Module (independent)
+- MySQL Module (independent)
+- Db-Adapter Module (builds on mongo and mysql modules)
+- Auth Module (builds on db-adapter module)
+- Router Module (builds on auth-module and db-adapter module)
+- Main Module (straps everything together)
+
+
 # Installation
 
 ```
 git clone https://github.com/bersling/typescript-mongo-express-node-seed.git project-name-backend
 cd project-name-backend
-git submodule init
-git submodule update
-yarn install
+npm run install
 ```
 
 You need to have git and yarn installed to make this work.
