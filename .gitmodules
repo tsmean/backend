@@ -15,3 +15,6 @@
 [submodule "dbadapter-module"]
 	path = dbadapter-module
 	url = https://github.com/bersling/typescript-database-adapter
+[submodule "main-module"]
+	path = main-module
+	url = https://github.com/bersling/typescript-main-module
