@@ -8,6 +8,7 @@ else
 fi
 
 # Setup server (Debian / Ubuntu assumed)
+# ssh ${server} sudo apt-get install git
 # ssh ${server} curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
 # ssh ${server} sudo apt-get install -y nodejs
 # ssh ${server} sudo npm install -g typescript
@@ -18,20 +19,11 @@ fi
 echo "Remove old test directory"
 ssh ${server} "rm -rf ${rootdir}"
 
-echo "Upload source"
-ssh ${server} "mkdir ${rootdir}"
-scp -r src "${server}:${rootdir}/src"
-scp package.json "${server}:${rootdir}/package.json"
-scp yarn.lock "${server}:${rootdir}/yarn.lock"
-scp tsconfig.json "${server}:${rootdir}/tsconfig.json"
-scp -r properties "${server}:${rootdir}/properties"
+echo "Pull from github"
+ssh ${server} "git clone https://github.com/bersling/typescript-mongo-express-node-seed ${rootdir}"
 
-echo "Install packages on server"
-ssh ${server} "cd ${rootdir} && yarn install"
-
-echo "Compiling sources"
-ssh ${server} "cd ${rootdir} && tsc"
-
+echo "Install"
+ssh ${server} "cd ${rootdir} && npm run install"
 
 # Special logic for test setup
 if [ "${1}" == "test" ]; then
