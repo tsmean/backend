@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --reporter spec --timeout 15000  --compilers ts:ts-node/register 'src/**/*.test.ts'",
-    "windows_test": "mocha --reporter spec --timeout 15000 --compilers ts:ts-node/register 'src\\**\\*.test.ts'",
+    "test": "./testall.sh",
     "start": "tsc && node dist/index.js",
     "spec": "mocha --reporter spec --compilers ts:ts-node/register --grep ${TEST} 'src/**/*.test.ts'",
     "lint": "tslint src/**/*.ts",
