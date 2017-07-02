@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-server="ubuntu@52.59.71.133"
+server="ubuntu@35.158.213.131"
 
 if [ "${1}" == "test" ]; then
-  rootdir="tsmean/testbe"
+  rootdir="tsmeandemo/testbe"
 elif [ "${1}" == "prod" ]; then
-  rootdir="tsmean/be"
+  rootdir="tsmeandemo/be"
 else
   echo "Provide argument test or prod"
   exit 0;
