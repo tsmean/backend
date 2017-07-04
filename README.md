@@ -23,7 +23,7 @@ npm registry.
 # Installation
 
 ```
-git clone https://github.com/bersling/typescript-mongo-express-node-seed.git project-name-backend
+git clone https://github.com/tsmean/backend.git project-name-backend
 cd project-name-backend
 npm run install
 ```
@@ -37,6 +37,7 @@ Make sure you have typescript installed, then run:
 ```
 npm start
 ```
+By default, a server at localhost:4242 is started.
 
 # Test
 ```

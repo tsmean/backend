@@ -23,7 +23,7 @@ echo "Remove old test directory"
 ssh ${server} "rm -rf ${rootdir}"
 
 echo "Pull from github"
-ssh ${server} "git clone https://github.com/bersling/typescript-mongo-express-node-seed ${rootdir}"
+ssh ${server} "git clone https://github.com/tsmean/backend ${rootdir}"
 
 echo "Install"
 ssh ${server} "cd ${rootdir} && npm run install"
