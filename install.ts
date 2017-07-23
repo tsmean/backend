@@ -11,7 +11,8 @@ const spawnSyncOptions: SpawnSyncOptionsWithStringEncoding = {
  */
 const initSubmodules = spawnSync('git', ['submodule', 'init'], spawnSyncOptions);
 handleCommandResult(initSubmodules);
-
+const updateSubmodules = spawnSync('git', ['submodule', 'update'], spawnSyncOptions);
+handleCommandResult(updateSubmodules, {noexit: true}); // git writes to stderr even though everything is ok, so noexit
 
 /**
  * Install all modules
@@ -32,13 +33,13 @@ modules.forEach(moduleName => {
 /**
  * Helper functions
  */
-function handleCommandResult(result: SpawnSyncReturns<string>) {
+function handleCommandResult(result: SpawnSyncReturns<string>, options?: HandleCommandResultOptions) {
   if (result.error) {
     console.error('ERROR in process:', result.error);
-    process.exit();
+    options.noexit ? '' : process.exit();
   } else if (result.stderr !== undefined && result.stderr !== "") {
    console.error('stderr not empty:', result.stderr);
-   process.exit();
+    options.noexit ? '' : process.exit();
   } else {
     console.log(result.stdout);
   }
@@ -46,9 +47,14 @@ function handleCommandResult(result: SpawnSyncReturns<string>) {
 
 function changeToDirectory (dir) {
   try {
+    console.log(`Changing to directory ${dir}`)
     process.chdir(dir);
   } catch (err) {
     console.log(`Could not change to directory ${dir}: ${err}`);
     process.exit();
   }
+}
+
+interface HandleCommandResultOptions {
+  noexit: boolean
 }
