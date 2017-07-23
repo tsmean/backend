@@ -7,6 +7,14 @@ const spawnSyncOptions: SpawnSyncOptionsWithStringEncoding = {
 };
 
 /**
+ * Some few adaptions are necessary for making installation work on windows
+ */
+const isWin = /^win/.test(process.platform);
+const spawnSyncCommand = (cmdName): string => {
+  return isWin ? `${cmdName}.cmd` : cmdName;
+};
+
+/**
  * Test all modules
  */
 const startingDirectory = process.cwd();
@@ -15,7 +23,7 @@ const modules = ['dbadapter', 'mongo', 'mysql', 'router', 'auth'];
 modules.forEach(moduleName => {
   changeToDirectory(startingDirectory);
   changeToDirectory(`${moduleName}-module`);
-  const testModule = spawnSync('npm', ['test'], spawnSyncOptions);
+  const testModule = spawnSync(spawnSyncCommand('npm'), isWin ? ['run', 'windows_test'] : ['test'], spawnSyncOptions);
   handleCommandResult(testModule);
 });
 

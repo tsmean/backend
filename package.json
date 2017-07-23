@@ -4,8 +4,8 @@
   "description": "The full backend",
   "main": "index.js",
   "scripts": {
-    "postinstall": "$(npm bin)/ts-node install.ts",
-    "test": "$(npm bin)/ts-node testall.ts",
+    "postinstall": "ts-node install.ts",
+    "test": "ts-node testall.ts",
     "start": "node main-module/dist/index.js"
   },
   "repository": {

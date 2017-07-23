@@ -22,10 +22,17 @@ npm registry.
 
 # Installation
 
+## Prerequisits
+
+- node (v6 or v8) & npm (v3 or v5)
+- git
+- ts-node (`npm install -g ts-node`)
+
+## Setup
 ```
 git clone https://github.com/tsmean/backend.git project-name-backend
 cd project-name-backend
-npm run install
+npm install
 ```
 
 This will execute `install.sh`.
