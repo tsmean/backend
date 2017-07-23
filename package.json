@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/bersling/typescript-mongo-express-node-seed#readme",
   "devDependencies": {
+    "@types/node": "^8.0.15",
     "ts-node": "^3.2.1",
     "typescript": "^2.4.2"
   }

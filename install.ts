@@ -11,7 +11,8 @@ const spawnSyncOptions: SpawnSyncOptionsWithStringEncoding = {
  */
 const initSubmodules = spawnSync('git', ['submodule', 'init'], spawnSyncOptions);
 handleCommandResult(initSubmodules);
-
+const updateSubmodules = spawnSync('git', ['submodule', 'update'], spawnSyncOptions);
+handleCommandResult(updateSubmodules);
 
 /**
  * Install all modules
@@ -46,6 +47,7 @@ function handleCommandResult(result: SpawnSyncReturns<string>) {
 
 function changeToDirectory (dir) {
   try {
+    console.log(`Changing to directory ${dir}`)
     process.chdir(dir);
   } catch (err) {
     console.log(`Could not change to directory ${dir}: ${err}`);
