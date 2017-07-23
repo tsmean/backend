@@ -6,8 +6,13 @@ const spawnSyncOptions: SpawnSyncOptionsWithStringEncoding = {
   encoding: 'utf8'
 };
 
+/**
+ * Some few adaptions are necessary for making installation work on windows
+ */
 const isWin = /^win/.test(process.platform);
-const npmCommand = isWin ? 'npm.cmd' : 'npm';
+const spawnSyncCommand = (cmdName): string => {
+  return isWin ? `${cmdName}.cmd` : cmdName;
+};
 
 /**
  * Setup git submodules
@@ -25,8 +30,10 @@ const modules = ['dbadapter', 'main', 'mongo', 'mysql', 'router', 'auth'];
 modules.forEach(moduleName => {
   changeToDirectory(startingDirectory);
   changeToDirectory(`${moduleName}-module`);
-  const installModuleDependencies = spawnSync(npmCommand, ['install'], spawnSyncOptions);
+  const installModuleDependencies = spawnSync(spawnSyncCommand('npm'), ['install'], spawnSyncOptions);
   handleCommandResult(installModuleDependencies, {exitOnError: true});
+  const compileModule = spawnSync(spawnSyncCommand('tsc'), [], spawnSyncOptions);
+  handleCommandResult(compileModule, {exitOnError: true});
 });
 
 
