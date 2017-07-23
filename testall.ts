@@ -23,7 +23,7 @@ const modules = ['dbadapter', 'mongo', 'mysql', 'router', 'auth'];
 modules.forEach(moduleName => {
   changeToDirectory(startingDirectory);
   changeToDirectory(`${moduleName}-module`);
-  const testModule = spawnSync(spawnSyncCommand('npm'), [isWin ? 'windows_test' : 'test'], spawnSyncOptions);
+  const testModule = spawnSync(spawnSyncCommand('npm'), isWin ? ['run', 'windows_test'] : ['test'], spawnSyncOptions);
   handleCommandResult(testModule);
 });
 
