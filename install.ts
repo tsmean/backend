@@ -6,11 +6,14 @@ const spawnSyncOptions: SpawnSyncOptionsWithStringEncoding = {
   encoding: 'utf8'
 };
 
+const isWin = /^win/.test(process.platform);
+const npmCommand = isWin ? 'npm.cmd' : 'npm';
+
 /**
  * Setup git submodules
  */
 const initSubmodules = spawnSync('git', ['submodule', 'init'], spawnSyncOptions);
-handleCommandResult(initSubmodules, {exitOnError: true});
+handleCommandResult(initSubmodules, {exitOnError: false});
 const updateSubmodules = spawnSync('git', ['submodule', 'update'], spawnSyncOptions);
 handleCommandResult(updateSubmodules, {exitOnError: false}); // git writes to stderr even though everything is ok, so noexit
 
@@ -22,11 +25,8 @@ const modules = ['dbadapter', 'main', 'mongo', 'mysql', 'router', 'auth'];
 modules.forEach(moduleName => {
   changeToDirectory(startingDirectory);
   changeToDirectory(`${moduleName}-module`);
-  const installModuleDependencies = spawnSync('npm', ['install'], spawnSyncOptions);
+  const installModuleDependencies = spawnSync(npmCommand, ['install'], spawnSyncOptions);
   handleCommandResult(installModuleDependencies, {exitOnError: true});
-  const compileModule = spawnSync('tsc', [], spawnSyncOptions);
-  handleCommandResult(compileModule, {exitOnError: true});
-
 });
 
 
