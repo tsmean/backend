@@ -32,7 +32,7 @@ npm registry.
 ```
 git clone https://github.com/tsmean/backend.git project-name-backend
 cd project-name-backend
-npm run install
+npm install
 ```
 
 This will execute `install.sh`.
