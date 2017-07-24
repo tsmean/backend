@@ -1,6 +1,11 @@
 import * as process from 'process';
 import {spawn, spawnSync, SpawnSyncOptionsWithStringEncoding, SpawnSyncReturns} from 'child_process';
 
+/**
+ * Go to backend directory (necessary if this script is included through require)
+ */
+changeToDirectory(__dirname);
+
 // declaring utf8 makes sure a string is returned (as opposed to a buffer) from spawnSync
 const spawnSyncOptions: SpawnSyncOptionsWithStringEncoding = {
   encoding: 'utf8'
