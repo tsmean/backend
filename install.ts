@@ -53,7 +53,7 @@ function handleCommandResult(result: SpawnSyncReturns<string>, options?: HandleC
       process.exit()
     }
   } else if (result.stderr !== undefined && result.stderr !== "") {
-   console.error('stderr not empty:', result.stderr);
+   console.error(result.stderr);
     if (options.exitOnError) {
       process.exit()
     }
