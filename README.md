@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/tsmean/backend.svg?branch=master)](https://travis-ci.org/tsmean/backend)
+
 # Foreword
 
 This is the backend for the TSMEAN stack.
