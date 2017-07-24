@@ -25,6 +25,7 @@ handleCommandResult(updateSubmodules, {exitOnError: false}); // git writes to st
 /**
  * Install all modules
  */
+console.log('Installing backend. This may take a while...');
 const startingDirectory = process.cwd();
 const modules = ['dbadapter', 'main', 'mongo', 'mysql', 'router', 'auth'];
 modules.forEach(moduleName => {
